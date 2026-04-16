@@ -1,0 +1,15 @@
+{
+  "name": "jobsearch-crm",
+  "version": "1.0.0",
+  "description": "JobSearch CRM — JobRadar + TargetRadar",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

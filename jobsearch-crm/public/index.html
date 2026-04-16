@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobSearch CRM — Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060e;--s1:#0c0c1a;--s2:#111122;--border:rgba(255,255,255,.08);--acc:#e8c547;--text:#eeeef0;--mu:#5a5a72;--gr:#4ade80;--bl:#60a5fa;--pu:#a78bfa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(232,197,71,.06),transparent);pointer-events:none}
+.hub{max-width:900px;width:100%;position:relative;z-index:1}
+.hub-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.04em;text-align:center;margin-bottom:.5rem}
+.hub-title em{font-style:normal;color:var(--acc)}
+.hub-sub{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;text-align:center;margin-bottom:3rem}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:all .25s;text-decoration:none;color:var(--text);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-color,var(--acc))}
+.card:hover{border-color:rgba(255,255,255,.15);background:var(--s2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.card-stream{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase}
+.card-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.03em}
+.card-title em{font-style:normal;color:var(--card-color,var(--acc))}
+.card-desc{font-size:.85rem;color:var(--mu);line-height:1.6}
+.card-features{display:flex;flex-direction:column;gap:.4rem;margin-top:.25rem}
+.feat{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mu);display:flex;align-items:center;gap:.5rem}
+.feat::before{content:'→';color:var(--card-color,var(--acc))}
+.card-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;background:var(--card-color,var(--acc));color:#06060e;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.06em;margin-top:auto;align-self:flex-start;transition:all .2s}
+.card:hover .card-cta{filter:brightness(1.1)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.stat{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;text-align:center}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.03em;color:var(--acc)}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem}
+.footer{text-align:center;margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--mu)}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="hub">
+  <h1 class="hub-title">JobSearch <em>CRM</em></h1>
+  <p class="hub-sub">Sales Leadership · France & Europe · Sans LinkedIn</p>
+
+  <div class="cards">
+    <a href="/jobradar" class="card" style="--card-color:#60a5fa">
+      <div class="card-stream">Stream 1 — Réponse à annonces</div>
+      <div class="card-title">Job<em>Radar</em></div>
+      <div class="card-desc">Offres publiées sur les sites officiels des sociétés tech. Director · RVP · VP Sales · Account Executive.</div>
+      <div class="card-features">
+        <div class="feat">Sites officiels uniquement — hors LinkedIn</div>
+        <div class="feat">Analyse fit IA + CV adapté</div>
+        <div class="feat">Email de candidature Claude</div>
+        <div class="feat">Dashboard suivi + relances</div>
+      </div>
+      <div class="card-cta">↗ Accéder à JobRadar</div>
+    </a>
+
+    <a href="/targetradar" class="card" style="--card-color:#e8c547">
+      <div class="card-stream">Stream 2 — Approche proactive</div>
+      <div class="card-title">Target<em>Radar</em></div>
+      <div class="card-desc">250+ sociétés US tech sans bureau France. Candidature spontanée pour créer le rôle Country Manager Europe.</div>
+      <div class="card-features">
+        <div class="feat">Base illimitée — import CSV possible</div>
+        <div class="feat">Filtres segment / funding / priorité</div>
+        <div class="feat">Email proactif Country Manager</div>
+        <div class="feat">Pipeline suivi avec persistance DB</div>
+      </div>
+      <div class="card-cta">↗ Accéder à TargetRadar</div>
+    </a>
+  </div>
+
+  <div class="stats" id="stats">
+    <div class="stat"><div class="stat-val" id="s-companies">—</div><div class="stat-lbl">Sociétés</div></div>
+    <div class="stat"><div class="stat-val" id="s-offers">—</div><div class="stat-lbl">Offres actives</div></div>
+    <div class="stat"><div class="stat-val" id="s-pipeline">—</div><div class="stat-lbl">En pipeline</div></div>
+    <div class="stat"><div class="stat-val" id="s-responses">—</div><div class="stat-lbl">Réponses +</div></div>
+  </div>
+
+  <div class="footer">JobSearch CRM · Powered by Claude AI · Supabase · Vercel</div>
+</div>
+
+<script>
+async function loadStats() {
+  try {
+    const [comp, offers, pipe] = await Promise.all([
+      fetch('/api/companies').then(r=>r.json()),
+      fetch('/api/offers').then(r=>r.json()),
+      fetch('/api/pipeline').then(r=>r.json())
+    ]);
+    document.getElementById('s-companies').textContent = comp.total || '—';
+    document.getElementById('s-offers').textContent = offers.total || '—';
+    document.getElementById('s-pipeline').textContent = pipe.stats?.byStatus ? Object.values(pipe.stats.byStatus).reduce((a,b)=>a+b,0) : '—';
+    document.getElementById('s-responses').textContent = pipe.stats?.byStatus?.['Réponse +'] || '0';
+  } catch(e) { console.log('Stats not available yet'); }
+}
+loadStats();
+</script>
+</body>
+</html>
