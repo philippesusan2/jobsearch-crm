@@ -1,3 +1,8 @@
 {
-  "version": 2
+  "version": 2,
+  "routes": [
+    { "src": "/jobradar", "dest": "/public/jobradar.html" },
+    { "src": "/targetradar", "dest": "/public/targetradar.html" },
+    { "src": "/", "dest": "/public/index.html" }
+  ]
 }
