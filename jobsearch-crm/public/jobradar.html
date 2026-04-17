@@ -287,7 +287,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
 
     <div class="msec">
       <button class="mact pr" id="mgen" onclick="GE()" style="width:100%;padding:.7rem">
-        ✦ Générer avec Claude
+        ✦ Générer le prompt
       </button>
     </div>
 
@@ -296,7 +296,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
         <span class="mlbl">Email de candidature</span>
         <div class="aibox load" id="mai"><div class="dots"><span></span><span></span><span></span></div> Génération en cours...</div>
         <div class="macts" id="email-actions" style="display:none">
-          <button class="mact" onclick="copyContent('email')">📋 Copier</button>
+          <button class="mact" onclick="copyContent('email')">📋 Copier le prompt</button>
           <button class="mact" onclick="openGmail()">↗ Ouvrir dans Gmail</button>
           <button class="mact ok" onclick="MS()" style="margin-left:auto">✓ Marquer envoyée</button>
         </div>
@@ -477,7 +477,7 @@ function OM2(oid){
   document.getElementById('mcl').className='aibox load';
   document.getElementById('mcl').innerHTML='<div class="dots"><span></span><span></span><span></span></div> En attente...';
   document.getElementById('mgen').disabled=false;
-  document.getElementById('mgen').textContent='✦ Générer avec Claude';
+  document.getElementById('mgen').textContent='✦ Générer le prompt';
   setType('email');
   document.getElementById('modal').classList.add('on');
 }
@@ -490,51 +490,36 @@ function hexToRgb(hex){
 function CM(){document.getElementById('modal').classList.remove('on');}
 function MBG(e){if(e.target===document.getElementById('modal'))CM();}
 
-async function GE(){
-  if(!curO)return;
-  var btn=document.getElementById('mgen');btn.disabled=true;btn.textContent='Génération...';
-
-  // Show relevant sections
-  if(genType==='email'||genType==='both'){
-    document.getElementById('email-section').style.display='block';
-    document.getElementById('mai').className='aibox load';
-    document.getElementById('mai').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Claude rédige ton email...';
+function GE(){
+  if(!curO) return;
+  var profileKey = getProfileKey(curO.title, curO.level, 'S1');
+  var profileText = '';
+  if(profileKey === 'RVP_SALES'){
+    profileText = "Philippe Sussan - VP Sales / RVP, Enterprise Software. 25+ ans revenue growth & team building pour des editeurs US en Europe. Actuellement Senior Director SEMEA chez C3 AI. Precedemment Sales Director SEMEA Seismic (4 ans), Head of Sales EMEA Stambia (5 ans, built from scratch). REALISATION CLE: Signe deal Enterprise AI majeur avec operateur T&L europeen top-tier - contrat multi-ans, scope pan-europeen. DIFFERENCIATEURS: Revenue/P&L leadership, Team building, GTM design, SEMEA 5 marches, EN/FR/ES/IT.";
+  } else {
+    profileText = "Philippe Sussan - Senior Sales Director, Enterprise AI. Actuellement Senior Director SEMEA chez C3 AI (NYSE: AI). Precedemment Sales Director SEMEA Seismic (4 ans), Head of Sales EMEA Stambia (5 ans). REALISATION CLE: Signe deal Enterprise AI majeur avec operateur T&L europeen top-tier - contrat multi-ans, scope pan-europeen. DIFFERENCIATEURS: Vente C-level, GTM design, P&L, ecosysteme partenaires AWS/Microsoft/Accenture/Capgemini, RGPD/AI Act, EN/FR/ES/IT.";
   }
-  if(genType==='cover_letter'||genType==='both'){
-    document.getElementById('cl-section').style.display='block';
-    document.getElementById('mcl').className='aibox load';
-    document.getElementById('mcl').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Claude rédige ta lettre...';
-  }
-
-  try{
-    var r=await fetch('/api/generate-email',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({offer_id:curO.id,stream:'S1',type:genType})
-    });
-    var d=await r.json();
-
-    if(d.email){
-      curEmail=d.email;
-      document.getElementById('mai').className='aibox rdy';
-      document.getElementById('mai').textContent=d.email;
-      document.getElementById('email-actions').style.display='flex';
-    }
-    if(d.cover_letter){
-      curCL=d.cover_letter;
-      document.getElementById('mcl').className='aibox rdy';
-      document.getElementById('mcl').textContent=d.cover_letter;
-      document.getElementById('cl-actions').style.display='flex';
-    }
-    if(d.profile_used){
-      document.getElementById('cv-badge').textContent='📋 '+d.profile_used+' ✓';
-    }
-    toast('Généré avec '+( d.profile_used||'Claude'),'s');
-  }catch(e){
-    document.getElementById('mai').className='aibox rdy';
-    document.getElementById('mai').textContent='❌ Erreur : '+e.message;
-  }
-  btn.disabled=false;btn.textContent='↺ Régénérer';
+  var typeLabel = genType === 'cover_letter' ? 'LETTRE DE MOTIVATION' : 'EMAIL DE CANDIDATURE';
+  var prompt = '=== GENERE UN ' + typeLabel + ' EN FRANCAIS ===\n\n' +
+    'PROFIL CANDIDAT:\n' + profileText + '\n\n' +
+    'POSTE: ' + curO.title + '\n' +
+    'SOCIETE: ' + curO.company_name + '\n' +
+    'LIEU: ' + (curO.location || 'Non precise') + '\n' +
+    'DESCRIPTION: ' + (curO.description || 'Voir annonce officielle') + '\n\n' +
+    'INSTRUCTIONS:\n' +
+    '- Ton professionnel, senior executive, impactant\n' +
+    '- Accroche specifique sur ' + curO.company_name + ' (produit, marche, actualite)\n' +
+    '- 2-3 realisations chiffrees du profil ci-dessus\n' +
+    '- Mettre en avant ce qui est le plus pertinent pour CE poste\n' +
+    (genType !== 'cover_letter' ? '- Email: MAX 200 mots + CTA appel 20min\n- FORMAT:\nOBJET: [max 8 mots]\n\n---\n[Corps email]\n---\n\nPS: [1 conseil strategique]' : '- Lettre: 3 paragraphes, MAX 300 mots, format officiel\nParis, le [DATE]\n\n[3 paragraphes]\n\nCordialement,\nPhilippe Sussan');
+  document.getElementById('email-section').style.display='block';
+  document.getElementById('mai').className='aibox rdy';
+  document.getElementById('mai').textContent=prompt;
+  document.getElementById('email-actions').style.display='flex';
+  curEmail=prompt;
+  var cvLabel = profileKey === 'RVP_SALES' ? 'CV RVP Sales' : 'CV Senior Director AI';
+  document.getElementById('cv-badge').textContent='📋 '+cvLabel+' — prompt pret !';
+  toast('Prompt pret — copie et colle dans Claude.ai !','s');
 }
 
 function copyContent(type){
