@@ -336,10 +336,16 @@ var CV_LABELS={
 function getProfileKey(title,level,stream){
   if(stream==='S2') return 'COUNTRY_MANAGER';
   var t=(title||'').toLowerCase();
-  if(level==='DIR'){
-    if(CV_LABELS.RVP_SALES.triggers.some(function(k){return t.indexOf(k)>=0;})) return 'RVP_SALES';
-    return 'SENIOR_DIRECTOR';
-  }
+  // Extended RVP/leadership keywords — covers Sales Leader, Enterprise Sales Leader, etc.
+  var rvpKw=['rvp','regional vice','vp sales','vp of sales','head of sales','vice president',
+             'sales leader','enterprise sales','revenue leader','chief revenue','commercial director',
+             'regional director','area vice','country manager','general manager'];
+  if(rvpKw.some(function(k){return t.indexOf(k)>=0;})) return 'RVP_SALES';
+  // Senior Director keywords
+  var sdKw=['senior director','sales director','director of sales','director, sales'];
+  if(sdKw.some(function(k){return t.indexOf(k)>=0;})) return 'SENIOR_DIRECTOR';
+  // Fallback based on level
+  if(level==='DIR') return 'SENIOR_DIRECTOR';
   return 'SENIOR_DIRECTOR';
 }
 
@@ -453,7 +459,12 @@ async function TT(oid){
 function OM2(oid){
   var o=OFFERS.find(function(x){return x.id===oid;});if(!o)return;
   curO=o;curEmail='';curCL='';
-  var profileKey=getProfileKey(o.title,o.level,'S1');
+  // Override level detection for titles that scanner misclassifies
+  var effectiveLevel=o.level;
+  var tl=(o.title||'').toLowerCase();
+  var leaderKw=['sales leader','enterprise sales','revenue leader','country manager','general manager','commercial director','regional director'];
+  if(leaderKw.some(function(k){return tl.indexOf(k)>=0;})) effectiveLevel='DIR';
+  var profileKey=getProfileKey(o.title,effectiveLevel,'S1');
   var profile=CV_LABELS[profileKey];
 
   document.getElementById('mtit').textContent='Candidature — '+o.company_name;
@@ -492,36 +503,57 @@ function MBG(e){if(e.target===document.getElementById('modal'))CM();}
 
 function GE(){
   if(!curO) return;
-  var profileKey = getProfileKey(curO.title, curO.level, 'S1');
+  var tge=(curO.title||'').toLowerCase();
+  var leaderKwGE=['sales leader','enterprise sales','revenue leader','country manager','general manager','commercial director','regional director'];
+  var effectiveLevelGE=leaderKwGE.some(function(k){return tge.indexOf(k)>=0;})?'DIR':curO.level;
+  var profileKey = getProfileKey(curO.title, effectiveLevelGE, 'S1');
+
+  var ex1="EXAMPLE LETTER 1 (my style - Atlassian):\nDear Hiring Team at Atlassian, I am excited to apply for the Account Executive Enterprise role covering France & Southern Europe. With over 20 years of experience in enterprise software sales, I have successfully led sales strategies, built C-level relationships, and driven revenue growth across Fortune 1000 companies in France, Benelux and SEMEA. My expertise in cloud solutions aligns perfectly with Atlassian wide portfolio. As Sales Director SEMEA I drive business expansion across multiple industries. Previously as Head of Sales SEMEA at STAMBIA I led go-to-market strategies and key partnerships. I take a consultative approach working closely with C-level executives, IT leaders and operational teams. I would love the opportunity to discuss how my experience can contribute to Atlassian success in Southern Europe. Kind regards, Philippe Sussan.";
+
+  var ex2="EXAMPLE LETTER 2 (my style - Oracle):\nOracle Stargate initiative marks a transformative moment in the AI and cloud industry. With its ambitious investment in AI infrastructure and strategic partnerships, Oracle is positioning itself as a global leader in enterprise technology. This vision aligns perfectly with my passion for cloud innovation and AI-driven business transformation. With over 20 years of experience in SaaS and Cloud sales including leadership roles at Salesforce and other cloud pioneers, I have successfully driven sales expansion built high-performing teams and developed go-to-market strategies for Fortune 1000 enterprises. Oracle commitment to reshaping the AI and cloud landscape excites me and I am eager to contribute by leveraging my deep expertise in enterprise sales cloud adoption and C-level engagement. Kind regards, Philippe Sussan.";
+
   var profileText = '';
+  var cvLabel = '';
   if(profileKey === 'RVP_SALES'){
-    profileText = "Philippe Sussan - VP Sales / RVP, Enterprise Software. 25+ ans revenue growth & team building pour des editeurs US en Europe. Actuellement Senior Director SEMEA chez C3 AI. Precedemment Sales Director SEMEA Seismic (4 ans), Head of Sales EMEA Stambia (5 ans, built from scratch). REALISATION CLE: Signe deal Enterprise AI majeur avec operateur T&L europeen top-tier - contrat multi-ans, scope pan-europeen. DIFFERENCIATEURS: Revenue/P&L leadership, Team building, GTM design, SEMEA 5 marches, EN/FR/ES/IT.";
+    cvLabel = 'CV RVP Sales';
+    profileText = "Philippe Sussan - VP Sales / RVP / Sales Leader\n- Senior Director SEMEA, C3 AI (NYSE:AI), May 2025-present. Enterprise AI platform, Global 1000, SEMEA (France Benelux Switzerland Iberia)\n- Sales Director SEMEA, Seismic, 2021-2025. Revenue Enablement SaaS, Fortune 500, 5 European markets\n- Head of Sales EMEA, Stambia, 2016-2021. ETL/Data Integration, built EMEA org from scratch, P&L\n- Regional Head of Sales Analytics, TIBCO Geneva, 2014-2016\nKEY WIN: Closed major Enterprise AI deal with top-tier European T&L operator, multi-year pan-European contract\nSTRENGTHS: Revenue & P&L leadership, team building from scratch, GTM design, SEMEA 5 markets, C-level selling, partner ecosystem AWS/Microsoft/Accenture/Capgemini, GDPR/AI Act, EN/FR/ES/IT";
   } else {
-    profileText = "Philippe Sussan - Senior Sales Director, Enterprise AI. Actuellement Senior Director SEMEA chez C3 AI (NYSE: AI). Precedemment Sales Director SEMEA Seismic (4 ans), Head of Sales EMEA Stambia (5 ans). REALISATION CLE: Signe deal Enterprise AI majeur avec operateur T&L europeen top-tier - contrat multi-ans, scope pan-europeen. DIFFERENCIATEURS: Vente C-level, GTM design, P&L, ecosysteme partenaires AWS/Microsoft/Accenture/Capgemini, RGPD/AI Act, EN/FR/ES/IT.";
+    cvLabel = 'CV Senior Director AI';
+    profileText = "Philippe Sussan - Senior Sales Director, Enterprise AI\n- Senior Director SEMEA, C3 AI (NYSE:AI), May 2025-present. Enterprise AI platform 130+ pre-built apps, Global 1000, SEMEA\n- Sales Director SEMEA, Seismic, 2021-2025. Revenue Enablement SaaS, Fortune 500\n- Head of Sales EMEA, Stambia, 2016-2021. ETL/Data Integration, built EMEA from scratch\nKEY WIN: Closed major Enterprise AI deal with top-tier European T&L operator, multi-year pan-European contract\nSTRENGTHS: Enterprise AI C-level selling, complex multi-stakeholder cycles, GTM design, P&L, partner ecosystem AWS/Microsoft/Accenture/Capgemini/McKinsey, GDPR/AI Act, EN/FR/ES/IT, verticals: FS&I Manufacturing Aero-Defense T&L Retail Pharma";
   }
-  var typeLabel = genType === 'cover_letter' ? 'LETTRE DE MOTIVATION' : 'EMAIL DE CANDIDATURE';
-  var prompt = '=== GENERE UN ' + typeLabel + ' EN FRANCAIS ===\n\n' +
-    'PROFIL CANDIDAT:\n' + profileText + '\n\n' +
-    'POSTE: ' + curO.title + '\n' +
-    'SOCIETE: ' + curO.company_name + '\n' +
-    'LIEU: ' + (curO.location || 'Non precise') + '\n' +
-    'DESCRIPTION: ' + (curO.description || 'Voir annonce officielle') + '\n\n' +
-    'INSTRUCTIONS:\n' +
-    '- Ton professionnel, senior executive, impactant\n' +
-    '- Accroche specifique sur ' + curO.company_name + ' (produit, marche, actualite)\n' +
-    '- 2-3 realisations chiffrees du profil ci-dessus\n' +
-    '- Mettre en avant ce qui est le plus pertinent pour CE poste\n' +
-    (genType !== 'cover_letter' ? '- Email: MAX 200 mots + CTA appel 20min\n- FORMAT:\nOBJET: [max 8 mots]\n\n---\n[Corps email]\n---\n\nPS: [1 conseil strategique]' : '- Lettre: 3 paragraphes, MAX 300 mots, format officiel\nParis, le [DATE]\n\n[3 paragraphes]\n\nCordialement,\nPhilippe Sussan');
+
+  var isCL=(genType==='cover_letter');
+  var docType=isCL?'cover letter':'application email';
+  var fmt=isCL?
+    'FORMAT:\nParis, [DATE]\n\nHiring Manager\n'+curO.company_name+'\n\nSubject: Application for '+curO.title+'\n\nDear Hiring Manager,\n\n[3 paragraphs max, 250 words max]\n\nKind regards,\nPhilippe Sussan\n+33645422269\nphilippesussan2@gmail.com':
+    'FORMAT:\nSUBJECT: [max 8 punchy words]\n\n[Email body, 180 words max]\n\nKind regards,\nPhilippe Sussan\n+33645422269\nphilippesussan2@gmail.com';
+
+  var prompt='Write a '+docType+' IN ENGLISH from Philippe Sussan for this position.\n\n'+
+    '=== MY PROFILE ===\n'+profileText+'\n\n'+
+    '=== POSITION ===\n'+
+    'Title: '+curO.title+'\n'+
+    'Company: '+curO.company_name+'\n'+
+    'Location: '+(curO.location||'N/A')+'\n'+
+    'Description: '+(curO.description||'See official posting')+'\n\n'+
+    '=== MY LETTER STYLE — FOLLOW THIS EXACTLY ===\n'+
+    ex1+'\n\n'+ex2+'\n\n'+
+    '=== RULES ===\n'+
+    '1. Match my tone exactly: direct, professional, enthusiastic but not sycophantic\n'+
+    '2. Open with a specific fact about '+curO.company_name+' (product, news, vision, recent initiative)\n'+
+    '3. Reference my roles: Senior Director SEMEA C3 AI, Sales Director SEMEA Seismic, Head of Sales EMEA Stambia\n'+
+    '4. Connect my experience specifically to the '+curO.title+' role\n'+
+    '5. End with simple CTA for a call\n'+
+    '6. Do NOT use phrases like "I am delighted", "I hereby submit", "please find enclosed"\n'+
+    '7. '+fmt;
+
   document.getElementById('email-section').style.display='block';
   document.getElementById('mai').className='aibox rdy';
   document.getElementById('mai').textContent=prompt;
   document.getElementById('email-actions').style.display='flex';
   curEmail=prompt;
-  var cvLabel = profileKey === 'RVP_SALES' ? 'CV RVP Sales' : 'CV Senior Director AI';
-  document.getElementById('cv-badge').textContent='📋 '+cvLabel+' — prompt pret !';
-  toast('Prompt pret — copie et colle dans Claude.ai !','s');
+  document.getElementById('cv-badge').textContent='📋 '+cvLabel+' — prompt ready!';
+  toast('Prompt ready — copy and paste into Claude.ai !','s');
 }
-
 function copyContent(type){
   var text=type==='email'?curEmail:curCL;
   navigator.clipboard.writeText(text).then(function(){toast('Copié dans le presse-papier ✓','s');});
