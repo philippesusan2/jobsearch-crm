@@ -277,9 +277,9 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
     <div class="msec"><span class="mlbl">Poste</span><div class="ibox" id="minfo"></div></div>
 
     <div class="msec">
-      <span class="mlbl">Texte de l'annonce <span style="color:var(--gr);font-size:.52rem">↑ recommandé pour plus de personnalisation</span></span>
-      <textarea id="jd-paste" placeholder="Ouvre l'annonce (↗ Voir l'offre officielle) → Cmd+A → Cmd+C → colle ici pour un email ultra-personnalisé..." style="width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.72rem;padding:.65rem .85rem;border-radius:7px;outline:none;resize:vertical;min-height:80px;line-height:1.55;transition:border-color .2s" oninput="document.getElementById('jd-words').textContent=this.value.trim().split(/\s+/).filter(Boolean).length+' mots';this.style.borderColor=this.value.length>80?'var(--gr)':'var(--border)'"></textarea>
-      <div style="font-family:var(--fm);font-size:.54rem;color:var(--mu);margin-top:.25rem;display:flex;justify-content:space-between"><span>💡 Plus tu colles, plus Claude adapte précisément</span><span id="jd-words" style="color:var(--gr)">0 mots</span></div>
+      <span class="mlbl">Texte de l&apos;annonce <span style="color:var(--gr);font-size:.52rem">&#8593; recommande pour plus de personnalisation</span></span>
+      <textarea id="jd-paste" placeholder="Ouvre l&apos;annonce officielle, selectionne tout le texte, copie et colle ici pour un email ultra-personnalise..." style="width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.72rem;padding:.65rem .85rem;border-radius:7px;outline:none;resize:vertical;min-height:80px;line-height:1.55;transition:border-color .2s" oninput="updateJDCount(this)"></textarea>
+      <div style="font-family:var(--fm);font-size:.54rem;color:var(--mu);margin-top:.25rem;display:flex;justify-content:space-between"><span>Plus tu colles, plus Claude adapte precisement</span><span id="jd-words" style="color:var(--gr)">0 mots</span></div>
     </div>
 
     <div class="msec">
@@ -359,6 +359,12 @@ function ST(t){document.querySelectorAll('.tbtn').forEach(function(b){b.classLis
 function TP(p){pills[p]=!pills[p];document.getElementById('pill-'+p).classList.toggle('on',pills[p]);RO();}
 function FC(co){activeCo=co;document.querySelectorAll('.cotab').forEach(function(t){t.classList.toggle('on',t.dataset.co===co);});RO();}
 function SM(m){scanMode=m;document.querySelectorAll('.sopt').forEach(function(s){s.classList.toggle('sel',s.dataset.m===m);});}
+function updateJDCount(el){
+  var words=el.value.trim().split(/\s+/).filter(function(w){return w.length>0;}).length;
+  var ct=document.getElementById('jd-words');
+  if(ct) ct.textContent=words+' mots';
+  el.style.borderColor=el.value.length>80?'var(--gr)':'var(--border)';
+}
 function setType(t){genType=t;document.querySelectorAll('.type-btn').forEach(function(b){b.classList.remove('on');});document.getElementById('type-'+t).classList.add('on');}
 
 async function LO(){
@@ -577,7 +583,7 @@ function GE(){
   document.getElementById('email-actions').style.display='flex';
   curEmail=prompt;
   document.getElementById('cv-badge').textContent='📋 '+cvLabel+(jdText.length>80?' + annonce complète':' + description courte')+' ✓';
-  var msg=jdText.length>80?'Prompt prêt avec l'annonce complète !':'Prompt prêt — colle l'annonce pour plus de personnalisation';
+  var msg=jdText.length>80?'Prompt pret - annonce complete !':'Prompt pret - colle annonce pour plus de personnalisation';
   toast(msg,'s');
 }
 function copyContent(type){
