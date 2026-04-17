@@ -5,32 +5,29 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-// ══════════════════════════════════════════════════════════
-// KEYWORDS — Sales leadership roles we're looking for
-// ══════════════════════════════════════════════════════════
 const SALES_KEYWORDS = [
   'sales director', 'director of sales', 'vp sales', 'vp of sales',
   'vice president sales', 'rvp', 'regional vice president',
-  'head of sales', 'country manager', 'general manager',
+  'head of sales', 'country manager', 'general manager france',
   'sales manager', 'account executive', 'enterprise account executive',
   'senior account executive', 'strategic account executive',
-  'director sales', 'sales lead', 'revenue director',
-  'chief revenue', 'cro', 'commercial director',
+  'director sales', 'director, sales', 'sales lead', 'revenue director',
+  'chief revenue', 'commercial director', 'sales leader',
   'directeur commercial', 'directeur des ventes', 'responsable commercial',
-  'head of revenue', 'sales leader', 'go to market',
+  'head of revenue', 'regional director', 'area vice president',
+  'field sales', 'enterprise sales', 'named account',
 ];
 
 const GEO_KEYWORDS = [
   'france', 'paris', 'emea', 'europe', 'southern europe',
   'emea south', 'france & benelux', 'france/benelux',
-  'western europe', 'iberia', 'dach', 'remote'
+  'western europe', 'iberia', 'dach', 'remote', 'london',
+  'amsterdam', 'berlin', 'madrid', 'milan', 'dublin',
+  'barcelona', 'munich', 'zurich', 'stockholm', 'international',
+  'worldwide', 'global', 'anywhere', 'distributed',
 ];
 
-// ══════════════════════════════════════════════════════════
-// HR PLATFORM DETECTION
-// ══════════════════════════════════════════════════════════
 const HR_PLATFORMS = {
-  // Greenhouse — most common for US tech
   greenhouse: {
     detect: (url) => url && (url.includes('greenhouse.io') || url.includes('grnh.se')),
     buildUrl: (slug) => `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs?content=true`,
@@ -45,7 +42,7 @@ const HR_PLATFORMS = {
           url: j.absolute_url || `https://boards.greenhouse.io/${company.slug}/jobs/${j.id}`,
           level: detectLevel(j.title),
           geo: detectGeo(j.location?.name || ''),
-          description: stripHtml(j.content || '').slice(0, 500),
+          description: cleanText(j.content || '').slice(0, 400),
           source: 'greenhouse',
           date_posted: j.updated_at?.split('T')[0] || new Date().toISOString().split('T')[0],
           is_new: isRecent(j.updated_at),
@@ -53,7 +50,6 @@ const HR_PLATFORMS = {
         }));
     }
   },
-  // Lever
   lever: {
     detect: (url) => url && url.includes('jobs.lever.co'),
     buildUrl: (slug) => `https://api.lever.co/v0/postings/${slug}?mode=json`,
@@ -68,7 +64,7 @@ const HR_PLATFORMS = {
           url: j.hostedUrl || `https://jobs.lever.co/${company.slug}/${j.id}`,
           level: detectLevel(j.text),
           geo: detectGeo(j.categories?.location || ''),
-          description: stripHtml(j.descriptionPlain || j.description || '').slice(0, 500),
+          description: cleanText(j.descriptionPlain || j.description || '').slice(0, 400),
           source: 'lever',
           date_posted: j.createdAt ? new Date(j.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
           is_new: j.createdAt ? isRecent(new Date(j.createdAt).toISOString()) : false,
@@ -76,7 +72,6 @@ const HR_PLATFORMS = {
         }));
     }
   },
-  // Ashby
   ashby: {
     detect: (url) => url && (url.includes('ashbyhq.com') || url.includes('jobs.ashby')),
     buildUrl: (slug) => `https://api.ashbyhq.com/posting-api/job-board/${slug}`,
@@ -91,7 +86,7 @@ const HR_PLATFORMS = {
           url: j.jobUrl || j.applyUrl || company.careers_url,
           level: detectLevel(j.title),
           geo: detectGeo(j.location || ''),
-          description: (j.descriptionPlain || '').slice(0, 500),
+          description: cleanText(j.descriptionPlain || '').slice(0, 400),
           source: 'ashby',
           date_posted: j.publishedDate?.split('T')[0] || new Date().toISOString().split('T')[0],
           is_new: j.publishedDate ? isRecent(j.publishedDate) : false,
@@ -99,24 +94,16 @@ const HR_PLATFORMS = {
         }));
     }
   },
-  // Workday
-  workday: {
-    detect: (url) => url && url.includes('myworkdayjobs.com'),
-    buildUrl: (slug) => null, // Workday blocks API — use careers URL directly
-    parseJobs: () => []
-  }
 };
 
-// ══════════════════════════════════════════════════════════
-// COMPANY → PLATFORM SLUG MAPPING
-// ══════════════════════════════════════════════════════════
 const COMPANY_SLUGS = {
-  // Greenhouse slugs
   'databricks': { platform: 'greenhouse', slug: 'databricks' },
   'snowflake': { platform: 'greenhouse', slug: 'snowflake' },
   'glean': { platform: 'greenhouse', slug: 'glean' },
-  'harvey': { platform: 'greenhouse', slug: 'harvey' },
+  'harvey': { platform: 'ashby', slug: 'harvey' },
+  'harvey ai': { platform: 'ashby', slug: 'harvey' },
   'sierra': { platform: 'greenhouse', slug: 'sierra' },
+  'sierra ai': { platform: 'greenhouse', slug: 'sierra' },
   'gong': { platform: 'greenhouse', slug: 'gong' },
   'apollo.io': { platform: 'greenhouse', slug: 'apolloio' },
   'rippling': { platform: 'greenhouse', slug: 'rippling' },
@@ -135,6 +122,7 @@ const COMPANY_SLUGS = {
   'abnormal security': { platform: 'greenhouse', slug: 'abnormalsecurity' },
   'together ai': { platform: 'greenhouse', slug: 'togetherai' },
   'perplexity ai': { platform: 'greenhouse', slug: 'perplexityai' },
+  'perplexity': { platform: 'greenhouse', slug: 'perplexityai' },
   'cohere': { platform: 'greenhouse', slug: 'cohere' },
   'scale ai': { platform: 'greenhouse', slug: 'scaleai' },
   'pinecone': { platform: 'greenhouse', slug: 'pinecone' },
@@ -162,12 +150,10 @@ const COMPANY_SLUGS = {
   'assemblyai': { platform: 'greenhouse', slug: 'assemblyai' },
   'vectara': { platform: 'greenhouse', slug: 'vectara' },
   'hebbia': { platform: 'greenhouse', slug: 'hebbia' },
-  'dust': { platform: 'greenhouse', slug: 'dust-tt' },
   'ema': { platform: 'greenhouse', slug: 'ema' },
   'snyk': { platform: 'greenhouse', slug: 'snyk' },
   'elastic': { platform: 'greenhouse', slug: 'elastic' },
   'confluent': { platform: 'greenhouse', slug: 'confluent' },
-  'gitlab': { platform: 'greenhouse', slug: 'gitlab' },
   'dynatrace': { platform: 'greenhouse', slug: 'dynatrace' },
   'okta': { platform: 'greenhouse', slug: 'okta' },
   'pagerduty': { platform: 'greenhouse', slug: 'pagerduty' },
@@ -177,10 +163,12 @@ const COMPANY_SLUGS = {
   'coreweave': { platform: 'greenhouse', slug: 'coreweave' },
   'brex': { platform: 'greenhouse', slug: 'brex' },
   'ramp': { platform: 'greenhouse', slug: 'ramp' },
-  // Lever slugs
+  'gitlab': { platform: 'greenhouse', slug: 'gitlab' },
+  'paddle': { platform: 'greenhouse', slug: 'paddle' },
   'anthropic': { platform: 'lever', slug: 'anthropic' },
   'openai': { platform: 'lever', slug: 'openai' },
   'mistral ai': { platform: 'lever', slug: 'mistralai' },
+  'mistral': { platform: 'lever', slug: 'mistralai' },
   'hugging face': { platform: 'lever', slug: 'huggingface' },
   'datadog': { platform: 'lever', slug: 'datadog' },
   'mongodb': { platform: 'lever', slug: 'mongodb' },
@@ -189,82 +177,79 @@ const COMPANY_SLUGS = {
   'zendesk': { platform: 'lever', slug: 'zendesk' },
   'atlassian': { platform: 'lever', slug: 'atlassian' },
   'hashicorp': { platform: 'lever', slug: 'hashicorp' },
-  'paddle': { platform: 'lever', slug: 'paddle' },
-  // Ashby slugs
-  'harvey': { platform: 'ashby', slug: 'harvey' },
-  'exa': { platform: 'ashby', slug: 'exa' },
-  'sana labs': { platform: 'ashby', slug: 'sanalabs' },
-  'replicant': { platform: 'ashby', slug: 'replicant' },
-  'leapsome': { platform: 'ashby', slug: 'leapsome' },
   'qonto': { platform: 'ashby', slug: 'qonto' },
+  'leapsome': { platform: 'ashby', slug: 'leapsome' },
+  'sana labs': { platform: 'ashby', slug: 'sanalabs' },
 };
 
-// ══════════════════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════════════════
+// ── HELPERS ──
+function cleanText(html) {
+  if (!html) return '';
+  // Remove HTML tags
+  let text = html.replace(/<[^>]*>/g, ' ');
+  // Remove data attributes artifacts like data-pm-slice="11[]"
+  text = text.replace(/data-[a-z-]+=["'][^"']*["']/g, '');
+  // Remove special chars artifacts
+  text = text.replace(/\[[\d\[\]]*\]/g, '');
+  // Clean whitespace
+  text = text.replace(/\s+/g, ' ').trim();
+  // Remove HTML entities
+  text = text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&#\d+;/g, '');
+  return text;
+}
+
 function isRelevantJob(title, location) {
   if (!title) return false;
   const t = title.toLowerCase();
   const l = (location || '').toLowerCase();
   const hasRole = SALES_KEYWORDS.some(k => t.includes(k));
-  const hasGeo = GEO_KEYWORDS.some(k => l.includes(k)) || l === '' || l.includes('remote');
+  // More permissive geo: if location is empty, include it (many remote jobs)
+  const hasGeo = l === '' || GEO_KEYWORDS.some(k => l.includes(k));
   return hasRole && hasGeo;
 }
 
 function detectLevel(title) {
   const t = (title || '').toLowerCase();
-  if (t.includes('vp') || t.includes('vice president') || t.includes('rvp') || t.includes('head of') || t.includes('director')) return 'DIR';
+  if (t.includes('vp') || t.includes('vice president') || t.includes('rvp') ||
+      t.includes('head of') || t.includes('director') || t.includes('chief') ||
+      t.includes('country manager') || t.includes('general manager')) return 'DIR';
   if (t.includes('manager') || t.includes('lead')) return 'MGR';
-  if (t.includes('account executive') || t.includes(' ae ') || t.includes('senior ae')) return 'AE';
   return 'AE';
 }
 
 function detectGeo(location) {
   const l = (location || '').toLowerCase();
   if (l.includes('france') || l.includes('paris')) return 'FR';
-  if (l.includes('remote') || l.includes('anywhere')) return 'REMOTE';
-  if (l.includes('europe') || l.includes('emea') || l.includes('london') || l.includes('amsterdam') || l.includes('berlin')) return 'EU';
+  if (l.includes('remote') || l.includes('anywhere') || l.includes('distributed') || l.includes('worldwide')) return 'REMOTE';
+  if (l.includes('europe') || l.includes('emea') || l.includes('london') ||
+      l.includes('amsterdam') || l.includes('berlin') || l.includes('madrid')) return 'EU';
   return 'EU';
-}
-
-function stripHtml(html) {
-  return (html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function isRecent(dateStr) {
   if (!dateStr) return false;
   const d = new Date(dateStr);
   const now = new Date();
-  return (now - d) < 14 * 24 * 60 * 60 * 1000; // 14 days
+  return (now - d) < 21 * 24 * 60 * 60 * 1000; // 21 days
 }
 
-// ══════════════════════════════════════════════════════════
-// SCAN A SINGLE COMPANY
-// ══════════════════════════════════════════════════════════
+// ── SCAN ──
 async function scanCompany(company) {
   const nameKey = company.name.toLowerCase().trim();
   const platformInfo = COMPANY_SLUGS[nameKey];
 
   if (!platformInfo) {
-    // Try to detect from careers_url
     if (company.careers_url) {
       for (const [key, platform] of Object.entries(HR_PLATFORMS)) {
         if (platform.detect(company.careers_url)) {
-          // Extract slug from URL
           const urlParts = company.careers_url.split('/');
           const slug = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2];
           if (slug && platform.buildUrl) {
             const apiUrl = platform.buildUrl(slug);
             if (apiUrl) {
               try {
-                const res = await fetch(apiUrl, { 
-                  headers: { 'Accept': 'application/json' },
-                  signal: AbortSignal.timeout(8000)
-                });
-                if (res.ok) {
-                  const data = await res.json();
-                  return platform.parseJobs(data, { ...company, slug });
-                }
+                const res = await fetch(apiUrl, { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) });
+                if (res.ok) { const data = await res.json(); return platform.parseJobs(data, { ...company, slug }); }
               } catch(e) {}
             }
           }
@@ -277,7 +262,6 @@ async function scanCompany(company) {
   const { platform: platformName, slug } = platformInfo;
   const platform = HR_PLATFORMS[platformName];
   if (!platform || !platform.buildUrl) return [];
-
   const apiUrl = platform.buildUrl(slug);
   if (!apiUrl) return [];
 
@@ -290,46 +274,25 @@ async function scanCompany(company) {
     const data = await res.json();
     return platform.parseJobs(data, { ...company, slug });
   } catch(e) {
-    console.log(`Failed to scan ${company.name}: ${e.message}`);
+    console.log(`Failed ${company.name}: ${e.message}`);
     return [];
   }
 }
 
-// ══════════════════════════════════════════════════════════
-// MAIN HANDLER
-// ══════════════════════════════════════════════════════════
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // GET — scan status / results
   if (req.method === 'GET') {
-    const { data: offers } = await supabase
-      .from('job_offers')
-      .select('company_name, source, date_posted')
-      .eq('is_active', true)
-      .order('date_posted', { ascending: false })
-      .limit(10);
-    
-    const { count } = await supabase
-      .from('job_offers')
-      .select('*', { count: 'exact', head: true })
-      .eq('is_active', true);
-
-    return res.status(200).json({
-      total_offers: count || 0,
-      recent: offers || [],
-      message: 'Use POST to trigger a scan'
-    });
+    const { count } = await supabase.from('job_offers').select('*', { count: 'exact', head: true }).eq('is_active', true);
+    const { data: recent } = await supabase.from('job_offers').select('company_name, title, source, date_posted').eq('is_active', true).order('date_posted', { ascending: false }).limit(5);
+    return res.status(200).json({ total_offers: count || 0, recent: recent || [], message: 'Use POST to trigger a scan' });
   }
 
-  // POST — trigger scan
   if (req.method === 'POST') {
     const { company_ids, limit = 50, segment, funding_tier } = req.body || {};
-
-    // Get companies to scan
     let query = supabase.from('companies').select('*');
     if (company_ids?.length) query = query.in('id', company_ids);
     if (segment) query = query.eq('segment', segment);
@@ -340,64 +303,34 @@ export default async function handler(req, res) {
     if (error) return res.status(500).json({ error: error.message });
     if (!companies?.length) return res.status(200).json({ message: 'No companies to scan', found: 0 });
 
-    // Scan companies (with concurrency limit)
     const results = { scanned: 0, found: 0, inserted: 0, errors: [] };
-    const BATCH_SIZE = 5;
+    const BATCH = 5;
 
-    for (let i = 0; i < companies.length; i += BATCH_SIZE) {
-      const batch = companies.slice(i, i + BATCH_SIZE);
-      const batchResults = await Promise.allSettled(
-        batch.map(co => scanCompany(co))
-      );
+    for (let i = 0; i < companies.length; i += BATCH) {
+      const batch = companies.slice(i, i + BATCH);
+      const batchRes = await Promise.allSettled(batch.map(co => scanCompany(co)));
 
       for (let j = 0; j < batch.length; j++) {
         results.scanned++;
-        const company = batch[j];
-        const result = batchResults[j];
-
+        const result = batchRes[j];
         if (result.status === 'fulfilled' && result.value.length > 0) {
-          const offers = result.value;
-          results.found += offers.length;
-
-          // Upsert into job_offers
-          for (const offer of offers) {
-            // Check if offer already exists
-            const { data: existing } = await supabase
-              .from('job_offers')
-              .select('id')
-              .eq('company_name', offer.company_name)
-              .eq('title', offer.title)
-              .limit(1);
-
+          results.found += result.value.length;
+          for (const offer of result.value) {
+            const { data: existing } = await supabase.from('job_offers').select('id').eq('company_name', offer.company_name).eq('title', offer.title).limit(1);
             if (!existing?.length) {
-              const { error: insertErr } = await supabase
-                .from('job_offers')
-                .insert([{ ...offer, created_at: new Date().toISOString() }]);
-              if (!insertErr) results.inserted++;
+              const { error: ie } = await supabase.from('job_offers').insert([{ ...offer, created_at: new Date().toISOString() }]);
+              if (!ie) results.inserted++;
             }
           }
         } else if (result.status === 'rejected') {
-          results.errors.push(`${company.name}: ${result.reason}`);
+          results.errors.push(`${batch[j].name}: ${result.reason}`);
         }
       }
-
-      // Small delay between batches to avoid rate limiting
-      if (i + BATCH_SIZE < companies.length) {
-        await new Promise(r => setTimeout(r, 500));
-      }
+      if (i + BATCH < companies.length) await new Promise(r => setTimeout(r, 400));
     }
 
-    // Update last_scanned timestamp on companies
-    const scannedIds = companies.map(c => c.id);
-    await supabase
-      .from('companies')
-      .update({ updated_at: new Date().toISOString() })
-      .in('id', scannedIds);
-
     return res.status(200).json({
-      success: true,
-      scanned: results.scanned,
-      offers_found: results.found,
+      success: true, scanned: results.scanned, offers_found: results.found,
       new_offers_inserted: results.inserted,
       errors: results.errors.length > 0 ? results.errors.slice(0, 5) : null,
       message: `Scanned ${results.scanned} companies, found ${results.found} relevant offers, inserted ${results.inserted} new ones`
