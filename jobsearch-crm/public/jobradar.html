@@ -38,6 +38,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px
 .csel{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.6rem;padding:.48rem .7rem;border-radius:5px;outline:none;cursor:pointer}
 .pill{padding:.32rem .72rem;border-radius:4px;border:1px solid var(--border);background:var(--s2);color:var(--mu);font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .15s;white-space:nowrap}
 .pill.on{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:600}
+.pill#pill-ai.on{background:var(--pu);color:#fff;border-color:var(--pu)}
+.jai{background:rgba(167,139,250,.18);color:var(--pu)}
 .bref{padding:.48rem 1rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .bref:hover{border-color:var(--acc);color:var(--acc)}
 .bscan{padding:.48rem 1.1rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
@@ -82,7 +84,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px
 .sov.on{display:flex}
 .sbox{background:var(--s2);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:460px;padding:1.75rem;margin:1rem}
 .sbox h3{font-family:var(--fd);font-size:1rem;font-weight:800;margin-bottom:1rem}
-.sopts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.25rem}
+.sopts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:1.25rem}
 .sopt{padding:.65rem .85rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all .2s;text-align:center}
 .sopt.sel{border-color:var(--acc);background:rgba(200,241,53,.06)}
 .sopt-t{font-family:var(--fm);font-size:.65rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
@@ -199,6 +201,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
     <select class="csel" id="fg" onchange="RO()"><option value="">France + Europe</option><option value="FR">France uniquement</option><option value="REMOTE">Remote EU</option></select>
     <div class="pill" id="pill-new" onclick="TP('new')">Nouvelles</div>
     <div class="pill" id="pill-dir" onclick="TP('dir')">Director+ only</div>
+    <div class="pill" id="pill-ai" onclick="TP('ai')" style="border-color:rgba(167,139,250,.3);color:var(--pu)">⚡ AI Native</div>
     <button class="bref" onclick="LO()">↻ Actualiser</button>
     <button class="bscan" onclick="openScan()">📡 Scanner</button>
   </div></div>
@@ -208,6 +211,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
     <div class="ss">France: <strong id="ss-fr">—</strong></div>
     <div class="ss">Remote: <strong id="ss-r">—</strong></div>
     <div class="ss">Director+: <strong id="ss-d">—</strong></div>
+    <div class="ss" style="color:var(--pu)">⚡ AI Native: <strong id="ss-ai" style="color:var(--pu)">—</strong></div>
     <div class="lscan">Dernier scan: <span id="lscan" style="color:var(--gr)">—</span></div>
   </div></div>
   <div class="gwrap"><div class="grid" id="grid">
@@ -249,6 +253,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
       <div class="sopt" data-m="all" onclick="SM('all')"><div class="sopt-t">Toutes les sociétés</div><div class="sopt-s">~300 sociétés · 8-10 min</div></div>
       <div class="sopt" data-m="data" onclick="SM('data')"><div class="sopt-t">Data AI</div><div class="sopt-s">Databricks, Fivetran, Snowflake...</div></div>
       <div class="sopt" data-m="aisaas" onclick="SM('aisaas')"><div class="sopt-t">AI SaaS</div><div class="sopt-s">Gong, Glean, Harvey, Sierra...</div></div>
+      <div class="sopt" data-m="ainative" onclick="SM('ainative')" style="border-color:rgba(167,139,250,.3)"><div class="sopt-t" style="color:var(--pu)">⚡ AI Native</div><div class="sopt-s">Anthropic, Mistral, Cohere, Writer...</div></div>
     </div>
     <div class="sprog" id="sprog">
       <div class="sprog-t" id="sprog-t">Scan en cours...</div>
@@ -328,9 +333,52 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
 var LL={AE:'Account Executive',DIR:'Director / RVP / VP',MGR:'Sales Manager'};
 var GL={FR:'France',REMOTE:'Remote EU',EU:'Europe'};
 var OFFERS=[],PIP=[],ARCH=[];
-var activeCo='ALL',pills={new:false,dir:false};
+var activeCo='ALL',pills={new:false,dir:false,ai:false};
 var dsc='date_added',dsd=-1,showA=false,scanMode='f4';
 var curO=null,curEmail='',curCL='',genType='email';
+
+// AI Native company registry — Insight Partners market map + key players
+var AI_NATIVE_COS=new Set([
+  // Foundation Models / AL-ML Hosting
+  'Anthropic','Mistral AI','Mistral','Cohere','AI21 Labs','AI21','Groq','Stability AI',
+  'Hugging Face','ElevenLabs','Eleven Labs','Midjourney','Meta AI','xAI','Perplexity',
+  'FalconLLM','Mosaic ML','MosaicML',
+  // Agentic / Horizontal AI Automation
+  'Writer','Relevance AI','Bardeen','ADEPT','Adept','Sana','Artisan','Tektonic AI',
+  'Reworkd','Azara','Raycast','Nexus','Sema4.ai','DISTYL','Respell','SOLA',
+  'BabyAGI','XAgent','Automated','AgentHub','Tavily','Magic Loops',
+  // Developer Platforms / Agent Tools
+  'LangChain','AgentOps','SuperAGI','LLMStack','Steamship','Cognition',
+  'GPT-Migrate','Sweep AI','DEMO GPT','Continue','Phidata','Devin','Cursor',
+  'Codium','Replit','GitHub Copilot',
+  // AI Co-Pilots
+  'Firefly','GitLab','Copilot','UiPath','SAP','Salesforce Einstein',
+  // Vertical AI Agents — Customer Service
+  'Sierra','Crescendo','OpenCall AI','OpenCall','NICE','Observe AI',
+  // Vertical AI Agents — Legal / Compliance
+  'Harvey','NormAI','Norm AI','GC AI','Phaselab','Greenlit',
+  // Vertical AI Agents — Medical
+  'Nabla','Freed','Abridge','DeepScribe','Tennr','CODAMETRIX',
+  // Marketing / Content Generation
+  'Jasper','Opencord AI','Jasper AI',
+  // Model Security / Governance
+  'Protect AI','Troja AI','Deepkeep','HiddenLayer','Robust Intelligence',
+  'Guardrails AI','Credo AI','Citrus','Holistic AI','Cranium','Vaudmind','Monitaur',
+  // Security AI
+  'Cyberhaven','Cadea','Lassa','Calypso AI','Privacera','Lakera','Skyflow','Prompt Security',
+  // Search
+  'You.com','Perplexity AI','Grok',
+  // Voice Agents
+  'Bland AI','Arini','Hamingway','Retell AI','Vocode',
+  // Data AI / Pipeline
+  'Scale AI','Scale','Snorkel AI','Activeloop','Pinecone','LlamaIndex',
+  'Alation','Databricks','SingleStore','Dataloop',
+  // Process Mining AI
+  'Skan AI','Process AI',
+  // Conversational AI
+  'Kore AI','Kore.ai','Clinc','Boost AI','Cognigy','Amelia','Pypestream',
+  '24/7 AI','Verint','OneReach','Yellow AI','Nuance'
+]);
 
 // CV profile auto-selection labels
 var CV_LABELS={
@@ -356,7 +404,19 @@ function getProfileKey(title,level,stream){
 }
 
 function ST(t){document.querySelectorAll('.tbtn').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});document.getElementById('panel-'+t).classList.add('on');if(t==='dashboard')RD();}
-function TP(p){pills[p]=!pills[p];document.getElementById('pill-'+p).classList.toggle('on',pills[p]);RO();}
+
+function isAiNative(o){
+  if(o.segment==='AI_NATIVE')return true;
+  var name=(o.company_name||'').toLowerCase();
+  for(var co of AI_NATIVE_COS){if(co.toLowerCase()===name)return true;}
+  return false;
+}
+function TP(p){
+  pills[p]=!pills[p];
+  var el=document.getElementById('pill-'+p);
+  el.classList.toggle('on',pills[p]);
+  RO();
+}
 function FC(co){activeCo=co;document.querySelectorAll('.cotab').forEach(function(t){t.classList.toggle('on',t.dataset.co===co);});RO();}
 function SM(m){scanMode=m;document.querySelectorAll('.sopt').forEach(function(s){s.classList.toggle('sel',s.dataset.m===m);});}
 function updateJDCount(el){
@@ -403,12 +463,14 @@ function RO(){
     if(fg==='REMOTE'&&o.geo!=='REMOTE')return false;
     if(pills.new&&!o.is_new)return false;
     if(pills.dir&&o.level!=='DIR')return false;
+    if(pills.ai&&!isAiNative(o))return false;
     return true;
   });
   document.getElementById('ss-s').textContent=fil.length;
   document.getElementById('ss-fr').textContent=fil.filter(function(o){return o.geo==='FR';}).length;
   document.getElementById('ss-r').textContent=fil.filter(function(o){return o.geo==='REMOTE';}).length;
   document.getElementById('ss-d').textContent=fil.filter(function(o){return o.level==='DIR';}).length;
+  document.getElementById('ss-ai').textContent=fil.filter(function(o){return isAiNative(o);}).length;
   if(!fil.length){document.getElementById('grid').innerHTML='<div class="state"><span style="font-size:2rem;display:block;margin-bottom:.5rem">🔍</span><div class="state-t">Aucune offre</div><div class="state-s">Élargis tes filtres ou lance un nouveau scan.</div><button class="state-btn" onclick="openScan()">📡 Scanner</button></div>';return;}
   document.getElementById('grid').innerHTML=fil.map(function(o,i){
     var isIn=inP.has(o.id);
@@ -416,6 +478,7 @@ function RO(){
       '<div class="jtop"><div class="jbdgs">'+
       '<span class="jbdg" style="background:rgba(200,241,53,.12);color:var(--acc)">'+o.company_name+'</span>'+
       '<span class="jbdg" style="background:rgba(255,255,255,.06);color:var(--mu)">'+(LL[o.level]||o.level||'—')+'</span>'+
+      (isAiNative(o)?'<span class="jbdg jai">⚡ AI Native</span>':'')+
       (o.is_new?'<span class="jbdg jnew">NEW</span>':'')+
       (o.source?'<span class="jbdg" style="background:rgba(96,165,250,.08);color:var(--bl)">'+o.source+'</span>':'')+
       '</div><div class="jdate">📅 '+(o.date_posted||'—')+'</div></div>'+
@@ -441,7 +504,8 @@ async function startScan(){
   if(scanMode==='f4')body.funding_tier='F4';
   else if(scanMode==='data')body.segment='DATA';
   else if(scanMode==='aisaas')body.segment='AI_SAAS';
-  body.limit=scanMode==='all'?300:80;
+  else if(scanMode==='ainative')body.segment='AI_NATIVE';
+  body.limit=scanMode==='all'?300:scanMode==='ainative'?120:80;
   var msgs=['Connexion aux APIs Greenhouse...','Scan Lever.co...','Scan Ashby HQ...','Filtrage offres Sales Director/VP/RVP...','Insertion en base Supabase...'];
   var prog=0;
   var iv=setInterval(function(){prog=Math.min(prog+1.5,90);document.getElementById('spf').style.width=prog+'%';document.getElementById('spmsg').textContent=msgs[Math.floor(prog/20)]||msgs[4];},700);
