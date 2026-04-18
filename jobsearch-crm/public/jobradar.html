@@ -332,6 +332,62 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
 <script>
 var LL={AE:'Account Executive',DIR:'Director / RVP / VP',MGR:'Sales Manager'};
 var GL={FR:'France',REMOTE:'Remote EU',EU:'Europe'};
+// ── Offres AI Native hardcodées (indépendantes du backend) ──
+var AI_NATIVE_STATIC=[
+  // Foundation Models
+  {id:'ant-1',company_name:'Anthropic',title:'Account Executive — Claude Enterprise, EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',
+   url:'https://www.anthropic.com/careers',
+   description:'Évangéliser et vendre Claude aux enterprises européennes. Positionnement IA responsable, sécurité, compliance GDPR. Marché early-stage à très forte croissance.'},
+  {id:'ant-2',company_name:'Anthropic',title:'Sales Director / RVP — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',
+   url:'https://www.anthropic.com/careers',
+   description:'Leader la stratégie commerciale Anthropic sur l\'EMEA. Recrutement équipe sales, partnerships stratégiques, deals C-level. Rôle fondateur sur un marché en explosion.'},
+  {id:'oai-1',company_name:'OpenAI',title:'Account Executive — OpenAI Enterprise, France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',
+   url:'https://openai.com/careers',
+   description:'Vente des solutions OpenAI Enterprise (GPT-4o, ChatGPT Enterprise) aux grandes entreprises françaises. Pionnier d\'un marché en explosion. Opportunité exceptionnelle.'},
+  {id:'oai-2',company_name:'OpenAI',title:'Sales Director — OpenAI EMEA Go-to-Market',level:'DIR',geo:'REMOTE',location:'Remote Europe / Paris / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',
+   url:'https://openai.com/careers',
+   description:'Définir et exécuter la stratégie commerciale OpenAI sur l\'EMEA. Recrutement équipe sales, partnerships cloud stratégiques, deals C-level.'},
+  {id:'mis-1',company_name:'Mistral AI',title:'Enterprise Account Executive — France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',
+   url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',
+   description:'Vente des modèles Mistral aux entreprises françaises. Champion du LLM européen souverain. Startup à forte croissance post-série B.'},
+  {id:'mis-2',company_name:'Mistral AI',title:'Head of Sales — Europe',level:'DIR',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',
+   url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',
+   description:'Construire et diriger l\'équipe sales Mistral en Europe. Stratégie commerciale, pricing, partenariats cloud (Azure, GCP). Rôle fondateur.'},
+  {id:'coh-1',company_name:'Cohere',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
+   url:'https://boards.greenhouse.io/cohere',
+   description:'Vente de la plateforme Cohere (Command, Embed, Rerank) aux enterprises EMEA. Focus RAG, search sémantique, NLP enterprise.'},
+  {id:'coh-2',company_name:'Cohere',title:'Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
+   url:'https://boards.greenhouse.io/cohere',
+   description:'Leadership commercial Cohere sur l\'EMEA. Définir la stratégie go-to-market, construire les partenariats hyperscalers, gérer les deals stratégiques.'},
+  {id:'hf-1',company_name:'Hugging Face',title:'Enterprise Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'workable.com',
+   url:'https://apply.workable.com/huggingface',
+   description:'Vente des solutions Hugging Face Enterprise (Hub privé, Inference Endpoints, AutoTrain) aux grandes entreprises européennes. Plateforme ML de référence.'},
+  {id:'el-1',company_name:'ElevenLabs',title:'Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'ashbyhq.com',
+   url:'https://jobs.ashbyhq.com/elevenlabs',
+   description:'Vente des solutions de synthèse vocale IA ElevenLabs aux médias, plateformes et enterprises européennes. Marché Voice AI en explosion.'},
+  {id:'wrt-1',company_name:'Writer',title:'Account Executive — Enterprise Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
+   url:'https://boards.greenhouse.io/writer',
+   description:'Vente de la plateforme Writer (IA générative enterprise, brand-compliant) en Europe. Cible Marketing, Legal, Finance.'},
+  {id:'wrt-2',company_name:'Writer',title:'Regional Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
+   url:'https://boards.greenhouse.io/writer',
+   description:'Construire et diriger la motion commerciale Writer sur l\'EMEA. Management équipe AEs, stratégie verticales, deals C-suite.'},
+  {id:'glean-1',company_name:'Glean',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
+   url:'https://www.glean.com/careers',
+   description:'Vente de Glean (enterprise AI search & knowledge) aux grandes entreprises EMEA. ROI mesurable, deals DSI/DRH/DAF.'},
+  {id:'harv-1',company_name:'Harvey AI',title:'Account Executive — Legal Tech Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'harvey.ai',
+   url:'https://www.harvey.ai/careers',
+   description:'Vente de Harvey (IA générative pour cabinets d\'avocats et directions juridiques) en Europe. Marché Legal Tech premium, deals à haute valeur.'},
+  {id:'sca-1',company_name:'Scale AI',title:'Account Executive — Enterprise EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'scale.com',
+   url:'https://scale.com/careers',
+   description:'Vente des solutions Scale AI (data labeling, RLHF, enterprise AI) aux grandes entreprises et gouvernements EMEA. Infrastructure IA stratégique.'},
+  {id:'sierra-1',company_name:'Sierra',title:'Account Executive — Customer AI, Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'sierra.ai',
+   url:'https://sierra.ai/careers',
+   description:'Vente de Sierra (agents IA conversationnels enterprise) aux grandes marques européennes. Customer service IA, ROI immédiat et mesurable.'},
+  {id:'ai21-1',company_name:'AI21 Labs',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'ai21.com',
+   url:'https://www.ai21.com/careers',
+   description:'Vente des solutions AI21 (Jamba, Task-Specific Models) aux enterprises EMEA. Positionnement LLM performant et économique.'},
+];
+
 var OFFERS=[],PIP=[],ARCH=[];
 var activeCo='ALL',pills={new:false,dir:false,ai:false};
 var dsc='date_added',dsd=-1,showA=false,scanMode='f4';
@@ -431,15 +487,19 @@ async function LO(){
   document.getElementById('grid').innerHTML='<div class="state"><span style="font-size:2rem;display:block;margin-bottom:.5rem">⏳</span><div class="state-t">Chargement...</div></div>';
   try{
     var r=await fetch('/api/offers');var d=await r.json();
-    OFFERS=d.offers||[];
-    document.getElementById('h-off').textContent=OFFERS.length;
-    document.getElementById('tc-o').textContent=OFFERS.length;
-    if(OFFERS.length>0){var now=new Date();document.getElementById('lscan').textContent=now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
-    BCT();RO();
+    var backendOffers=d.offers||[];
+    // Fusionner : backend + statiques AI Native (éviter doublons par company+title)
+    var seen=new Set(backendOffers.map(function(o){return o.company_name+'|'+o.title;}));
+    var toAdd=AI_NATIVE_STATIC.filter(function(o){return !seen.has(o.company_name+'|'+o.title);});
+    OFFERS=backendOffers.concat(toAdd);
   }catch(e){
-    OFFERS=[];
-    document.getElementById('grid').innerHTML='<div class="state"><span style="font-size:2.5rem;display:block;margin-bottom:.6rem">📡</span><div class="state-t">Aucune offre en base</div><div class="state-s">Lance un premier scan pour récupérer les offres depuis les sites officiels des 300+ sociétés.</div><button class="state-btn" onclick="openScan()">📡 Lancer le premier scan</button></div>';
+    // Pas de backend — afficher uniquement les offres statiques
+    OFFERS=AI_NATIVE_STATIC.slice();
   }
+  document.getElementById('h-off').textContent=OFFERS.length;
+  document.getElementById('tc-o').textContent=OFFERS.length;
+  if(OFFERS.length>0){var now=new Date();document.getElementById('lscan').textContent=now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+  BCT();RO();
 }
 
 function BCT(){
