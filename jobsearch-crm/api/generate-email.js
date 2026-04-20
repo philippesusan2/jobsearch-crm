@@ -40,7 +40,11 @@ function selectProfile(jobTitle, jobLevel, stream) {
 async function callClaude(prompt) {
   var response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01'
+    },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
@@ -65,54 +69,79 @@ module.exports = async function handler(req, res) {
   var stream = body.stream || 'S1';
   var type = body.type || 'email';
 
+  // ── Mode TargetRadar (S2 proactif sans offer_id) ──────────────────
+  var isTargetRadar = stream === 'S2' && !offer_id && body.company_name;
+
   try {
     var offer = null;
-    if (offer_id) {
-      var offerRes = await supabase.from('job_offers').select('*').eq('id', offer_id).single();
-      offer = offerRes.data;
-    }
-
     var pipeline = null;
-    if (pipeline_id) {
-      var pipRes = await supabase.from('pipeline').select('*').eq('id', pipeline_id).single();
-      pipeline = pipRes.data;
+    var company, role, location, description;
+
+    if (isTargetRadar) {
+      // Données directement dans le body (depuis TargetRadar)
+      company = body.company_name || '';
+      role = 'Country Manager / VP Sales Europe';
+      location = 'Europe';
+      description = [
+        'What they do: ' + (body.company_what || ''),
+        'EU Signal: ' + (body.company_signal || ''),
+        'Contact: ' + (body.company_contact || 'CEO/CRO'),
+        'Funding: ' + (body.company_funding || '$100M+'),
+        'Segment: ' + (body.company_segment || 'AI')
+      ].join('\n');
+    } else {
+      // Mode JobRadar classique (avec offer_id / pipeline_id)
+      if (offer_id) {
+        var offerRes = await supabase.from('job_offers').select('*').eq('id', offer_id).single();
+        offer = offerRes.data;
+      }
+      if (pipeline_id) {
+        var pipRes = await supabase.from('pipeline').select('*').eq('id', pipeline_id).single();
+        pipeline = pipRes.data;
+      }
+      company = (offer && offer.company_name) || (pipeline && pipeline.company_name) || '';
+      role = (offer && offer.title) || (pipeline && pipeline.role) || '';
+      location = (offer && offer.location) || '';
+      description = (offer && offer.description) || '';
     }
 
-    var jobTitle = (offer && offer.title) || (pipeline && pipeline.role) || '';
+    var jobTitle = role;
     var jobLevel = (offer && offer.level) || 'DIR';
     var profileData = selectProfile(jobTitle, jobLevel, stream);
-
-    var company = (offer && offer.company_name) || (pipeline && pipeline.company_name) || '';
-    var role = (offer && offer.title) || (pipeline && pipeline.role) || '';
-    var location = (offer && offer.location) || '';
-    var description = (offer && offer.description) || '';
-    var isProactive = stream === 'S2';
 
     var email = '';
     var coverLetter = '';
 
     if (type === 'email' || type === 'both') {
       var emailPrompt;
-      if (isProactive) {
+      if (stream === 'S2') {
+        // Prompt proactif Country Manager (TargetRadar)
         emailPrompt = "You are writing on behalf of Philippe Sussan. Write a proactive outreach email IN ENGLISH.\n\n" +
           "CANDIDATE PROFILE:\n" + profileData.profile + "\n\n" +
           "TARGET COMPANY: " + company + "\n" +
-          "TARGET ROLE: First Country Manager / VP Sales Europe (proactive, no open position)\n" +
-          "OBJECTIVE: Propose himself as the ideal person to launch " + company + " commercial operations in France/Europe.\n\n" +
-          "INSTRUCTIONS:\n" +
-          "- Direct, confident, non-obsequious - senior executive tone\n" +
-          "- Show you know THEIR situation (US company expanding to EU without local commercial leadership)\n" +
-          "- Highlight: French/European C-level network, builder profile, GTM experience, GDPR/AI Act angle\n" +
-          "- Body: MAX 180 words\n" +
-          "- Strong CTA: request 20-minute call\n\n" +
-          "FORMAT:\n" +
-          "TO: [First Name Last Name, Title - email@company.com]\n" +
-          "SUBJECT: [Max 8 impactful words]\n\n" +
+          "WHAT THEY DO: " + (body.company_what || '') + "\n" +
+          "EU EXPANSION SIGNAL: " + (body.company_signal || '') + "\n" +
+          "CONTACT TO ADDRESS: " + (body.company_contact || 'CEO/CRO') + "\n" +
+          "FUNDING: " + (body.company_funding || '$100M+') + "\n" +
+          "SEGMENT: " + (body.company_segment || 'AI') + "\n\n" +
+          "RULES:\n" +
+          "- Write directly as Philippe (first person)\n" +
+          "- Open with a sharp, specific hook about THIS company's EU situation (use the signal above)\n" +
+          "- One concrete reference to their product/market position\n" +
+          "- Connect Philippe's most relevant experience: built EMEA from scratch at Stambia, 25yr enterprise AI/SaaS, C-level relationships, P&L ownership\n" +
+          "- Close with a clear, low-friction CTA: 20-min call\n" +
+          "- Tone: confident, direct, peer-to-peer (not applicant tone)\n" +
+          "- Length: 150-180 words MAX for the body\n" +
+          "- NO generic phrases: 'I am writing to', 'please find attached', 'I would be delighted'\n\n" +
+          "FORMAT (respect exactly):\n" +
+          "TO: [First Last · Title · email@" + company.toLowerCase().replace(/\s/g,'') + ".com]\n" +
+          "SUBJECT: [Max 8 words, punchy]\n\n" +
           "---\n" +
           "[Email body - max 180 words]\n" +
           "---\n\n" +
-          "STRATEGIC NOTE: [2 sentences on timing/channel to maximize response rate for " + company + "]";
+          "TIMING ADVICE: [1 sentence on best moment/channel to maximize response rate for " + company + "]";
       } else {
+        // Prompt candidature classique (JobRadar)
         emailPrompt = "You are writing on behalf of Philippe Sussan. Write a job application email IN FRENCH.\n\n" +
           "CANDIDATE PROFILE:\n" + profileData.profile + "\n\n" +
           "POSITION: " + role + "\n" +
@@ -176,7 +205,7 @@ module.exports = async function handler(req, res) {
       cover_letter: coverLetter || null,
       company: company,
       role: role,
-      is_proactive: isProactive
+      is_proactive: stream === 'S2'
     });
 
   } catch (error) {
