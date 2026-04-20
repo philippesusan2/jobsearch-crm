@@ -740,10 +740,21 @@ SUBJECT: [Max 8 words, punchy]
 
 TIMING ADVICE: [1 sentence on best moment/channel to send]`;
   try{
-    const msgs=cvTxt&&cvTxt.startsWith('data:')?[{role:'user',content:[{type:cvTxt.startsWith('data:application/pdf')?'document':'image',source:{type:'base64',media_type:cvTxt.split(';')[0].replace('data:',''),data:cvTxt.split(',')[1]}},{type:'text',text:pr}]}]:[{role:'user',content:[{type:'text',text:pr}]}];
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:msgs})});
+    // Appel via l'endpoint Vercel (évite l'exposition de la clé API côté browser)
+    const payload={
+      stream:'S2',  // Stream 2 = approche proactive Country Manager
+      type:'email',
+      company_name:t.n,
+      company_what:t.w,
+      company_signal:t.sig,
+      company_contact:t.who||'CEO/CRO',
+      company_funding:FL[t.f],
+      company_segment:SL[t.s]
+    };
+    const res=await fetch('/api/generate-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const data=await res.json();
-    curEmail=data.content?.map(c=>c.text||'').join('')||'Erreur.';
+    if(!data.success)throw new Error(data.error||'Erreur API');
+    curEmail=data.email||'Erreur.';
     ai.className='aibox rdy';ai.textContent=curEmail;
     ['mcopy','mmail','mconf'].forEach(id=>document.getElementById(id).style.display='inline-flex');
   }catch(e){ai.className='aibox rdy';ai.textContent='❌ Erreur : '+e.message;}
