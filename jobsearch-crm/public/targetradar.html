@@ -291,9 +291,9 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
   <div class="msec"><span class="mlbl">Email généré par Claude</span>
     <div class="aibox load" id="mai"><div class="dots"><span></span><span></span><span></span></div> Clique sur Générer</div>
     <div class="macts">
-      <button class="mact pr" id="mgen" onclick="genEmail()">✦ Générer</button>
-      <button class="mact" id="mcopy" onclick="copyE()" style="display:none">📋 Copier</button>
-      <button class="mact" id="mmail" onclick="openMail()" style="display:none">↗ Mail</button>
+      <button class="mact pr" id="mgen" onclick="genEmail()">✦ Générer le prompt</button>
+      <button class="mact" id="mcopy" onclick="copyE()" style="display:none">📋 Copier le prompt</button>
+      <a class="mact" id="mclaudeai" href="https://claude.ai" target="_blank" style="display:none;border-color:rgba(167,139,250,.3);color:var(--pu)">↗ Ouvrir Claude.ai</a>
       <button class="mact ok" id="mconf" onclick="markSent()" style="display:none;margin-left:auto">✓ Marquer envoyé</button>
     </div>
   </div>
@@ -669,8 +669,8 @@ function openM(tid){
   document.getElementById('msub').textContent=`${SL[t.s]} · ${FL[t.f]} · Priorité ${t.p} · Candidature spontanée Country Manager EU`;
   document.getElementById('minfo').innerHTML=`<div class="irow"><span class="ik">Société</span><span class="iv">${t.n}</span><span class="ik">Segment</span><span class="iv">${SL[t.s]}</span></div><div class="irow"><span class="ik">Ce qu'ils font</span><span class="iv" style="max-width:420px;white-space:normal;color:var(--mu)">${t.w}</span></div><div class="irow"><span class="ik">Signal EU</span><span class="iv" style="max-width:420px;white-space:normal;color:var(--acc)">${t.sig}</span></div><div class="irow"><span class="ik">Contact</span><span class="iv">${t.who||'CEO/CRO'}</span><span class="ik">Carrières</span><a href="${t.url}" target="_blank" style="color:var(--bl);font-family:var(--fm);font-size:.7rem">↗ Voir</a></div>`;
   const ai=document.getElementById('mai');ai.className='aibox load';ai.innerHTML='<div class="dots"><span></span><span></span><span></span></div> Clique sur Générer';
-  document.getElementById('mgen').disabled=false;document.getElementById('mgen').textContent='✦ Générer';
-  ['mcopy','mmail','mconf'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('mgen').disabled=false;document.getElementById('mgen').textContent='✦ Générer le prompt';
+  ['mcopy','mclaudeai','mconf'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   document.getElementById('cvok').style.display=cvTxt?'block':'none';
   if(cvTxt)document.getElementById('cvok').textContent='✓ '+cvName;
   document.getElementById('modal').classList.add('on');
@@ -740,28 +740,64 @@ SUBJECT: [Max 8 words, punchy]
 
 TIMING ADVICE: [1 sentence on best moment/channel to send]`;
   try{
-    // Appel via l'endpoint Vercel (évite l'exposition de la clé API côté browser)
-    const payload={
-      stream:'S2',  // Stream 2 = approche proactive Country Manager
-      type:'email',
-      company_name:t.n,
-      company_what:t.w,
-      company_signal:t.sig,
-      company_contact:t.who||'CEO/CRO',
-      company_funding:FL[t.f],
-      company_segment:SL[t.s]
-    };
-    const res=await fetch('/api/generate-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    const data=await res.json();
-    if(!data.success)throw new Error(data.error||'Erreur API');
-    curEmail=data.email||'Erreur.';
-    ai.className='aibox rdy';ai.textContent=curEmail;
-    ['mcopy','mmail','mconf'].forEach(id=>document.getElementById(id).style.display='inline-flex');
+    // Génère le prompt complet — à coller dans Claude.ai
+    const prompt=`You are writing on behalf of Philippe Sussan. Write a proactive outreach email IN ENGLISH.
+
+CANDIDATE PROFILE:
+Philippe Sussan - Country Manager / General Manager / Managing Director.
+25+ years building and running European operations for US software/AI leaders. Greenfield market entry to full subsidiary management with P&L.
+Current: Senior Director SEMEA at C3 AI. Previous: Sales Director SEMEA Seismic (5 markets). Previous: Head of Sales EMEA Stambia (launched EMEA from scratch, subsidiary management, board-level P&L reporting).
+KEY ACHIEVEMENT: Closed major Enterprise AI deal, multi-year pan-European, top-tier T&L operator.
+PROFILE BUILDER: Greenfield France/Europe specialist, Full P&L accountability, CAC40/ETI C-level network, GDPR/AI Act expertise, EN/FR/ES/IT.
+
+TARGET COMPANY: ${t.n}
+WHAT THEY DO: ${t.w}
+EU EXPANSION SIGNAL: ${t.sig}
+CONTACT TO ADDRESS: ${t.who||'CEO/CRO'}
+FUNDING: ${FL[t.f]}
+SEGMENT: ${SL[t.s]}
+
+RULES:
+- Write directly as Philippe (first person)
+- Open with a sharp, specific hook about THIS company's EU situation (use the signal above)
+- One concrete reference to their product/market position
+- Connect Philippe's most relevant experience: built EMEA from scratch at Stambia, 25yr enterprise AI/SaaS, C-level relationships, P&L ownership
+- Close with a clear, low-friction CTA: 20-min call
+- Tone: confident, direct, peer-to-peer (not applicant tone)
+- Length: 150-180 words MAX for the body
+- NO generic phrases: "I am writing to", "please find attached", "I would be delighted"
+
+FORMAT (respect exactly):
+TO: [First Last · Title · email@${t.n.toLowerCase().replace(/\s+/g,'')+'.com'}]
+SUBJECT: [Max 8 words, punchy]
+
+---
+[Email body - max 180 words]
+---
+
+TIMING ADVICE: [1 sentence on best moment/channel to maximize response rate for ${t.n}]`;
+
+    curEmail=prompt;
+    ai.className='aibox rdy';
+    ai.innerHTML=
+      '<div style="background:rgba(232,197,71,.08);border:1px solid rgba(232,197,71,.2);border-radius:5px;padding:.6rem .8rem;margin-bottom:.75rem;font-size:.68rem;line-height:1.5">'+
+      '<strong style="color:var(--acc)">📋 Prompt prêt</strong> — Copie ce prompt et colle-le dans <a href="https://claude.ai" target="_blank" style="color:var(--bl)">Claude.ai</a> pour générer ton email.'+
+      '</div>'+
+      '<pre style="white-space:pre-wrap;font-size:.7rem;line-height:1.6;color:var(--text)">'+prompt.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>';
+    ['mcopy','mclaudeai','mconf'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='inline-flex';});
+    toast('Prompt prêt — colle dans Claude.ai ✓','s');
   }catch(e){ai.className='aibox rdy';ai.textContent='❌ Erreur : '+e.message;}
   btn.disabled=false;btn.textContent='↺ Régénérer';
 }
 
-function copyE(){navigator.clipboard.writeText(curEmail).then(()=>{const b=document.getElementById('mcopy');b.textContent='✓ Copié !';setTimeout(()=>b.textContent='📋 Copier',2000);});}
+function copyE(){
+  // Copier uniquement le texte brut du prompt (sans le HTML)
+  navigator.clipboard.writeText(curEmail).then(()=>{
+    const b=document.getElementById('mcopy');
+    b.textContent='✓ Copié !';
+    setTimeout(()=>b.textContent='📋 Copier le prompt',2000);
+  });
+}
 function openMail(){if(!curEmail||!curT)return;const l=curEmail.split('\n');const sl=l.find(x=>x.startsWith('SUBJECT:'));const s=sl?sl.replace('SUBJECT:','').trim():'Country Manager EU — '+curT.n;const b=curEmail.replace(/^TO:.*\nSUBJECT:.*\n---\n/,'').replace(/\n---[\s\S]*/,'').trim();window.location.href='mailto:?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(b);}
 
 function exportCSV(){
