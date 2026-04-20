@@ -189,6 +189,7 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
     <div class="hm">Sociétés: <strong id="h-tot">—</strong></div>
     <div class="hm">Pipeline: <strong id="h-pip">—</strong></div>
     <div class="hm">🔥: <strong id="h-hot">—</strong></div>
+    <div class="hm" id="h-sync" style="display:none"><span style="color:var(--am)">⟳ Synchro DB...</span></div>
   </div>
 </div></div>
 
@@ -366,7 +367,114 @@ const T=[
   {id:'das',s:'EUROSTOXX',f:'F4',p:'HIGH',g:'FR',n:'Dassault Systèmes',w:'3DEXPERIENCE + AI industriel. $40B. Leader PLM.',sig:'Recrutement commercial FR actif. AI industriel = nouvelle offre.',who:'Pascal Daloz CEO 🇫🇷',url:'https://www.3ds.com/fr/carrieres',tags:['PLM','AI','★ FR']},
   {id:'qnt',s:'EUROSTOXX',f:'F4',p:'HIGH',g:'FR',n:'Qonto',w:'Neo-banque B2B + AI. $5B. Leader fintech PME EU.',sig:'HQ Paris. Expansion EU (DE, ES, IT). Sales senior à recruter.',who:'Alexandre Prot CEO 🇫🇷',url:'https://qonto.com/fr/careers',tags:['Fintech','★ Scale-up FR']},
   {id:'pen',s:'EUROSTOXX',f:'F3',p:'HIGH',g:'FR',n:'Pennylane',w:'Comptabilité AI PME. €75M. Standard comptables FR.',sig:'HQ Paris. Expansion Europe rapide.',who:'Arthur Waller CEO 🇫🇷',url:'https://www.pennylane.com/fr/jobs',tags:['Comptabilité','★ Scale-up FR']},
+
+  // ── 49 STARTUPS AI $100M+ 2025 (visionstartups.fr) ────────────────
+  // Novembre 2025
+  {id:'anysphere',s:'AI_SAAS',f:'F4',p:'HOT',g:'EMEA',n:'Anysphere (Cursor)',w:'AI code editor. $29.3B. 2.3B levés en 2025. Ex-OpenAI founders.',sig:'Expansion enterprise Europe nascente. Aucun commercial local EU.',who:'Michael Truell CEO',url:'https://www.cursor.com/careers',tags:['AI Coding','Developer','Enterprise']},
+  {id:'parallel',s:'AGENTIC',f:'F4',p:'HIGH',g:'EMEA',n:'Parallel Systems',w:'Infrastructure web pour agents IA. $100M Série A. Index + Kleiner.',sig:'Adoption EU e-commerce. Zéro présence commerciale locale.',who:'CEO TBD',url:'https://www.parallel.ai/careers',tags:['AI Agents','Infrastructure','Web']},
+  {id:'hippocratic',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'Hippocratic AI',w:'Agents IA santé. $3.5B. $267M levés 2025. Avenir Growth.',sig:'Expansion EU healthcare. Argument RGPD fort. Aucun leader EU.',who:'Munjal Shah CEO',url:'https://www.hippocratic.ai/careers',tags:['Healthcare AI','Agents','RGPD']},
+
+  // Octobre 2025
+  {id:'fireworksai',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Fireworks AI',w:'Plateforme apps IA open source. $4B. $250M Série C.',sig:'Alternative aux LLMs fermés. Enterprise EU sans représentation.',who:'Lin Qiao CEO',url:'https://fireworks.ai/careers',tags:['LLM','Open Source','Enterprise']},
+  {id:'uniphore',s:'AI_SAAS',f:'F4',p:'HIGH',g:'FR',n:'Uniphore',w:'IA conversationnelle centres appels. $2.5B. Snowflake+Nvidia.',sig:'Clients enterprise FR centres appels. Leadership EU absent.',who:'Umesh Sachdev CEO',url:'https://www.uniphore.com/careers/',tags:['Conversational AI','CX','Enterprise']},
+  {id:'sesame',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Sesame',w:'Voice AI immersive. $250M Série B. Sequoia + Spark.',sig:'Education et enterprise EU. Aucune présence commerciale locale.',who:'Brendan Iribe CEO',url:'https://www.sesame.com/careers',tags:['Voice AI','Education','Enterprise']},
+  {id:'openevidence',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'OpenEvidence',w:'Chatbot médical IA. $6B. $410M levés 2025. Cambridge.',sig:'Cliniciens EU sous-servis. Argument evidence-based fort.',who:'CEO TBD',url:'https://www.openevidence.com/careers',tags:['Medical AI','Clinical','Evidence']},
+  {id:'lilasciences',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'Lila Sciences',w:'Superintelligence scientifique. $550M levés 2025. Flagship.',sig:'Pharma et chimie EU massive. Aucun commercial local.',who:'CEO TBD',url:'https://www.lilasciences.com/careers',tags:['Science AI','Pharma','Research']},
+  {id:'reflectionai',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Reflection AI',w:'Raisonnement autonome. $8B. $2.13B Série B. Nvidia-backed.',sig:'AGI-adjacent. Clients enterprise EU inexistants. Greenfield total.',who:'CEO TBD',url:'https://reflection.ai/careers',tags:['AI Reasoning','AGI','Enterprise']},
+  {id:'evenup',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'EvenUp Law',w:'IA legal blessures corporelles. $2B+. $150M Série E.',sig:'Marchés EU legal tech en ouverture. RGPD argument commercial.',who:'Ray Mieszaniec CEO',url:'https://www.evenuplaw.com/careers',tags:['LegalTech','AI','Insurance']},
+
+  // Septembre 2025
+  {id:'periodiclabs',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'Periodic Labs',w:'Scientifique IA, automatise labs pharma/chimie. $300M seed.',sig:'Pharma EU = marché massif. Sanofi, Roche, AZ sans solution AI.',who:'CEO TBD',url:'https://www.periodiclabs.ai/careers',tags:['Science AI','Pharma','Lab Automation']},
+  {id:'cerebras',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Cerebras Systems',w:'Puces IA massives. $8.1B. $1.1B Série G. Fidelity.',sig:'Infrastructure IA EU en construction. Leaders commerciaux manquants.',who:'Andrew Feldman CEO',url:'https://www.cerebras.net/careers/',tags:['AI Chips','Infrastructure','Compute']},
+  {id:'modular',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Modular',w:'Frameworks modulaires IA open source. $250M. USITF.',sig:'Devs EU adoptent massivement. Commercialisation EU absente.',who:'Chris Lattner CEO',url:'https://www.modular.com/careers',tags:['AI Framework','Open Source','Developer']},
+  {id:'distyl',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Distyl AI',w:'Logiciel enterprise AI workflows. $1.8B. $175M Série B. Khosla.',sig:'Logistique et RH EU sans solution AI workflows. Greenfield.',who:'CEO TBD',url:'https://distyl.ai/careers',tags:['Enterprise AI','Workflows','Logistics']},
+  {id:'invisible',s:'AGENTIC',f:'F4',p:'HIGH',g:'EMEA',n:'Invisible Technologies',w:'Plateforme training IA. $2B. $100M. Vanara Capital.',sig:'Tous LLM providers EU ont besoin de data. Positionnement B2B fort.',who:'Francis Pedraza CEO',url:'https://www.invisible.email/careers',tags:['AI Training','Data','B2B']},
+  {id:'cognitionai',s:'AI_SAAS',f:'F4',p:'HOT',g:'EMEA',n:'Cognition AI (Devin)',w:'Agent codage autonome. $10.2B. $400M Série C. Founders Fund.',sig:'DSI EU cherchent automatisation dev. Aucun commercial EU.',who:'Scott Wu CEO',url:'https://cognition.ai/careers',tags:['AI Coding','Agents','Enterprise']},
+  {id:'baseten',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Baseten',w:'Deploiement modeles IA production. $2.1B. $150M Série D. Bond.',sig:'MLOps EU en explosion. Aucune presence sales locale.',who:'Tuhin Srivastava CEO',url:'https://www.baseten.co/careers/',tags:['MLOps','AI Deploy','Enterprise']},
+  {id:'youcom',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'You.com',w:'Moteur recherche IA personnalise. $1.5B. $100M Série C. Cox.',sig:'Alternative Google EU. Marche enterprise en structuration.',who:'Richard Socher CEO',url:'https://about.you.com/careers/',tags:['AI Search','Enterprise','Personalization']},
+
+  // Août 2025
+  {id:'eliseai',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'EliseAI',w:'Automatisation sante et logement IA. $2.2B. $250M Série E. a16z.',sig:'Sante et real estate EU. Argument RGPD compliance fort.',who:'Minna Song CEO',url:'https://www.eliseai.com/careers',tags:['Healthcare AI','Real Estate','Automation']},
+  {id:'decart',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Decart',w:'Lab recherche IA apprentissage autonome. $3.1B. $100M. Sequoia.',sig:'Robotique et R&D EU. Clients industriels sans solution AI.',who:'CEO TBD',url:'https://www.decart.ai/careers',tags:['AI Research','Autonomous','Robotics']},
+
+  // Juillet 2025
+  {id:'fal',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Fal',w:'Plateforme medias generatifs video IA. $1.5B. $125M Série C.',sig:'Medias et agences EU cherchent video AI. Aucun leader local.',who:'CEO TBD',url:'https://fal.ai/careers',tags:['Video AI','Generative','Media']},
+  {id:'ambiencehc',s:'VERTICAL',f:'F4',p:'HIGH',g:'EMEA',n:'Ambience Healthcare',w:'OS IA workflows hospitaliers. $243M Série C. Oak HC/FT.',sig:'Hopitaux EU sous-equipes admin. RGPD argument fort.',who:'CEO TBD',url:'https://www.ambiencehealthcare.com/careers',tags:['Healthcare AI','Hospital','Workflows']},
+  {id:'rekaai',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Reka AI',w:'Modeles multimodaux texte+image. $1B. $110M. Snowflake+Nvidia.',sig:'Enterprise EU cherche multimodal. Aucun commercial local.',who:'CEO TBD',url:'https://www.reka.ai/careers',tags:['Multimodal AI','LLM','Enterprise']},
+  {id:'thinkingmachines',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Thinking Machines Lab',w:'Intelligence collective distribuee. $12B. $2B seed. a16z.',sig:'R&D EU et grands comptes tech. Signal expansion EU fort.',who:'CEO TBD',url:'https://thinkingmachines.ai/careers',tags:['AI Research','Distributed','Enterprise']},
+  {id:'harmonic',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'Harmonic',w:'Moteur raisonnement mathematique. $875M. $100M Série B. Kleiner.',sig:'Finance et ingenierie EU. Quants et data scientists cibles.',who:'CEO TBD',url:'https://harmonic.ai/careers',tags:['Math AI','Reasoning','Finance']},
+
+  // Juin 2025
+  {id:'tennr',s:'VERTICAL',f:'F3',p:'HIGH',g:'EMEA',n:'Tennr',w:'IA sante automatisation admin. $605M. $101M Série C. IVP.',sig:'Admin medicale EU = marche massif sous-adresse.',who:'Diego Baugh CEO',url:'https://www.tennr.com/careers',tags:['Healthcare AI','Admin','Automation']},
+
+  // Mai 2025
+  {id:'snorkelai',s:'DATA',f:'F4',p:'HIGH',g:'EMEA',n:'Snorkel AI',w:'Labeling IA entraine modeles. $1.3B. $100M Série D. Addition.',sig:'Tous les clients enterprise EU ont besoin de data labeling.',who:'Alex Ratner CEO',url:'https://snorkel.ai/careers/',tags:['Data Labeling','ML Training','Enterprise']},
+  {id:'lmarena',s:'AI_NATIVE',f:'F3',p:'MEDIUM',g:'EMEA',n:'LMArena',w:'Benchmark communautaire modeles IA. $600M. $100M seed. a16z.',sig:'Evaluation LLMs EU en croissance. Outil B2B potentiel.',who:'CEO TBD',url:'https://lmarena.ai/careers',tags:['AI Benchmarks','LLM','Community']},
+  {id:'tensorwave',s:'CLOUD',f:'F3',p:'HIGH',g:'EMEA',n:'TensorWave',w:'Infrastructure serveurs IA. $100M Série A. Magnetar. Las Vegas.',sig:'Alternative AWS EU en structuration. Datacenter EU potentiel.',who:'CEO TBD',url:'https://tensorwave.com/careers',tags:['AI Infrastructure','Cloud','GPU']},
+
+  // Avril 2025
+  {id:'sandboxaq',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'SandboxAQ',w:'IA quantum hybride simulation moleculaire. $5.7B. $450M. Nvidia+Google.',sig:'Pharma et finance EU. Quantum computing EU nascent.',who:'Jack Hidary CEO',url:'https://www.sandboxaq.com/careers',tags:['Quantum AI','Pharma','Finance']},
+  {id:'runway',s:'AI_SAAS',f:'F4',p:'HIGH',g:'FR',n:'Runway',w:'Modeles IA video et medias. $3B. $308M Série D. General Atlantic.',sig:'Studios FR, Canal+, medias EU. Aucun leader commercial local.',who:'Cristobal Valenzuela CEO',url:'https://runwayml.com/careers/',tags:['Video AI','Creative','Media']},
+
+  // Mars 2025
+  {id:'nexthopai',s:'CLOUD',f:'F3',p:'HIGH',g:'EMEA',n:'Nexthop AI',w:'Infrastructure routage IA. $110M Série A. Lightspeed.',sig:'Cloud providers EU en construction. Besoin infra routing AI.',who:'CEO TBD',url:'https://nexthop.ai/careers',tags:['AI Infrastructure','Networking','Cloud']},
+  {id:'insilico',s:'VERTICAL',f:'F3',p:'HIGH',g:'EMEA',n:'Insilico Medicine',w:'Decouverte medicaments via GenAI. $1B. $110M Série E.',sig:'Big Pharma EU = clients naturels. Sanofi, Servier, Roche.',who:'Alex Zhavoronkov CEO',url:'https://insilico.com/careers',tags:['Drug Discovery','GenAI','Pharma']},
+  {id:'celestialai',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Celestial AI',w:'Puces optiques pour IA. $2.5B. $250M Série C. Fidelity.',sig:'Hyperscalers EU en construction. Hardware AI EU nascent.',who:'David Lazovsky CEO',url:'https://www.celestial.ai/careers',tags:['AI Chips','Photonics','Infrastructure']},
+  {id:'turingai',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Turing',w:'Codage IA pour LLMs. $2.2B. $111M Série E.',sig:'Equipes dev EU en forte croissance. Aucun commercial local.',who:'Jonathan Siddharth CEO',url:'https://www.turing.com/careers',tags:['AI Coding','LLM','Enterprise']},
+  {id:'shieldai',s:'VERTICAL',f:'F4',p:'MEDIUM',g:'EMEA',n:'Shield AI',w:'Defense IA. $5.3B. $240M Série F.',sig:'Defense EU = marche specifique. OTAN et armees EU.',who:'Ryan Tseng CEO',url:'https://shield.ai/careers/',tags:['Defense AI','Military','Government']},
+
+  // Février 2025
+  {id:'togetherai',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Together AI',w:'GenAI open source. $3.3B. $305M Série B. Prosperity7.',sig:'Alternative OpenAI EU open source. Enterprise EU sans rep local.',who:'Vipul Ved Prakash CEO',url:'https://www.together.ai/careers',tags:['Open Source AI','LLM','Enterprise']},
+  {id:'lambda',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Lambda',w:'Cloud infrastructure IA. $2.5B. $480M Série D.',sig:'GPU cloud EU en construction. Alternative AWS/Azure pour IA.',who:'Stephen Balaban CEO',url:'https://lambdalabs.com/careers',tags:['GPU Cloud','AI Infrastructure','Training']},
+  {id:'eudia',s:'VERTICAL',f:'F3',p:'HIGH',g:'EMEA',n:'Eudia',w:'Legal tech IA. $105M Série A. General Catalyst.',sig:'Cabinets avocats EU = marche massif. Concurrent Harvey EU.',who:'CEO TBD',url:'https://eudia.com/careers',tags:['LegalTech','AI','Enterprise']},
+  {id:'encharge',s:'CLOUD',f:'F3',p:'HIGH',g:'EMEA',n:'EnCharge AI',w:'Hardware IA economie energie. $100M Série B. Tiger Global.',sig:'Data centers EU sous pression energetique. Green AI fort argument.',who:'CEO TBD',url:'https://www.encharge.ai/careers',tags:['AI Hardware','Green AI','Efficiency']},
+
+  // Janvier 2025
+  {id:'elevenlabs25',s:'AI_SAAS',f:'F4',p:'HOT',g:'FR',n:'ElevenLabs (2025)',w:'Voice AI synthetique realiste. $3B+. $180M Série C. ICONIQ.',sig:'Medias FR, e-learning EU, enterprise voice. Leadership EU absent.',who:'Mati Staniszewski CEO',url:'https://elevenlabs.io/careers',tags:['Voice AI','TTS','Media','Enterprise']},
+
+  // ── FORBES AI 50 2025 (nouvelles societes hors doublons) ──────────
+  {id:'xai',s:'AI_NATIVE',f:'F4',p:'HOT',g:'EMEA',n:'xAI (Grok)',w:'LLM Grok. $12.1B funding. Elon Musk. Concurrent direct OpenAI/Anthropic.',sig:'Expansion enterprise EU annoncee. Aucun commercial local. Signal fort.',who:'Elon Musk CEO',url:'https://x.ai/careers',tags:['LLM','Grok','Enterprise','AGI']},
+  {id:'crusoe',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Crusoe Energy',w:'GPU cloud IA green energy. $1.6B. Infrastructure IA durable.',sig:'Datacenters EU green = argument reglementaire fort. Expansion annoncee.',who:'Chase Lochmiller CEO',url:'https://crusoe.ai/careers/',tags:['GPU Cloud','Green AI','Infrastructure']},
+  {id:'vastdata',s:'DATA',f:'F4',p:'HIGH',g:'EMEA',n:'VAST Data',w:'AI Data Platform OS unifie. Storage + compute + agents. Forbes AI 50.',sig:'Enterprise EU data teams en explosion. Aucun leader commercial local.',who:'Renen Hallak CEO',url:'https://www.vastdata.com/careers',tags:['AI Data Platform','Storage','Enterprise']},
+  {id:'luminance',s:'VERTICAL',f:'F4',p:'HIGH',g:'FR',n:'Luminance',w:'Legal-Grade AI cabinets avocats. Forbes AI 50. HQ Cambridge UK.',sig:'Cabinets FR top-tier deja clients. Concurrent Harvey. Leadership EU absent.',who:'CEO TBD',url:'https://www.luminance.com/careers/',tags:['LegalTech','AI','Enterprise','UK']},
+  {id:'speak',s:'AI_SAAS',f:'F3',p:'MEDIUM',g:'EMEA',n:'Speak',w:'AI language tutor. $1B. 10M users. English + Spanish.',sig:'B2B corporates EU formation langues. Potentiel entreprises multinationales.',who:'Connor Zwick CEO',url:'https://www.speak.com/careers',tags:['EdTech AI','Language','B2B','Enterprise']},
+  {id:'decagon',s:'AI_SAAS',f:'F4',p:'HOT',g:'EMEA',n:'Decagon',w:'AI agents support client enterprise. Forbes AI 50. a16z + Accel.',sig:'Deutsche Telekom client. Expansion EU acceleree. Leadership EMEA vacant.',who:'Jesse Zhang CEO',url:'https://decagon.ai/careers',tags:['AI Agents','Customer Support','Enterprise','EMEA']},
+  {id:'thinkingmach',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'Thinking Machines Lab',w:'Superintelligence. $12B val. $2B seed. Mira Murati ex-CTO OpenAI.',sig:'Fondatrice ex-CTO OpenAI. Credibilite maximale. Expansion EU inevitable.',who:'Mira Murati CEO',url:'https://thinkingmachines.ai/careers',tags:['AGI','Foundation Model','EMEA','ex-OpenAI']},
+
+  // ── BRAVE AI SOFTWARE MAP (May 2025) — nouvelles cibles ───────────
+  {id:'lovable',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'Lovable',w:'AI full-stack app builder no-code. Croissance virale 2025.',sig:'Adoption EU developpeurs et PME. Aucun commercial local.',who:'Anton Osika CEO',url:'https://lovable.dev/careers',tags:['AI Dev','No-Code','App Builder','EMEA']},
+  {id:'bolt',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'Bolt (StackBlitz)',w:'AI web dev platform in-browser. Croissance explosive 2025.',sig:'Devs EU massivement adoptent. Commercialisation enterprise nascente.',who:'Eric Simons CEO',url:'https://stackblitz.com/careers',tags:['AI Dev','Web','Enterprise','EMEA']},
+  {id:'manus',s:'AGENTIC',f:'F3',p:'HIGH',g:'EMEA',n:'Manus AI',w:'Agent IA autonome general. Viral launch 2025. Grosse attente EU.',sig:'Expansion enterprise EU annoncee. First mover agent general.',who:'CEO TBD',url:'https://manus.im/careers',tags:['AI Agents','Autonomous','General','EMEA']},
+  {id:'builderio',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'Builder.io',w:'AI visual development platform. Enterprise CMS + codegen.',sig:'Enterprise EU digital teams. Aucun commercial EMEA structure.',who:'Steve Sewell CEO',url:'https://www.builder.io/careers',tags:['AI Dev','CMS','Enterprise','EMEA']},
+  {id:'synthesia',s:'AI_SAAS',f:'F4',p:'HOT',g:'FR',n:'Synthesia',w:'AI video generation enterprise. HQ London. $180M+.',sig:'Formation corporate FR = marche massif. Aucun sales FR dedié.',who:'Victor Riparbelli CEO',url:'https://www.synthesia.io/careers',tags:['Video AI','L&D','Enterprise','London']},
+  {id:'granola',s:'AI_SAAS',f:'F2',p:'HIGH',g:'FR',n:'Granola',w:'AI note-taking meetings. Croissance EU forte. Produit B2B.',sig:'Adoption enterprise FR rapide. Aucun commercial local.',who:'Chris Pedregal CEO',url:'https://www.granola.ai/careers',tags:['AI Productivity','Meetings','B2B','EMEA']},
+  {id:'pinecone',s:'DATA',f:'F4',p:'HIGH',g:'EMEA',n:'Pinecone',w:'Vector database leader. $138M. Standard RAG enterprise.',sig:'Tous les projets GenAI EU utilisent Pinecone. Aucun rep commercial EU.',who:'Edo Liberty CEO',url:'https://www.pinecone.io/careers/',tags:['Vector DB','RAG','Enterprise','EMEA']},
+  {id:'weaviate',s:'DATA',f:'F3',p:'HIGH',g:'EMEA',n:'Weaviate',w:'Vector DB open-source. HQ Amsterdam 🇪🇺. $68M.',sig:'HQ EU Amsterdam. Expansion enterprise. Profil EU-native fort.',who:'Bob van Luijt CEO',url:'https://weaviate.io/company/careers',tags:['Vector DB','Open Source','Amsterdam','EU']},
+  {id:'firecrawl',s:'DATA',f:'F2',p:'HIGH',g:'EMEA',n:'Firecrawl',w:'Web scraping IA pour LLMs. Adoption rapide AI teams.',sig:'Infrastructure AI agents EU. Commercialisation enterprise nascente.',who:'CEO TBD',url:'https://www.firecrawl.dev/careers',tags:['Web Scraping','AI Infra','Agents','EMEA']},
+  {id:'nebius',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Nebius',w:'GPU cloud EU. Spin-off Yandex. HQ Amsterdam. $700M+.',sig:'HQ EU Amsterdam. Alternative AWS/Azure 100% europeenne. Signal tres fort.',who:'Arkady Volozh CEO',url:'https://nebius.com/careers',tags:['GPU Cloud','EU Native','Amsterdam','Enterprise']},
+  {id:'deepseek',s:'AI_NATIVE',f:'F4',p:'HIGH',g:'EMEA',n:'DeepSeek',w:'LLM open-source chinois. Disruption majeure janvier 2025.',sig:'Clients enterprise EU testent DeepSeek. Aucun commercial EU local.',who:'Liang Wenfeng CEO',url:'https://www.deepseek.com/en',tags:['LLM','Open Source','China','Enterprise']},
+
+  // ── FORRESTER WAVE 2024/2025 — nouvelles cibles ───────────────────
+  {id:'cloudera',s:'DATA',f:'F4',p:'HIGH',g:'FR',n:'Cloudera',w:'Data lakehouse enterprise. Forrester Leader. $4.5B. Private.',sig:'Concurrent Databricks. Clients FR grands comptes. Leadership EU.',who:'Charles Sansbury CEO',url:'https://www.cloudera.com/careers.html',tags:['Data Lakehouse','Enterprise','Forrester Leader','FR']},
+  {id:'graphcore',s:'CLOUD',f:'F4',p:'HIGH',g:'EMEA',n:'Graphcore',w:'Puces IA IPU. Forrester AI Platform. HQ Bristol UK.',sig:'Alternative NVIDIA EU. Expansion enterprise EMEA. Leadership absent.',who:'Nigel Toon CEO',url:'https://www.graphcore.ai/careers',tags:['AI Chips','IPU','UK','Enterprise']},
+
+  // ── GARTNER GenAI Engineering 2025 — nouvelles cibles ────────────
+  {id:'weightsbiases',s:'DATA',f:'F4',p:'HIGH',g:'EMEA',n:'Weights & Biases',w:'MLOps platform. $250M. Gartner Emerging Leader. Standard ML teams.',sig:'ML teams EU en explosion. Aucun commercial EMEA structure.',who:'Lukas Biewald CEO',url:'https://wandb.ai/site/careers',tags:['MLOps','ML Tracking','Enterprise','Gartner']},
+  {id:'arize',s:'DATA',f:'F3',p:'HIGH',g:'EMEA',n:'Arize AI',w:'AI observability & LLM evals. $38M. Gartner reconnu.',sig:'Tous les deploiements LLM EU ont besoin observability. Greenfield.',who:'Jason Lopatecki CEO',url:'https://arize.com/careers/',tags:['AI Observability','LLM Evals','Enterprise','EMEA']},
+  {id:'truefoundry',s:'AI_SAAS',f:'F2',p:'HIGH',g:'EMEA',n:'TrueFoundry',w:'ML deployment platform enterprise. Gartner GenAI Engineering.',sig:'DSI EU cherchent deployment ML. Aucun leader etabli.',who:'Nikunj Bajaj CEO',url:'https://www.truefoundry.com/careers',tags:['ML Deploy','Enterprise','Platform','EMEA']},
+  {id:'datarobot',s:'DATA',f:'F4',p:'HIGH',g:'FR',n:'DataRobot',w:'AutoML + AI platform enterprise. $1B+. Gartner Leader.',sig:'Clients FR grands comptes AI. Sales Director EMEA manquant.',who:'Damon Fletcher CEO',url:'https://www.datarobot.com/careers/',tags:['AutoML','AI Platform','Gartner','FR']},
+  {id:'domino',s:'DATA',f:'F3',p:'HIGH',g:'EMEA',n:'Domino Data Lab',w:'MLOps enterprise. $100M+. Gartner reconnu. Clients pharma.',sig:'Pharma et FS EU = vertical cle. Aucun commercial EU local.',who:'Nick Elprin CEO',url:'https://www.dominodatalab.com/careers',tags:['MLOps','Enterprise','Pharma','EMEA']},
+  {id:'h2oai',s:'DATA',f:'F3',p:'HIGH',g:'EMEA',n:'H2O.ai',w:'AutoML + GenAI enterprise. $250M+. Gartner Emerging.',sig:'Enterprise EU AI platform en structuration. Concurrent DataRobot.',who:'Sri Ambati CEO',url:'https://h2o.ai/careers/',tags:['AutoML','GenAI','Enterprise','EMEA']},
+  {id:'koreai',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Kore.ai',w:'Conversational AI enterprise. $150M+. Gartner reconnu.',sig:'Centres appels EU massifs. Concurrent Cognigy. Aucun sales FR.',who:'Raj Koneru CEO',url:'https://kore.ai/company/careers/',tags:['Conversational AI','CX','Enterprise','Gartner']},
+
+  // ── GARTNER AI Knowledge Management 2025 — nouvelles cibles ──────
+  {id:'coveo',s:'AI_SAAS',f:'F4',p:'HIGH',g:'FR',n:'Coveo',w:'AI search relevance enterprise. $395M. Gartner Leader. HQ Montreal.',sig:'Clients FR e-commerce et service. Leadership EU commercial vacant.',who:'Louis Tetu CEO',url:'https://www.coveo.com/en/company/careers',tags:['AI Search','Relevance','Enterprise','Gartner']},
+  {id:'moveworks',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'Moveworks',w:'AI IT support automatise. $315M. Gartner Leader. ServiceNow concurrent.',sig:'IT departments EU = marche massif. Aucun commercial EMEA local.',who:'Bhavin Shah CEO',url:'https://www.moveworks.com/careers',tags:['IT AI','Support','Automation','EMEA']},
+  {id:'alphasense',s:'AI_SAAS',f:'F4',p:'HIGH',g:'EMEA',n:'AlphaSense',w:'AI financial research intelligence. $4B. Gartner Visionary.',sig:'Banks et PE EU massivement adoptent. Leadership commercial EMEA absent.',who:'Jack Kokko CEO',url:'https://www.alpha-sense.com/company/careers/',tags:['Finance AI','Research','Intelligence','EMEA']},
+  {id:'sanalabs',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'Sana Labs',w:'AI learning platform enterprise. $83M. Gartner reconnu. HQ Stockholm.',sig:'HQ EU Stockholm. L&D enterprise = marche massif France. Sales FR absent.',who:'Joel Hellermark CEO',url:'https://www.sanalabs.com/careers',tags:['Learning AI','L&D','Stockholm','Enterprise']},
+  {id:'egain',s:'AI_SAAS',f:'F3',p:'HIGH',g:'EMEA',n:'eGain',w:'AI knowledge management CX. Gartner Leader. Nasdaq EGAN.',sig:'Service client EU grands comptes. Potentiel Country Manager EU.',who:'Ashu Roy CEO',url:'https://www.egain.com/company/careers/',tags:['Knowledge AI','CX','Gartner','EMEA']},
 ];
+
 
 // State
 let aSeg='ALL',aFund='ALL',pills={hot:false,nofr:false};
@@ -655,16 +763,62 @@ function exportCSV(){
 
 function toast(m,t='i'){const el=document.getElementById('toast');el.textContent=m;el.className='toast '+t+' show';setTimeout(()=>el.classList.remove('show'),3000);}
 
+// Map Supabase company fields to TargetRadar T format
+function mapCompany(c){
+  return {
+    id: 'db-'+c.id,
+    s: c.segment||'AI_SAAS',
+    f: c.funding_tier||'F3',
+    p: c.priority||'MEDIUM',
+    g: c.geo||'EMEA',
+    n: c.name,
+    w: c.what||c.core_business||'',
+    sig: c.signal||'Societe sans bureau France. Potentiel Country Manager EU.',
+    who: c.contact||'CEO/CRO',
+    url: c.url||'https://www.linkedin.com/search/results/companies/?keywords='+encodeURIComponent(c.name),
+    tags: [c.segment||'AI', c.subsegment||'Enterprise'].filter(Boolean)
+  };
+}
+
+async function loadSupabaseCompanies(){
+  const sync=document.getElementById('h-sync');
+  if(sync)sync.style.display='flex';
+  try{
+    // Charger uniquement les societes sans presence FR + F3/F4 + priorite HOT/HIGH
+    const params=new URLSearchParams({presence_fr:'false'});
+    const r=await fetch('/api/companies?'+params);
+    const d=await r.json();
+    const cos=d.companies||[];
+    // Exclure les doublons avec T (par nom)
+    const existing=new Set(T.map(t=>t.n.toLowerCase()));
+    const news=cos
+      .filter(c=>c.funding_tier==='F4'||c.funding_tier==='F3')
+      .filter(c=>!existing.has((c.name||'').toLowerCase()))
+      .map(mapCompany);
+    // Ajouter au tableau T global
+    T.push(...news);
+    document.getElementById('h-tot').textContent=T.length;
+    document.getElementById('tc-t').textContent=T.length;
+    document.getElementById('h-hot').textContent=T.filter(t=>t.p==='HOT').length;
+    // Mettre a jour les compteurs segment
+    const segs=['ALL','AI_NATIVE','AI_SAAS','AGENTIC','DATA','CLOUD','VERTICAL','NASDAQ','NYSE','EUROSTOXX'];
+    segs.forEach(s=>{const el=document.getElementById('c-'+s);if(el)el.textContent=s==='ALL'?T.length:T.filter(t=>t.s===s).length;});
+    renderT();
+  }catch(e){console.warn('Supabase companies load failed:',e);}
+  if(sync)sync.style.display='none';
+}
+
 async function init(){
   // Charger pipeline depuis Supabase
   try{
     PIP=await apiGet();
-    // Charger archivés
     const r=await fetch(API+'?archived=true');
     const d=await r.json();
     ARCH=d.pipeline||[];
   }catch(e){PIP=[];ARCH=[];}
-  updH();renderT();
+  updH();
+  renderT(); // Afficher d'abord les 118 cibles hardcodees
+  loadSupabaseCompanies(); // Puis enrichir avec Supabase en arriere-plan
 }
 init();
 </script>
