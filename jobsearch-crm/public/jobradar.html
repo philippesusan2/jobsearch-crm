@@ -53,7 +53,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px
 .ss{font-family:var(--fm);font-size:.58rem;color:var(--mu)}.ss strong{color:var(--acc)}
 .lscan{font-family:var(--fm);font-size:.56rem;color:var(--mu);margin-left:auto}
 .gwrap{max-width:1600px;margin:0 auto;padding:1.25rem 1.5rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.85rem}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.gwrap{padding:.75rem .75rem}}
 .jcard{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:1.2rem;display:flex;flex-direction:column;gap:.75rem;transition:all .22s;position:relative;overflow:hidden;animation:fu .3s ease both}
 @keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 .jcard:hover{border-color:var(--border2);background:var(--s2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.5)}
@@ -67,14 +68,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px
 .jmeta{display:flex;flex-wrap:wrap;gap:.32rem}
 .jmt{font-family:var(--fm);font-size:.56rem;color:var(--mu);background:rgba(255,255,255,.04);padding:.14rem .48rem;border-radius:3px}
 .jdesc{font-size:.74rem;color:var(--mu);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.jfoot{display:flex;gap:.45rem;padding-top:.7rem;border-top:1px solid var(--border);margin-top:auto}
-.bann{flex:1;padding:.5rem .85rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.3rem;transition:all .2s}
+.jfoot{display:flex;flex-wrap:wrap;gap:.45rem;padding-top:.7rem;border-top:1px solid var(--border);margin-top:auto}
+.bann{flex:1;min-width:120px;padding:.5rem .85rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.3rem;transition:all .2s}
 .bann:hover{background:#d4f545}
-.bapply{padding:.5rem .75rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .2s}
+.bapply{padding:.5rem .75rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .2s;white-space:nowrap}
 .bapply:hover{border-color:var(--pu);color:var(--pu)}
 .btrack{padding:.5rem .75rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .2s;white-space:nowrap}
 .btrack:hover{border-color:var(--gr);color:var(--gr)}
 .btrack.in{background:rgba(74,222,128,.08);color:var(--gr);border-color:rgba(74,222,128,.25)}
+@media(max-width:400px){.bann,.bapply,.btrack{font-size:.58rem;padding:.45rem .6rem}}
 .state{grid-column:1/-1;text-align:center;padding:4rem 2rem}
 .state-t{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--text);margin:.6rem 0 .35rem}
 .state-s{font-size:.78rem;color:var(--mu);line-height:1.6;max-width:380px;margin:0 auto}
