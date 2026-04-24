@@ -569,7 +569,7 @@ function RP(){
       '<div class="jmeta"><div class="jmt">&#x1F4CD; '+(o.location||'—')+'</div><div class="jmt">'+(GL[o.geo]||o.geo||'EU')+'</div></div>'+
       (o.description?'<div class="jdesc">'+o.description+'</div>':'')+
       '<div class="jfoot">'+
-      '<a class="bann" href="'+o.url+'" target="_blank" rel="noopener">&#x2197; Voir l'annonce</a>'+
+      '<a class="bann" href="'+o.url+'" target="_blank" rel="noopener">&#x2197; Voir l&apos;annonce</a>'+
       '<button class="bapply" data-oid="'+eid+'">&#x2726; Candidater</button>'+
       '<button class="btrack '+(isIn?'in':'')+'" data-tid="'+eid+'">'+(isIn?'&#x2713; Suivi':'+ Suivre')+'</button>'+
       '</div></div>';
@@ -593,7 +593,6 @@ function RP(){
 function PGNAV(dir){
   PAGE+=dir;
   RP();
-  document.getElementById('panel-offers').scrollTo({top:0,behavior:'smooth'});
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
