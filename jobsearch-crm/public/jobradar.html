@@ -674,25 +674,13 @@ async function runImport(rawText){
     var customExisting=CUSTOM_COMPANIES.map(function(c){return c.name;});
     var allExisting=[...new Set(existing.concat(customExisting))];
 
-    var prompt='Tu es un assistant qui extrait et normalise des noms de sociétés tech/SaaS/AI.\n\n'+
-      'Voici du texte brut contenant des noms de sociétés :\n"""\n'+rawText+'\n"""\n\n'+
-      'Sociétés déjà présentes dans la base (à déduplicer) :\n'+allExisting.join(', ')+'\n\n'+
-      'Instructions :\n'+
-      '1. Extrait TOUS les noms de sociétés du texte\n'+
-      '2. Normalise les noms (ex: "mistral ai" → "Mistral AI", "HF" → "Hugging Face" si évident)\n'+
-      '3. Détecte le segment de chaque société : AI_NATIVE, DATA, SAAS, MAJORS, ou UNKNOWN\n'+
-      '4. Identifie si la société est déjà présente (doublon) en comparant avec la liste existante\n'+
-      '5. Retourne UNIQUEMENT un JSON valide, sans texte avant ou après :\n'+
-      '{"companies":[{"name":"Société A","segment":"AI_NATIVE","is_duplicate":false,"note":""},{"name":"Société B","segment":"DATA","is_duplicate":true,"note":"Déjà présente comme Databricks"}]}';
-
-    var resp=await fetch('https://api.anthropic.com/v1/messages',{
+    var resp=await fetch('/api/import',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({text:rawText,existing:allExisting})
     });
-    var data=await resp.json();
-    var raw=data.content[0].text.replace(/```json|```/g,'').trim();
-    var parsed=JSON.parse(raw);
+    if(!resp.ok){var err=await resp.json().catch(function(){return{error:'Erreur serveur '+resp.status};});throw new Error(err.error||'Erreur serveur');}
+    var parsed=await resp.json();
     var companies=parsed.companies||[];
 
     var newOnes=companies.filter(function(c){return!c.is_duplicate;});
