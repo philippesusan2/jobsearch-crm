@@ -3,172 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobRadar v4 — Sales Leadership</title>
+<title>JobRadar v5 — Sales Leadership</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#06060e;--s1:#0c0c1a;--s2:#111122;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);--acc:#c8f135;--text:#eeeef0;--mu:#5a5a72;--mu2:#3a3a52;--gr:#4ade80;--re:#f87171;--am:#fbbf24;--bl:#60a5fa;--pu:#a78bfa;--fd:'Syne',sans-serif;--fm:'JetBrains Mono',monospace;--fb:'Instrument Sans',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px;min-height:100vh}
-.hdr{position:sticky;top:0;z-index:100;background:rgba(6,6,14,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 1.5rem}
-.hdr-i{max-width:1600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:54px;gap:1rem}
-.brand{display:flex;align-items:center;gap:.75rem}
-.bmark{width:26px;height:26px;background:var(--acc);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.7rem;font-weight:800;color:var(--bg)}
-.bname{font-family:var(--fd);font-size:1rem;font-weight:800;letter-spacing:-.03em}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:13px;min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+.hdr{position:sticky;top:0;z-index:100;background:rgba(6,6,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 1.25rem}
+.hdr-i{max-width:100%;display:flex;align-items:center;height:50px;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.bmark{width:24px;height:24px;background:var(--acc);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.65rem;font-weight:800;color:var(--bg)}
+.bname{font-family:var(--fd);font-size:.9rem;font-weight:800;letter-spacing:-.03em}
 .bname span{color:var(--acc)}
-.bsub{font-family:var(--fm);font-size:.52rem;color:var(--mu);letter-spacing:.12em;text-transform:uppercase}
-.hm{font-family:var(--fm);font-size:.6rem;color:var(--mu);display:flex;align-items:center;gap:.3rem}
-.hm strong{color:var(--acc)}
-.ldot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(74,222,128,0)}}
-.back{font-family:var(--fm);font-size:.6rem;color:var(--mu);text-decoration:none;transition:color .2s}
-.back:hover{color:var(--acc)}
-.tnav{background:var(--s1);border-bottom:1px solid var(--border);padding:0 1.5rem;position:sticky;top:54px;z-index:90}
-.tnav-i{max-width:1600px;margin:0 auto;display:flex}
-.tbtn{font-family:var(--fm);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:.6rem 1.2rem;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.45rem}
-.tbtn:hover{color:var(--text)}.tbtn.on{color:var(--acc);border-bottom-color:var(--acc)}
-.tc{background:rgba(200,241,53,.1);color:var(--acc);padding:.08rem .38rem;border-radius:3px;font-size:.52rem;font-weight:600}
+.hstats{display:flex;gap:1rem;font-family:var(--fm);font-size:.58rem;color:var(--mu);margin-left:.5rem}
+.hstats strong{color:var(--acc)}
+.hsep{flex:1}
+.hact{display:flex;gap:.4rem;align-items:center}
+.hbtn{padding:.38rem .8rem;border-radius:4px;font-family:var(--fm);font-size:.58rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .15s;white-space:nowrap}
+.hbtn:hover{border-color:var(--border2);color:var(--text)}
+.hbtn.ac{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
+.hbtn.ac:hover{background:#d4f545}
+.hbtn.pu{border-color:rgba(167,139,250,.3);color:var(--pu)}
+.hbtn.pu:hover{border-color:var(--pu);background:rgba(167,139,250,.1)}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite;display:inline-block;margin-right:4px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── TABS ── */
+.tabs{background:var(--s1);border-bottom:1px solid var(--border);padding:0 1.25rem;position:sticky;top:50px;z-index:90;display:flex;gap:0}
+.tab{font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:.55rem 1rem;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;display:flex;align-items:center;gap:.4rem}
+.tab:hover{color:var(--text)}.tab.on{color:var(--acc);border-bottom-color:var(--acc)}
+.tc{background:rgba(200,241,53,.12);color:var(--acc);padding:.06rem .32rem;border-radius:3px;font-size:.5rem;font-weight:700}
 .tc.b{background:rgba(96,165,250,.1);color:var(--bl)}
 .panel{display:none}.panel.on{display:block}
-.ctrl{background:var(--s1);border-bottom:1px solid var(--border);padding:.7rem 1.5rem}
-.ctrl-i{max-width:1600px;margin:0 auto;display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}
-.sw{flex:1;min-width:180px;position:relative}
-.sw input{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.8rem;padding:.48rem 1rem .48rem 2.1rem;border-radius:5px;outline:none;transition:border-color .2s}
+
+/* ── TOOLBAR ── */
+.toolbar{background:var(--s1);border-bottom:1px solid var(--border);padding:.55rem 1.25rem;display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;position:sticky;top:97px;z-index:80}
+.sw{position:relative;flex:1;min-width:160px;max-width:260px}
+.sw input{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.78rem;padding:.38rem .75rem .38rem 1.9rem;border-radius:4px;outline:none;transition:border-color .2s}
 .sw input:focus{border-color:var(--acc)}.sw input::placeholder{color:var(--mu)}
-.si{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--mu);pointer-events:none}
-.csel{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.6rem;padding:.48rem .7rem;border-radius:5px;outline:none;cursor:pointer}
-.pill{padding:.32rem .72rem;border-radius:4px;border:1px solid var(--border);background:var(--s2);color:var(--mu);font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .15s;white-space:nowrap}
-.pill.on{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:600}
-.pill#pill-ai.on{background:var(--pu);color:#fff;border-color:var(--pu)}
-.jai{background:rgba(167,139,250,.18);color:var(--pu)}
-.bref{padding:.48rem 1rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
-.bref:hover{border-color:var(--acc);color:var(--acc)}
-.bscan{padding:.48rem 1.1rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
-.bscan:hover{background:#d4f545}.bscan:disabled{opacity:.4;cursor:not-allowed}
-.cotabs{background:var(--s2);border-bottom:1px solid var(--border);padding:.48rem 1.5rem;overflow-x:auto}
-.cotabs-i{max-width:1600px;margin:0 auto;display:flex;gap:.38rem;flex-wrap:nowrap;min-width:max-content}
-.cotab{padding:.26rem .75rem;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--mu);font-family:var(--fm);font-size:.58rem;cursor:pointer;transition:all .15s;white-space:nowrap}
-.cotab.on{background:var(--acc);color:#06060e;border-color:transparent;font-weight:700}
-.sstrip{background:var(--bg);padding:.45rem 1.5rem;border-bottom:1px solid var(--border)}
-.sstrip-i{max-width:1600px;margin:0 auto;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
-.ss{font-family:var(--fm);font-size:.58rem;color:var(--mu)}.ss strong{color:var(--acc)}
-.lscan{font-family:var(--fm);font-size:.56rem;color:var(--mu);margin-left:auto}
-.gwrap{max-width:1600px;margin:0 auto;padding:1.25rem 1.5rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.85rem}
-@media(max-width:480px){.grid{grid-template-columns:1fr}.gwrap{padding:.75rem .75rem}}
-.jcard{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:1.2rem;display:flex;flex-direction:column;gap:.75rem;transition:all .22s;position:relative;overflow:hidden;animation:fu .3s ease both}
-@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-.jcard:hover{border-color:var(--border2);background:var(--s2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.5)}
-.jcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--acc)}
-.jtop{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}
-.jbdgs{display:flex;gap:.32rem;flex-wrap:wrap}
-.jbdg{font-family:var(--fm);font-size:.54rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.14rem .44rem;border-radius:2px}
-.jnew{background:rgba(74,222,128,.15);color:var(--gr)}
-.jdate{font-family:var(--fm);font-size:.56rem;color:var(--mu);white-space:nowrap}
-.jtitle{font-family:var(--fd);font-size:.96rem;font-weight:700;line-height:1.3}
-.jmeta{display:flex;flex-wrap:wrap;gap:.32rem}
-.jmt{font-family:var(--fm);font-size:.56rem;color:var(--mu);background:rgba(255,255,255,.04);padding:.14rem .48rem;border-radius:3px}
-.jdesc{font-size:.74rem;color:var(--mu);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.jfoot{display:flex;flex-wrap:wrap;gap:.45rem;padding-top:.7rem;border-top:1px solid var(--border);margin-top:auto}
-.bann{flex:1;min-width:120px;padding:.5rem .85rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.3rem;transition:all .2s}
-.bann:hover{background:#d4f545}
-.bapply{padding:.5rem .75rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .2s;white-space:nowrap}
-.bapply:hover{border-color:var(--pu);color:var(--pu)}
-.btrack{padding:.5rem .75rem;background:transparent;color:var(--mu);border:1px solid var(--border);border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btrack:hover{border-color:var(--gr);color:var(--gr)}
-.btrack.in{background:rgba(74,222,128,.08);color:var(--gr);border-color:rgba(74,222,128,.25)}
-@media(max-width:400px){.bann,.bapply,.btrack{font-size:.58rem;padding:.45rem .6rem}}
-.state{grid-column:1/-1;text-align:center;padding:4rem 2rem}
-.state-t{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--text);margin:.6rem 0 .35rem}
-.state-s{font-size:.78rem;color:var(--mu);line-height:1.6;max-width:380px;margin:0 auto}
-.state-btn{margin-top:1.25rem;padding:.6rem 1.4rem;background:var(--acc);color:var(--bg);border:none;border-radius:6px;font-family:var(--fm);font-size:.65rem;font-weight:700;cursor:pointer}
-/* Scanner */
-.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center}
-.sov.on{display:flex}
-.sbox{background:var(--s2);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:460px;padding:1.75rem;margin:1rem}
-.sbox h3{font-family:var(--fd);font-size:1rem;font-weight:800;margin-bottom:1rem}
-.sopts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:1.25rem}
-.sopt{padding:.65rem .85rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all .2s;text-align:center}
-.sopt.sel{border-color:var(--acc);background:rgba(200,241,53,.06)}
-.sopt-t{font-family:var(--fm);font-size:.65rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
-.sopt-s{font-family:var(--fm);font-size:.56rem;color:var(--mu)}
-.sprog{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:1rem;margin-bottom:1rem;display:none}
-.sprog.on{display:block}
-.sprog-t{font-family:var(--fm);font-size:.65rem;color:var(--acc);margin-bottom:.5rem}
-.spbar{background:var(--mu2);border-radius:3px;height:4px;margin-bottom:.5rem;overflow:hidden}
-.spbar-f{height:100%;background:var(--acc);border-radius:3px;width:0%;transition:width .5s}
-.spmsg{font-family:var(--fm);font-size:.6rem;color:var(--mu)}
-.sacts{display:flex;gap:.5rem;justify-content:flex-end}
-.sbtn{padding:.5rem 1rem;border-radius:5px;font-family:var(--fm);font-size:.62rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .2s}
-.sbtn:hover{border-color:var(--border2);color:var(--text)}
-.sbtn.pr{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
-.sbtn.pr:hover{background:#d4f545}.sbtn:disabled{opacity:.35;cursor:not-allowed}
-/* Dashboard */
-.dwrap{max-width:1600px;margin:0 auto;padding:1.25rem 1.5rem}
-.kstats{display:grid;grid-template-columns:repeat(6,1fr);gap:.55rem;margin-bottom:1.25rem}
-.ks{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:.7rem .9rem}
-.ksl{font-family:var(--fm);font-size:.52rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.22rem}
-.ksv{font-family:var(--fd);font-size:1.3rem;font-weight:800;letter-spacing:-.03em}
-.dc{display:flex;gap:.55rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-.dc input,.dc select{background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.76rem;padding:.42rem .72rem;border-radius:5px;outline:none}
-.dc input{width:190px}.dc input::placeholder{color:var(--mu)}
+.si{position:absolute;left:.55rem;top:50%;transform:translateY(-50%);color:var(--mu);pointer-events:none;font-size:.75rem}
+.csel{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.58rem;padding:.38rem .6rem;border-radius:4px;outline:none;cursor:pointer}
+.pill{padding:.28rem .65rem;border-radius:4px;border:1px solid var(--border);background:var(--s2);color:var(--mu);font-family:var(--fm);font-size:.58rem;cursor:pointer;transition:all .13s;white-space:nowrap}
+.pill.on{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
+.pill.pu-pill.on{background:var(--pu);color:#fff;border-color:var(--pu)}
+
+/* ── SORT BAR ── */
+.sortbar{background:var(--bg);border-bottom:1px solid var(--border);padding:.35rem 1.25rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.sortbar-label{font-family:var(--fm);font-size:.54rem;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;margin-right:.25rem}
+.sort-btn{padding:.22rem .6rem;border-radius:3px;border:1px solid transparent;background:transparent;color:var(--mu);font-family:var(--fm);font-size:.54rem;cursor:pointer;transition:all .12s;white-space:nowrap}
+.sort-btn:hover{color:var(--text);border-color:var(--border)}
+.sort-btn.on{color:var(--acc);border-color:rgba(200,241,53,.3);background:rgba(200,241,53,.06)}
+.sort-btn.on::after{content:' ↑'}
+.sort-btn.on.desc::after{content:' ↓'}
+.sb-sep{width:1px;height:14px;background:var(--border);margin:0 .1rem}
+.stats-right{margin-left:auto;font-family:var(--fm);font-size:.54rem;color:var(--mu);display:flex;gap:1rem}
+.stats-right strong{color:var(--text)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;overflow-y:auto}
+table.jt{width:100%;border-collapse:collapse;min-width:960px}
+table.jt thead{position:sticky;top:0;z-index:10}
+table.jt thead th{background:var(--s2);border-bottom:1px solid var(--border);font-family:var(--fm);font-size:.54rem;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;padding:.5rem .75rem;white-space:nowrap;text-align:left;user-select:none}
+table.jt thead th.sortable{cursor:pointer}
+table.jt thead th.sortable:hover{color:var(--text)}
+table.jt thead th.sa::after{content:' ↑';color:var(--acc)}
+table.jt thead th.sd::after{content:' ↓';color:var(--acc)}
+table.jt tbody tr{border-bottom:1px solid rgba(255,255,255,.03);transition:background .1s;animation:rowIn .18s ease both}
+@keyframes rowIn{from{opacity:0}to{opacity:1}}
+table.jt tbody tr:hover{background:rgba(255,255,255,.025)}
+table.jt tbody td{padding:.5rem .75rem;vertical-align:middle;font-size:.75rem}
+.col-co{font-weight:600;color:var(--acc);white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis}
+.col-title{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.col-title a{color:var(--text);text-decoration:none;transition:color .15s}
+.col-title a:hover{color:var(--acc)}
+.col-mono{font-family:var(--fm);font-size:.62rem;color:var(--mu);white-space:nowrap}
+.col-actions{white-space:nowrap;display:flex;gap:.28rem;align-items:center}
+.badge{font-family:var(--fm);font-size:.52rem;font-weight:600;padding:.1rem .38rem;border-radius:2px;white-space:nowrap}
+.badge-lvl{background:rgba(255,255,255,.06);color:var(--mu)}
+.badge-new{background:rgba(74,222,128,.12);color:var(--gr)}
+.badge-ai{background:rgba(167,139,250,.12);color:var(--pu)}
+.badge-seg{background:rgba(96,165,250,.08);color:var(--bl)}
+.badge-geo{background:rgba(200,241,53,.08);color:var(--acc)}
+.abtn{padding:.22rem .5rem;border-radius:3px;font-family:var(--fm);font-size:.52rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .14s;text-decoration:none;display:inline-block;white-space:nowrap}
+.abtn:hover{border-color:var(--acc);color:var(--acc)}
+.abtn.apply:hover{border-color:var(--pu);color:var(--pu)}
+.abtn.track{transition:all .14s}
+.abtn.track.in{background:rgba(74,222,128,.08);color:var(--gr);border-color:rgba(74,222,128,.3)}
+.abtn.track:not(.in):hover{border-color:var(--gr);color:var(--gr)}
+.empty-row td{text-align:center;padding:3rem;color:var(--mu);font-family:var(--fm);font-size:.7rem}
+
+/* ── DASHBOARD ── */
+.dwrap{padding:1rem 1.25rem;max-width:100%}
+.kstats{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin-bottom:1rem}
+.ks{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:.6rem .8rem}
+.ksl{font-family:var(--fm);font-size:.5rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.18rem}
+.ksv{font-family:var(--fd);font-size:1.2rem;font-weight:800;letter-spacing:-.03em}
+.dc{display:flex;gap:.4rem;margin-bottom:.75rem;flex-wrap:wrap;align-items:center}
+.dc input,.dc select{background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.75rem;padding:.38rem .65rem;border-radius:4px;outline:none}
+.dc input::placeholder{color:var(--mu)}
 .dc select{font-family:var(--fm);font-size:.58rem;cursor:pointer}
-.xbtn{padding:.42rem .85rem;background:var(--s1);border:1px solid var(--border);color:var(--mu);font-family:var(--fm);font-size:.58rem;cursor:pointer;border-radius:5px;transition:all .2s;margin-left:auto}
+.xbtn{padding:.38rem .8rem;background:var(--s1);border:1px solid var(--border);color:var(--mu);font-family:var(--fm);font-size:.56rem;cursor:pointer;border-radius:4px;transition:all .2s;margin-left:auto}
 .xbtn:hover{border-color:var(--acc);color:var(--acc)}
-.dtw{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
-table.dt{width:100%;border-collapse:collapse;min-width:1000px}
-table.dt thead th{background:var(--s2);font-family:var(--fm);font-size:.55rem;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;padding:.55rem .8rem;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;text-align:left}
+.dtw{overflow-x:auto;border:1px solid var(--border);border-radius:7px}
+table.dt{width:100%;border-collapse:collapse;min-width:900px}
+table.dt thead th{background:var(--s2);font-family:var(--fm);font-size:.52rem;color:var(--mu);letter-spacing:.08em;text-transform:uppercase;padding:.48rem .72rem;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;text-align:left}
 table.dt thead th:hover{color:var(--text)}
 table.dt thead th.sa::after{content:' ↑';color:var(--acc)}
 table.dt thead th.sd::after{content:' ↓';color:var(--acc)}
 table.dt tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .1s}
 table.dt tbody tr:hover{background:rgba(255,255,255,.02)}
 table.dt tbody tr:last-child{border-bottom:none}
-table.dt tbody td{padding:.5rem .8rem;vertical-align:middle;font-size:.74rem;color:var(--text);white-space:nowrap}
-table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
-.ssel{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.58rem;padding:.18rem .38rem;border-radius:3px;cursor:pointer;outline:none}
-.da{padding:.24rem .5rem;border-radius:3px;font-family:var(--fm);font-size:.52rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .15s;text-decoration:none;display:inline-block}
+table.dt tbody td{padding:.45rem .72rem;vertical-align:middle;font-size:.73rem;white-space:nowrap}
+table.dt tbody td.mo{font-family:var(--fm);font-size:.62rem;color:var(--mu)}
+.ssel{background:transparent;border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.56rem;padding:.16rem .34rem;border-radius:3px;cursor:pointer;outline:none}
+.da{padding:.22rem .45rem;border-radius:3px;font-family:var(--fm);font-size:.5rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .13s;text-decoration:none;display:inline-block}
 .da:hover{border-color:var(--acc);color:var(--acc)}.da.del:hover{border-color:var(--re);color:var(--re)}
-.demp{text-align:center;padding:3rem 2rem;color:var(--mu)}
-.demp-t{font-family:var(--fd);font-size:1rem;color:var(--text);margin-bottom:.35rem;font-weight:800}
-.atog{font-family:var(--fm);font-size:.6rem;color:var(--mu);cursor:pointer;padding:.45rem 0;display:inline-flex;align-items:center;gap:.3rem;margin-top:1rem;transition:color .2s}
+.demp{text-align:center;padding:2.5rem 2rem;color:var(--mu)}
+.atog{font-family:var(--fm);font-size:.58rem;color:var(--mu);cursor:pointer;padding:.4rem 0;display:inline-flex;align-items:center;gap:.3rem;margin-top:.8rem;transition:color .2s}
 .atog:hover{color:var(--text)}
-/* Modal candidature */
-.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);z-index:300;align-items:flex-start;justify-content:center;padding:2rem;overflow-y:auto}
+
+/* ── IMPORT PANEL ── */
+.import-wrap{padding:1.25rem;max-width:820px}
+.import-title{font-family:var(--fd);font-size:1rem;font-weight:800;margin-bottom:.3rem}
+.import-sub{font-family:var(--fm);font-size:.6rem;color:var(--mu);margin-bottom:1.25rem;line-height:1.6}
+.import-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+@media(max-width:640px){.import-grid{grid-template-columns:1fr}}
+.import-card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.ic-title{font-family:var(--fm);font-size:.62rem;font-weight:600;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.ic-desc{font-family:var(--fm);font-size:.56rem;color:var(--mu);margin-bottom:.75rem;line-height:1.6}
+textarea.import-ta{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.65rem;padding:.6rem .75rem;border-radius:5px;outline:none;resize:vertical;min-height:120px;line-height:1.6;transition:border-color .2s}
+textarea.import-ta:focus{border-color:var(--acc)}
+textarea.import-ta::placeholder{color:var(--mu2)}
+.import-example{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:.5rem .7rem;font-family:var(--fm);font-size:.56rem;color:var(--mu);line-height:1.7;margin-bottom:.6rem}
+.import-btn{padding:.48rem 1rem;background:var(--acc);color:var(--bg);border:none;border-radius:5px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.import-btn:hover{background:#d4f545}.import-btn:disabled{opacity:.4;cursor:not-allowed}
+.import-result{margin-top:1rem;background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:.85rem 1rem;display:none}
+.ir-title{font-family:var(--fm);font-size:.6rem;font-weight:600;color:var(--gr);margin-bottom:.5rem}
+.ir-list{font-family:var(--fm);font-size:.58rem;color:var(--mu);line-height:1.9;max-height:200px;overflow-y:auto}
+.ir-dup{color:var(--am)}.ir-new{color:var(--gr)}.ir-skip{color:var(--re)}
+
+/* ── MODALS ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;padding:1.5rem}
+.ov.on{display:flex}
+.obox{background:var(--s2);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:460px;padding:1.5rem}
+.obox h3{font-family:var(--fd);font-size:.95rem;font-weight:800;margin-bottom:.85rem}
+.sopts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:1rem}
+.sopt{padding:.6rem .75rem;border:1px solid var(--border);border-radius:5px;cursor:pointer;transition:all .18s;text-align:center}
+.sopt.sel{border-color:var(--acc);background:rgba(200,241,53,.06)}
+.sopt-t{font-family:var(--fm);font-size:.62rem;font-weight:600;color:var(--text);margin-bottom:.18rem}
+.sopt-s{font-family:var(--fm);font-size:.54rem;color:var(--mu)}
+.sprog{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:.85rem;margin-bottom:.85rem;display:none}
+.sprog.on{display:block}
+.sprog-t{font-family:var(--fm);font-size:.62rem;color:var(--acc);margin-bottom:.4rem}
+.spbar{background:var(--mu2);border-radius:3px;height:3px;margin-bottom:.4rem;overflow:hidden}
+.spbar-f{height:100%;background:var(--acc);border-radius:3px;width:0%;transition:width .5s}
+.spmsg{font-family:var(--fm);font-size:.58rem;color:var(--mu)}
+.sacts{display:flex;gap:.4rem;justify-content:flex-end}
+.sbtn{padding:.45rem .9rem;border-radius:4px;font-family:var(--fm);font-size:.6rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .18s}
+.sbtn:hover{border-color:var(--border2);color:var(--text)}
+.sbtn.pr{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
+.sbtn.pr:hover{background:#d4f545}.sbtn:disabled{opacity:.35;cursor:not-allowed}
+
+/* ── MODAL CANDIDATURE ── */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);z-index:300;align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto}
 .mo.on{display:flex}
-.mbox{background:var(--s2);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:760px;padding:1.75rem;margin:auto;animation:mi .2s ease}
-@keyframes mi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.mhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem}
-.mhdr h2{font-family:var(--fd);font-size:1.05rem;font-weight:800}
-.mcl{background:none;border:none;color:var(--mu);font-size:1rem;cursor:pointer}
+.mbox{background:var(--s2);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:740px;padding:1.5rem;margin:auto;animation:mi .18s ease}
+@keyframes mi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.mhdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.9rem}
+.mhdr h2{font-family:var(--fd);font-size:1rem;font-weight:800}
+.mcl{background:none;border:none;color:var(--mu);font-size:1rem;cursor:pointer;padding:.2rem}
 .mcl:hover{color:var(--text)}
-.msub{font-family:var(--fm);font-size:.6rem;color:var(--mu);padding-bottom:.9rem;border-bottom:1px solid var(--border);margin-bottom:1.1rem}
-.msec{margin-bottom:1.1rem}
-.mlbl{font-family:var(--fm);font-size:.56rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.42rem;display:block}
-.ibox{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:.8rem .95rem}
-.irow{display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:.28rem}
-.ik{font-family:var(--fm);font-size:.58rem;color:var(--mu);min-width:75px}
-.iv{font-size:.76rem;color:var(--text)}
-/* Type buttons */
-.type-btn{padding:.42rem .9rem;border-radius:5px;font-family:var(--fm);font-size:.6rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .2s}
+.msub{font-family:var(--fm);font-size:.58rem;color:var(--mu);padding-bottom:.75rem;border-bottom:1px solid var(--border);margin-bottom:.9rem}
+.msec{margin-bottom:.9rem}
+.mlbl{font-family:var(--fm);font-size:.54rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.38rem;display:block}
+.ibox{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:.7rem .85rem}
+.irow{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.22rem}
+.ik{font-family:var(--fm);font-size:.56rem;color:var(--mu);min-width:70px}
+.iv{font-size:.74rem;color:var(--text)}
+.type-btn{padding:.38rem .85rem;border-radius:4px;font-family:var(--fm);font-size:.58rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .18s}
 .type-btn:hover{border-color:var(--border2);color:var(--text)}
 .type-btn.on{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700}
-/* CV badge */
-.cv-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.3rem;font-family:var(--fm);font-size:.58rem;padding:.2rem .6rem;border-radius:3px}
-/* AI output */
-.aibox{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:.85rem .95rem;min-height:80px;max-height:320px;overflow-y:auto}
-.aibox.load{display:flex;align-items:center;gap:.55rem;color:var(--mu);font-family:var(--fm);font-size:.66rem;max-height:60px}
-.aibox.rdy{font-size:.76rem;line-height:1.75;color:var(--text);white-space:pre-wrap}
-.dots span{display:inline-block;width:5px;height:5px;background:var(--acc);border-radius:50%;animation:db 1.2s infinite}
+.cv-badge{display:inline-flex;align-items:center;gap:.35rem;margin-top:.28rem;font-family:var(--fm);font-size:.56rem;padding:.18rem .55rem;border-radius:3px}
+.aibox{background:var(--s1);border:1px solid var(--border);border-radius:6px;padding:.75rem .85rem;min-height:76px;max-height:300px;overflow-y:auto}
+.aibox.load{display:flex;align-items:center;gap:.5rem;color:var(--mu);font-family:var(--fm);font-size:.64rem;max-height:56px}
+.aibox.rdy{font-size:.74rem;line-height:1.75;color:var(--text);white-space:pre-wrap}
+.dots span{display:inline-block;width:4px;height:4px;background:var(--acc);border-radius:50%;animation:db 1.2s infinite}
 .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
 @keyframes db{0%,80%,100%{transform:scale(.8);opacity:.3}40%{transform:scale(1.2);opacity:1}}
-.macts{display:flex;gap:.45rem;margin-top:.65rem;flex-wrap:wrap}
-.mact{padding:.45rem .9rem;border-radius:5px;font-family:var(--fm);font-size:.58rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .2s}
+.macts{display:flex;gap:.38rem;margin-top:.55rem;flex-wrap:wrap}
+.mact{padding:.4rem .85rem;border-radius:4px;font-family:var(--fm);font-size:.56rem;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--mu);transition:all .18s}
 .mact:hover{border-color:var(--border2);color:var(--text)}
-.mact.pr{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.mact.pr{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:700;display:flex;align-items:center;justify-content:center;gap:.35rem}
 .mact.pr:hover{background:#d4f545}.mact.pr:disabled{opacity:.35;cursor:not-allowed}
 .mact.ok{border-color:rgba(74,222,128,.3);color:var(--gr)}
-/* Toast */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:.7rem 1rem;font-family:var(--fm);font-size:.64rem;color:var(--text);z-index:400;transform:translateY(80px);opacity:0;transition:all .3s}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--s2);border:1px solid var(--border2);border-radius:7px;padding:.6rem .9rem;font-family:var(--fm);font-size:.62rem;color:var(--text);z-index:400;transform:translateY(70px);opacity:0;transition:all .28s}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.s{border-color:rgba(74,222,128,.3);color:var(--gr)}
 .toast.i{border-color:rgba(96,165,250,.3);color:var(--bl)}
@@ -177,50 +209,109 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="hdr"><div class="hdr-i">
   <div class="brand">
     <div class="bmark">JR</div>
-    <div><div class="bname">Job<span>Radar</span> <span style="font-size:.65rem;color:var(--mu);font-weight:400">v4</span></div><div class="bsub">Offres publiées · Sites officiels · Hors LinkedIn</div></div>
+    <div><div class="bname">Job<span>Radar</span> <span style="font-size:.6rem;color:var(--mu);font-weight:400">v5</span></div></div>
   </div>
-  <div style="display:flex;gap:1.5rem;align-items:center">
-    <div class="hm"><div class="ldot"></div> Live</div>
-    <div class="hm">Offres: <strong id="h-off">—</strong></div>
-    <div class="hm">Suivies: <strong id="h-tr">—</strong></div>
-    <div class="hm">Sociétés: <strong id="h-co">—</strong></div>
-    <a href="/" class="back">← Hub</a>
+  <div class="hstats">
+    <span><div class="ldot"></div>Live</span>
+    <span>Offres: <strong id="h-off">—</strong></span>
+    <span>Sociétés: <strong id="h-co">—</strong></span>
+    <span>Suivies: <strong id="h-tr">—</strong></span>
+  </div>
+  <div class="hsep"></div>
+  <div class="hact">
+    <button class="hbtn" onclick="LO()">↻ Actualiser</button>
+    <button class="hbtn pu" onclick="openImport()">+ Importer sociétés</button>
+    <button class="hbtn ac" onclick="openScan()">📡 Scanner</button>
+    <a href="/" class="hbtn">← Hub</a>
   </div>
 </div></div>
 
-<div class="tnav"><div class="tnav-i">
-  <div class="tbtn on" data-tab="offers" onclick="ST('offers')">Offres <span class="tc" id="tc-o">0</span></div>
-  <div class="tbtn" data-tab="dashboard" onclick="ST('dashboard')">Dashboard <span class="tc b" id="tc-d">0</span></div>
-</div></div>
-
-<div class="panel on" id="panel-offers">
-  <div class="ctrl"><div class="ctrl-i">
-    <div class="sw"><span class="si">⌕</span><input type="text" id="q" placeholder="Poste, société..." oninput="RO()"></div>
-    <select class="csel" id="fl" onchange="RO()"><option value="">Tous niveaux</option><option value="DIR">Director / RVP / VP</option><option value="AE">Account Executive</option><option value="MGR">Sales Manager</option></select>
-    <select class="csel" id="fg" onchange="RO()"><option value="">France + Europe</option><option value="FR">France uniquement</option><option value="REMOTE">Remote EU</option></select>
-    <div class="pill" id="pill-new" onclick="TP('new')">Nouvelles</div>
-    <div class="pill" id="pill-dir" onclick="TP('dir')">Director+ only</div>
-    <div class="pill" id="pill-ai" onclick="TP('ai')" style="border-color:rgba(167,139,250,.3);color:var(--pu)">⚡ AI Native</div>
-    <button class="bref" onclick="LO()">↻ Actualiser</button>
-    <button class="bscan" onclick="openScan()">📡 Scanner</button>
-  </div></div>
-  <div class="cotabs"><div class="cotabs-i" id="cotabs-i"><div class="cotab on" data-co="ALL" onclick="FC('ALL')">Toutes</div></div></div>
-  <div class="sstrip"><div class="sstrip-i">
-    <div class="ss">Affichées: <strong id="ss-s">—</strong></div>
-    <div class="ss">France: <strong id="ss-fr">—</strong></div>
-    <div class="ss">Remote: <strong id="ss-r">—</strong></div>
-    <div class="ss">Director+: <strong id="ss-d">—</strong></div>
-    <div class="ss" style="color:var(--pu)">⚡ AI Native: <strong id="ss-ai" style="color:var(--pu)">—</strong></div>
-    <div class="lscan">Dernier scan: <span id="lscan" style="color:var(--gr)">—</span></div>
-  </div></div>
-  <div class="gwrap"><div class="grid" id="grid">
-    <div class="state"><span style="font-size:2.5rem;display:block;margin-bottom:.6rem">📡</span><div class="state-t">Chargement...</div></div>
-  </div></div>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab on" data-tab="offers" onclick="ST('offers')">Offres <span class="tc" id="tc-o">0</span></div>
+  <div class="tab" data-tab="dashboard" onclick="ST('dashboard')">Pipeline <span class="tc b" id="tc-d">0</span></div>
+  <div class="tab" data-tab="import" onclick="ST('import')">Importer sociétés</div>
 </div>
 
+<!-- ══ PANEL OFFRES ══ -->
+<div class="panel on" id="panel-offers">
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="sw"><span class="si">⌕</span><input type="text" id="q" placeholder="Poste, société, mot-clé..." oninput="RO()"></div>
+    <select class="csel" id="fl" onchange="RO()">
+      <option value="">Tous niveaux</option>
+      <option value="DIR">Director / RVP / VP</option>
+      <option value="AE">Account Executive</option>
+      <option value="MGR">Sales Manager</option>
+    </select>
+    <select class="csel" id="fg" onchange="RO()">
+      <option value="">France + Europe</option>
+      <option value="FR">France uniquement</option>
+      <option value="REMOTE">Remote EU</option>
+    </select>
+    <select class="csel" id="fseg" onchange="RO()">
+      <option value="">Tous segments</option>
+      <option value="AI_NATIVE">⚡ AI Native</option>
+      <option value="DATA">📊 Data AI</option>
+      <option value="SAAS">☁ SaaS</option>
+      <option value="MAJORS">🏢 Majors</option>
+    </select>
+    <div class="pill" id="pill-new" onclick="TP('new')">🆕 Nouvelles</div>
+    <div class="pill" id="pill-dir" onclick="TP('dir')">Director+</div>
+    <div class="pill pu-pill" id="pill-ai" onclick="TP('ai')" style="border-color:rgba(167,139,250,.3);color:var(--pu)">⚡ AI Native</div>
+  </div>
+
+  <!-- Sort bar + stats -->
+  <div class="sortbar">
+    <span class="sortbar-label">Trier par</span>
+    <button class="sort-btn on" id="sb-company" onclick="sortOffers('company')">Société</button>
+    <div class="sb-sep"></div>
+    <button class="sort-btn" id="sb-title" onclick="sortOffers('title')">Poste</button>
+    <div class="sb-sep"></div>
+    <button class="sort-btn" id="sb-level" onclick="sortOffers('level')">Niveau</button>
+    <div class="sb-sep"></div>
+    <button class="sort-btn" id="sb-geo" onclick="sortOffers('geo')">Géo</button>
+    <div class="sb-sep"></div>
+    <button class="sort-btn" id="sb-date" onclick="sortOffers('date')">Date</button>
+    <div class="sb-sep"></div>
+    <button class="sort-btn" id="sb-segment" onclick="sortOffers('segment')">Segment</button>
+    <div class="stats-right">
+      <span>Affichées: <strong id="ss-s">—</strong></span>
+      <span>🇫🇷 France: <strong id="ss-fr">—</strong></span>
+      <span>🌐 Remote: <strong id="ss-r">—</strong></span>
+      <span>Director+: <strong id="ss-d">—</strong></span>
+      <span style="color:var(--pu)">⚡ AI: <strong id="ss-ai">—</strong></span>
+      <span>Dernier scan: <strong id="lscan" style="color:var(--gr)">—</strong></span>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tbl-wrap">
+    <table class="jt">
+      <thead>
+        <tr>
+          <th style="width:130px">Société</th>
+          <th style="width:280px">Poste</th>
+          <th style="width:90px">Niveau</th>
+          <th style="width:80px">Géo</th>
+          <th style="width:110px">Localisation</th>
+          <th style="width:80px">Segment</th>
+          <th style="width:70px">Date</th>
+          <th style="width:200px">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="jtbody">
+        <tr class="empty-row"><td colspan="8">⏳ Chargement...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ PANEL DASHBOARD ══ -->
 <div class="panel" id="panel-dashboard">
   <div class="dwrap">
     <div class="kstats">
@@ -232,30 +323,75 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
       <div class="ks"><div class="ksl">Taux réponse</div><div class="ksv" style="color:var(--acc)" id="ksr">—</div></div>
     </div>
     <div class="dc">
-      <input type="text" id="dq" placeholder="Rechercher..." oninput="RD()">
+      <input type="text" id="dq" placeholder="Rechercher..." oninput="RD()" style="width:180px">
       <select id="ds" onchange="RD()"><option value="">Tous statuts</option><option>À contacter</option><option>Envoyée</option><option>En attente</option><option>Réponse +</option><option>Réponse -</option><option>Entretien</option></select>
       <button class="xbtn" onclick="EX()">⬇ Export CSV</button>
     </div>
     <div class="dtw"><table class="dt">
-      <thead><tr><th onclick="DS('company_name')">Société</th><th onclick="DS('role')">Rôle</th><th onclick="DS('date_added')">Ajoutée</th><th onclick="DS('email_sent_date')">Email envoyé</th><th onclick="DS('status')">Statut</th><th onclick="DS('interest')">★</th><th>Notes</th><th>Actions</th></tr></thead>
+      <thead><tr>
+        <th onclick="DS('company_name')">Société</th>
+        <th onclick="DS('role')">Rôle</th>
+        <th onclick="DS('date_added')">Ajoutée</th>
+        <th onclick="DS('email_sent_date')">Email</th>
+        <th onclick="DS('status')">Statut</th>
+        <th onclick="DS('interest')">★</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr></thead>
       <tbody id="dtb"></tbody>
     </table></div>
-    <div id="demp" class="demp" style="display:none"><div class="demp-t">Pipeline vide</div><div style="font-size:.76rem;line-height:1.6">Clique sur "+ Suivre" dans les offres.</div></div>
+    <div id="demp" class="demp" style="display:none"><div style="font-family:var(--fd);font-size:.95rem;color:var(--text);margin-bottom:.3rem;font-weight:800">Pipeline vide</div><div style="font-size:.74rem;line-height:1.6">Clique sur "+ Suivre" dans les offres.</div></div>
     <div class="atog" id="atog" onclick="TA()" style="display:none">▸ Archivées (<span id="an">0</span>)</div>
-    <div id="asec" style="display:none;margin-top:.7rem"><div class="dtw"><table class="dt"><thead><tr><th>Société</th><th>Rôle</th><th>Archivée</th><th></th></tr></thead><tbody id="atb"></tbody></table></div></div>
+    <div id="asec" style="display:none;margin-top:.6rem"><div class="dtw"><table class="dt"><thead><tr><th>Société</th><th>Rôle</th><th>Archivée</th><th></th></tr></thead><tbody id="atb"></tbody></table></div></div>
   </div>
 </div>
 
-<!-- Scanner -->
-<div class="sov" id="sov">
-  <div class="sbox">
+<!-- ══ PANEL IMPORT ══ -->
+<div class="panel" id="panel-import">
+  <div class="import-wrap">
+    <div class="import-title">Importer des sociétés</div>
+    <div class="import-sub">Colle une liste, un mapping ou du texte brut. L'IA va reconnaître les noms de sociétés, détecter le segment, et dédoublonner automatiquement avec les sociétés déjà présentes.</div>
+
+    <div class="import-grid">
+      <!-- Colonne gauche : liste libre -->
+      <div class="import-card">
+        <div class="ic-title">📋 Liste libre</div>
+        <div class="ic-desc">Une société par ligne, virgules, ou texte mixte. L'IA extrait et normalise les noms.</div>
+        <div class="import-example">Databricks<br>Snowflake, dbt Labs<br>Fivetran — Data Pipeline<br>Monte Carlo / Data Observability<br>Harvey AI (Legal Tech)</div>
+        <textarea class="import-ta" id="ta-list" placeholder="Colle ici ta liste de sociétés..."></textarea>
+        <br>
+        <button class="import-btn" onclick="importList()">✦ Analyser et importer</button>
+      </div>
+
+      <!-- Colonne droite : mapping structuré -->
+      <div class="import-card">
+        <div class="ic-title">🗂 Mapping structuré</div>
+        <div class="ic-desc">Mapping avec segments, priorités, notes. L'IA comprend les formats libres.</div>
+        <div class="import-example">AI SaaS: Glean, Gong, Clari, Salesloft<br>Data: Databricks ★, Fivetran ★★<br>Legal AI: Harvey AI, NormAI<br>Finance: Pennylane 🇫🇷, Qonto 🇫🇷</div>
+        <textarea class="import-ta" id="ta-mapping" placeholder="Colle ici ton mapping..."></textarea>
+        <br>
+        <button class="import-btn" onclick="importMapping()">✦ Analyser et importer</button>
+      </div>
+    </div>
+
+    <!-- Résultat import -->
+    <div class="import-result" id="import-result">
+      <div class="ir-title" id="ir-title">Résultat de l'import</div>
+      <div class="ir-list" id="ir-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scanner modal -->
+<div class="ov" id="sov">
+  <div class="obox">
     <h3>📡 Scanner les offres</h3>
     <div class="sopts" id="sopts">
       <div class="sopt sel" data-m="f4" onclick="SM('f4')"><div class="sopt-t">$100M+ levés</div><div class="sopt-s">~80 sociétés · 2-3 min</div></div>
-      <div class="sopt" data-m="all" onclick="SM('all')"><div class="sopt-t">Toutes les sociétés</div><div class="sopt-s">~300 sociétés · 8-10 min</div></div>
-      <div class="sopt" data-m="data" onclick="SM('data')"><div class="sopt-t">Data AI</div><div class="sopt-s">Databricks, Fivetran, Snowflake...</div></div>
-      <div class="sopt" data-m="aisaas" onclick="SM('aisaas')"><div class="sopt-t">AI SaaS</div><div class="sopt-s">Gong, Glean, Harvey, Sierra...</div></div>
-      <div class="sopt" data-m="ainative" onclick="SM('ainative')" style="border-color:rgba(167,139,250,.3)"><div class="sopt-t" style="color:var(--pu)">⚡ AI Native</div><div class="sopt-s">Anthropic, Mistral, Cohere, Writer...</div></div>
+      <div class="sopt" data-m="all" onclick="SM('all')"><div class="sopt-t">Toutes</div><div class="sopt-s">~300 sociétés · 8-10 min</div></div>
+      <div class="sopt" data-m="data" onclick="SM('data')"><div class="sopt-t">Data AI</div><div class="sopt-s">Databricks, Fivetran...</div></div>
+      <div class="sopt" data-m="aisaas" onclick="SM('aisaas')"><div class="sopt-t">AI SaaS</div><div class="sopt-s">Gong, Glean, Harvey...</div></div>
+      <div class="sopt" data-m="ainative" onclick="SM('ainative')" style="border-color:rgba(167,139,250,.3)"><div class="sopt-t" style="color:var(--pu)">⚡ AI Native</div><div class="sopt-s">Anthropic, Mistral...</div></div>
     </div>
     <div class="sprog" id="sprog">
       <div class="sprog-t" id="sprog-t">Scan en cours...</div>
@@ -280,42 +416,34 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
       <button class="mcl" onclick="CM()">✕</button>
     </div>
     <div class="msub" id="msub"></div>
-
     <div class="msec"><span class="mlbl">Poste</span><div class="ibox" id="minfo"></div></div>
-
     <div class="msec">
-      <span class="mlbl">Texte de l&apos;annonce <span style="color:var(--gr);font-size:.52rem">&#8593; recommande pour plus de personnalisation</span></span>
-      <textarea id="jd-paste" placeholder="Ouvre l&apos;annonce officielle, selectionne tout le texte, copie et colle ici pour un email ultra-personnalise..." style="width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.72rem;padding:.65rem .85rem;border-radius:7px;outline:none;resize:vertical;min-height:80px;line-height:1.55;transition:border-color .2s" oninput="updateJDCount(this)"></textarea>
-      <div style="font-family:var(--fm);font-size:.54rem;color:var(--mu);margin-top:.25rem;display:flex;justify-content:space-between"><span>Plus tu colles, plus Claude adapte precisement</span><span id="jd-words" style="color:var(--gr)">0 mots</span></div>
+      <span class="mlbl">Texte de l'annonce <span style="color:var(--gr);font-size:.5rem">↑ recommandé pour plus de personnalisation</span></span>
+      <textarea id="jd-paste" placeholder="Colle ici le texte de l'annonce officielle pour un email ultra-personnalisé..." style="width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.72rem;padding:.6rem .8rem;border-radius:6px;outline:none;resize:vertical;min-height:76px;line-height:1.55;transition:border-color .2s" oninput="updateJDCount(this)"></textarea>
+      <div style="font-family:var(--fm);font-size:.52rem;color:var(--mu);margin-top:.2rem;display:flex;justify-content:space-between"><span>Plus tu colles, plus Claude adapte précisément</span><span id="jd-words" style="color:var(--gr)">0 mots</span></div>
     </div>
-
     <div class="msec">
       <span class="mlbl">Type de document</span>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap">
         <button class="type-btn on" id="type-email" onclick="setType('email')">✉ Email</button>
-        <button class="type-btn" id="type-cl" onclick="setType('cover_letter')">📄 Lettre d'accompagnement</button>
+        <button class="type-btn" id="type-cl" onclick="setType('cover_letter')">📄 Lettre</button>
         <button class="type-btn" id="type-both" onclick="setType('both')">✉+📄 Les deux</button>
       </div>
     </div>
-
     <div class="msec">
-      <button class="mact pr" id="mgen" onclick="GE()" style="width:100%;padding:.7rem">
-        ✦ Générer le prompt
-      </button>
+      <button class="mact pr" id="mgen" onclick="GE()" style="width:100%;padding:.65rem">✦ Générer le prompt</button>
     </div>
-
     <div id="email-section" style="display:none">
       <div class="msec">
         <span class="mlbl">Email de candidature</span>
         <div class="aibox load" id="mai"><div class="dots"><span></span><span></span><span></span></div> Génération en cours...</div>
         <div class="macts" id="email-actions" style="display:none">
-          <button class="mact" onclick="copyContent('email')">📋 Copier le prompt</button>
-          <button class="mact" onclick="openGmail()">↗ Ouvrir dans Gmail</button>
+          <button class="mact" onclick="copyContent('email')">📋 Copier</button>
+          <button class="mact" onclick="openGmail()">↗ Gmail</button>
           <button class="mact ok" onclick="MS()" style="margin-left:auto">✓ Marquer envoyée</button>
         </div>
       </div>
     </div>
-
     <div id="cl-section" style="display:none">
       <div class="msec">
         <span class="mlbl">Lettre d'accompagnement</span>
@@ -325,239 +453,303 @@ table.dt tbody td.mo{font-family:var(--fm);font-size:.65rem;color:var(--mu)}
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-var LL={AE:'Account Executive',DIR:'Director / RVP / VP',MGR:'Sales Manager'};
-var GL={FR:'France',REMOTE:'Remote EU',EU:'Europe'};
-// ── Offres AI Native hardcodées (indépendantes du backend) ──
+// ─────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────
+var LL={AE:'AE',DIR:'Director+',MGR:'Manager'};
+var GL={FR:'🇫🇷 France',REMOTE:'🌐 Remote',EU:'🇪🇺 Europe'};
+var SEG_LABEL={AI_NATIVE:'⚡ AI',DATA:'📊 Data',SAAS:'☁ SaaS',MAJORS:'🏢 Majors',AI_SAAS:'☁ AI SaaS'};
+var SEG_COLOR={AI_NATIVE:'rgba(167,139,250,.15)',DATA:'rgba(96,165,250,.12)',SAAS:'rgba(74,222,128,.1)',MAJORS:'rgba(255,255,255,.06)',AI_SAAS:'rgba(96,165,250,.12)'};
+
 var AI_NATIVE_STATIC=[
-  // Foundation Models
-  {id:'ant-1',company_name:'Anthropic',title:'Account Executive — Claude Enterprise, EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',
-   url:'https://www.anthropic.com/careers',
-   description:'Évangéliser et vendre Claude aux enterprises européennes. Positionnement IA responsable, sécurité, compliance GDPR. Marché early-stage à très forte croissance.'},
-  {id:'ant-2',company_name:'Anthropic',title:'Sales Director / RVP — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',
-   url:'https://www.anthropic.com/careers',
-   description:'Leader la stratégie commerciale Anthropic sur l\'EMEA. Recrutement équipe sales, partnerships stratégiques, deals C-level. Rôle fondateur sur un marché en explosion.'},
-  {id:'oai-1',company_name:'OpenAI',title:'Account Executive — OpenAI Enterprise, France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',
-   url:'https://openai.com/careers',
-   description:'Vente des solutions OpenAI Enterprise (GPT-4o, ChatGPT Enterprise) aux grandes entreprises françaises. Pionnier d\'un marché en explosion. Opportunité exceptionnelle.'},
-  {id:'oai-2',company_name:'OpenAI',title:'Sales Director — OpenAI EMEA Go-to-Market',level:'DIR',geo:'REMOTE',location:'Remote Europe / Paris / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',
-   url:'https://openai.com/careers',
-   description:'Définir et exécuter la stratégie commerciale OpenAI sur l\'EMEA. Recrutement équipe sales, partnerships cloud stratégiques, deals C-level.'},
-  {id:'mis-1',company_name:'Mistral AI',title:'Enterprise Account Executive — France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',
-   url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',
-   description:'Vente des modèles Mistral aux entreprises françaises. Champion du LLM européen souverain. Startup à forte croissance post-série B.'},
-  {id:'mis-2',company_name:'Mistral AI',title:'Head of Sales — Europe',level:'DIR',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',
-   url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',
-   description:'Construire et diriger l\'équipe sales Mistral en Europe. Stratégie commerciale, pricing, partenariats cloud (Azure, GCP). Rôle fondateur.'},
-  {id:'coh-1',company_name:'Cohere',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
-   url:'https://boards.greenhouse.io/cohere',
-   description:'Vente de la plateforme Cohere (Command, Embed, Rerank) aux enterprises EMEA. Focus RAG, search sémantique, NLP enterprise.'},
-  {id:'coh-2',company_name:'Cohere',title:'Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
-   url:'https://boards.greenhouse.io/cohere',
-   description:'Leadership commercial Cohere sur l\'EMEA. Définir la stratégie go-to-market, construire les partenariats hyperscalers, gérer les deals stratégiques.'},
-  {id:'hf-1',company_name:'Hugging Face',title:'Enterprise Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'workable.com',
-   url:'https://apply.workable.com/huggingface',
-   description:'Vente des solutions Hugging Face Enterprise (Hub privé, Inference Endpoints, AutoTrain) aux grandes entreprises européennes. Plateforme ML de référence.'},
-  {id:'el-1',company_name:'ElevenLabs',title:'Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'ashbyhq.com',
-   url:'https://jobs.ashbyhq.com/elevenlabs',
-   description:'Vente des solutions de synthèse vocale IA ElevenLabs aux médias, plateformes et enterprises européennes. Marché Voice AI en explosion.'},
-  {id:'wrt-1',company_name:'Writer',title:'Account Executive — Enterprise Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
-   url:'https://boards.greenhouse.io/writer',
-   description:'Vente de la plateforme Writer (IA générative enterprise, brand-compliant) en Europe. Cible Marketing, Legal, Finance.'},
-  {id:'wrt-2',company_name:'Writer',title:'Regional Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
-   url:'https://boards.greenhouse.io/writer',
-   description:'Construire et diriger la motion commerciale Writer sur l\'EMEA. Management équipe AEs, stratégie verticales, deals C-suite.'},
-  {id:'glean-1',company_name:'Glean',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',
-   url:'https://www.glean.com/careers',
-   description:'Vente de Glean (enterprise AI search & knowledge) aux grandes entreprises EMEA. ROI mesurable, deals DSI/DRH/DAF.'},
-  {id:'harv-1',company_name:'Harvey AI',title:'Account Executive — Legal Tech Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'harvey.ai',
-   url:'https://www.harvey.ai/careers',
-   description:'Vente de Harvey (IA générative pour cabinets d\'avocats et directions juridiques) en Europe. Marché Legal Tech premium, deals à haute valeur.'},
-  {id:'sca-1',company_name:'Scale AI',title:'Account Executive — Enterprise EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'scale.com',
-   url:'https://scale.com/careers',
-   description:'Vente des solutions Scale AI (data labeling, RLHF, enterprise AI) aux grandes entreprises et gouvernements EMEA. Infrastructure IA stratégique.'},
-  {id:'sierra-1',company_name:'Sierra',title:'Account Executive — Customer AI, Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'sierra.ai',
-   url:'https://sierra.ai/careers',
-   description:'Vente de Sierra (agents IA conversationnels enterprise) aux grandes marques européennes. Customer service IA, ROI immédiat et mesurable.'},
-  {id:'ai21-1',company_name:'AI21 Labs',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'ai21.com',
-   url:'https://www.ai21.com/careers',
-   description:'Vente des solutions AI21 (Jamba, Task-Specific Models) aux enterprises EMEA. Positionnement LLM performant et économique.'},
+  {id:'ant-1',company_name:'Anthropic',title:'Account Executive — Claude Enterprise, EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',url:'https://www.anthropic.com/careers',description:'Évangéliser et vendre Claude aux enterprises européennes.'},
+  {id:'ant-2',company_name:'Anthropic',title:'Sales Director / RVP — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',url:'https://www.anthropic.com/careers',description:'Leader la stratégie commerciale Anthropic sur l\'EMEA.'},
+  {id:'oai-1',company_name:'OpenAI',title:'Account Executive — Enterprise, France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',url:'https://openai.com/careers',description:'Vente des solutions OpenAI Enterprise aux grandes entreprises françaises.'},
+  {id:'oai-2',company_name:'OpenAI',title:'Sales Director — EMEA Go-to-Market',level:'DIR',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',url:'https://openai.com/careers',description:'Définir et exécuter la stratégie commerciale OpenAI sur l\'EMEA.'},
+  {id:'mis-1',company_name:'Mistral AI',title:'Enterprise Account Executive — France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',description:'Vente des modèles Mistral aux entreprises françaises.'},
+  {id:'mis-2',company_name:'Mistral AI',title:'Head of Sales — Europe',level:'DIR',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'welcometothejungle.com',url:'https://www.welcometothejungle.com/fr/companies/mistral-ai/jobs',description:'Construire et diriger l\'équipe sales Mistral en Europe.'},
+  {id:'coh-1',company_name:'Cohere',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',url:'https://boards.greenhouse.io/cohere',description:'Vente de la plateforme Cohere aux enterprises EMEA.'},
+  {id:'coh-2',company_name:'Cohere',title:'Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',url:'https://boards.greenhouse.io/cohere',description:'Leadership commercial Cohere sur l\'EMEA.'},
+  {id:'hf-1',company_name:'Hugging Face',title:'Enterprise Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'workable.com',url:'https://apply.workable.com/huggingface',description:'Vente des solutions Hugging Face Enterprise.'},
+  {id:'el-1',company_name:'ElevenLabs',title:'Account Executive — Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'ashbyhq.com',url:'https://jobs.ashbyhq.com/elevenlabs',description:'Vente des solutions de synthèse vocale IA ElevenLabs.'},
+  {id:'wrt-1',company_name:'Writer',title:'Account Executive — Enterprise Europe',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',url:'https://boards.greenhouse.io/writer',description:'Vente de la plateforme Writer en Europe.'},
+  {id:'wrt-2',company_name:'Writer',title:'Regional Sales Director — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',url:'https://boards.greenhouse.io/writer',description:'Construire et diriger la motion commerciale Writer sur l\'EMEA.'},
+  {id:'glean-1',company_name:'Glean',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'greenhouse.io',url:'https://www.glean.com/careers',description:'Vente de Glean enterprise AI search aux grandes entreprises EMEA.'},
+  {id:'harv-1',company_name:'Harvey AI',title:'Account Executive — Legal Tech Europe',level:'AE',geo:'REMOTE',location:'Remote Europe / Paris',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'harvey.ai',url:'https://www.harvey.ai/careers',description:'Vente de Harvey aux cabinets d\'avocats européens.'},
+  {id:'sca-1',company_name:'Scale AI',title:'Account Executive — Enterprise EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_NATIVE',source:'scale.com',url:'https://scale.com/careers',description:'Vente des solutions Scale AI aux grandes entreprises EMEA.'},
+  {id:'sierra-1',company_name:'Gong',title:'Enterprise Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_SAAS',source:'greenhouse.io',url:'https://www.gong.io/careers',description:'Vente de la plateforme Revenue Intelligence Gong en EMEA.'},
+  {id:'gong-2',company_name:'Gong',title:'Regional VP Sales — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'AI_SAAS',source:'greenhouse.io',url:'https://www.gong.io/careers',description:'Leader la région EMEA pour Gong.'},
+  {id:'db-1',company_name:'Databricks',title:'Enterprise Account Executive — France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:false,segment:'DATA',source:'greenhouse.io',url:'https://www.databricks.com/company/careers',description:'Vente de la plateforme Databricks aux grandes entreprises françaises.'},
+  {id:'db-2',company_name:'Databricks',title:'Regional Sales Director — France & Benelux',level:'DIR',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:false,segment:'DATA',source:'greenhouse.io',url:'https://www.databricks.com/company/careers',description:'Leadership commercial Databricks sur la France et le Benelux.'},
+  {id:'sn-1',company_name:'Snowflake',title:'Enterprise Account Executive — France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:false,segment:'DATA',source:'greenhouse.io',url:'https://careers.snowflake.com',description:'Vente de la plateforme cloud data Snowflake en France.'},
+  {id:'fi-1',company_name:'Fivetran',title:'Account Executive — EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:false,segment:'DATA',source:'greenhouse.io',url:'https://www.fivetran.com/careers',description:'Vente des solutions d\'intégration de données Fivetran.'},
 ];
 
+// Sociétés importées manuellement (localStorage)
+var CUSTOM_COMPANIES=[];
+try{var cc=localStorage.getItem('jr_custom_cos');if(cc)CUSTOM_COMPANIES=JSON.parse(cc);}catch(e){}
+
 var OFFERS=[],PIP=[],ARCH=[];
-var activeCo='ALL',pills={new:false,dir:false,ai:false};
+var pills={new:false,dir:false,ai:false};
+var offerSort={col:'company',dir:1};
 var dsc='date_added',dsd=-1,showA=false,scanMode='f4';
 var curO=null,curEmail='',curCL='',genType='email';
 
-// AI Native company registry — Insight Partners market map + key players
-var AI_NATIVE_COS=new Set([
-  // Foundation Models / AL-ML Hosting
-  'Anthropic','Mistral AI','Mistral','Cohere','AI21 Labs','AI21','Groq','Stability AI',
-  'Hugging Face','ElevenLabs','Eleven Labs','Midjourney','Meta AI','xAI','Perplexity',
-  'FalconLLM','Mosaic ML','MosaicML',
-  // Agentic / Horizontal AI Automation
-  'Writer','Relevance AI','Bardeen','ADEPT','Adept','Sana','Artisan','Tektonic AI',
-  'Reworkd','Azara','Raycast','Nexus','Sema4.ai','DISTYL','Respell','SOLA',
-  'BabyAGI','XAgent','Automated','AgentHub','Tavily','Magic Loops',
-  // Developer Platforms / Agent Tools
-  'LangChain','AgentOps','SuperAGI','LLMStack','Steamship','Cognition',
-  'GPT-Migrate','Sweep AI','DEMO GPT','Continue','Phidata','Devin','Cursor',
-  'Codium','Replit','GitHub Copilot',
-  // AI Co-Pilots
-  'Firefly','GitLab','Copilot','UiPath','SAP','Salesforce Einstein',
-  // Vertical AI Agents — Customer Service
-  'Sierra','Crescendo','OpenCall AI','OpenCall','NICE','Observe AI',
-  // Vertical AI Agents — Legal / Compliance
-  'Harvey','NormAI','Norm AI','GC AI','Phaselab','Greenlit',
-  // Vertical AI Agents — Medical
-  'Nabla','Freed','Abridge','DeepScribe','Tennr','CODAMETRIX',
-  // Marketing / Content Generation
-  'Jasper','Opencord AI','Jasper AI',
-  // Model Security / Governance
-  'Protect AI','Troja AI','Deepkeep','HiddenLayer','Robust Intelligence',
-  'Guardrails AI','Credo AI','Citrus','Holistic AI','Cranium','Vaudmind','Monitaur',
-  // Security AI
-  'Cyberhaven','Cadea','Lassa','Calypso AI','Privacera','Lakera','Skyflow','Prompt Security',
-  // Search
-  'You.com','Perplexity AI','Grok',
-  // Voice Agents
-  'Bland AI','Arini','Hamingway','Retell AI','Vocode',
-  // Data AI / Pipeline
-  'Scale AI','Scale','Snorkel AI','Activeloop','Pinecone','LlamaIndex',
-  'Alation','Databricks','SingleStore','Dataloop',
-  // Process Mining AI
-  'Skan AI','Process AI',
-  // Conversational AI
-  'Kore AI','Kore.ai','Clinc','Boost AI','Cognigy','Amelia','Pypestream',
-  '24/7 AI','Verint','OneReach','Yellow AI','Nuance'
-]);
+// AI Native registry
+var AI_NATIVE_COS=new Set(['Anthropic','Mistral AI','Mistral','Cohere','AI21 Labs','Groq','Stability AI','Hugging Face','ElevenLabs','Eleven Labs','Midjourney','xAI','Perplexity','Writer','Relevance AI','Bardeen','Adept','Sana','Artisan','LangChain','AgentOps','Cognition','Cursor','Replit','Sierra','Harvey','NormAI','Scale AI','Scale','Snorkel AI','Pinecone','LlamaIndex','Alation','Databricks','SingleStore','Glean']);
 
-// CV profile auto-selection labels
-var CV_LABELS={
-  SENIOR_DIRECTOR:{label:'CV Senior Director AI',color:'#60a5fa',triggers:[]},
-  RVP_SALES:{label:'CV RVP Sales',color:'#a78bfa',triggers:['rvp','regional vice','vp sales','vp of sales','head of sales','vice president']},
-  COUNTRY_MANAGER:{label:'CV Country Manager',color:'#e8c547',triggers:[]}
-};
-
-function getProfileKey(title,level,stream){
-  if(stream==='S2') return 'COUNTRY_MANAGER';
-  var t=(title||'').toLowerCase();
-  // Extended RVP/leadership keywords — covers Sales Leader, Enterprise Sales Leader, etc.
-  var rvpKw=['rvp','regional vice','vp sales','vp of sales','head of sales','vice president',
-             'sales leader','enterprise sales','revenue leader','chief revenue','commercial director',
-             'regional director','area vice','country manager','general manager'];
-  if(rvpKw.some(function(k){return t.indexOf(k)>=0;})) return 'RVP_SALES';
-  // Senior Director keywords
-  var sdKw=['senior director','sales director','director of sales','director, sales'];
-  if(sdKw.some(function(k){return t.indexOf(k)>=0;})) return 'SENIOR_DIRECTOR';
-  // Fallback based on level
-  if(level==='DIR') return 'SENIOR_DIRECTOR';
-  return 'SENIOR_DIRECTOR';
+// ─────────────────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────────────────
+function ST(t){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('panel-'+t).classList.add('on');
+  if(t==='dashboard')RD();
 }
 
-function ST(t){document.querySelectorAll('.tbtn').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t);});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});document.getElementById('panel-'+t).classList.add('on');if(t==='dashboard')RD();}
-
-function isAiNative(o){
-  if(o.segment==='AI_NATIVE')return true;
-  var name=(o.company_name||'').toLowerCase();
-  for(var co of AI_NATIVE_COS){if(co.toLowerCase()===name)return true;}
-  return false;
-}
-function TP(p){
-  pills[p]=!pills[p];
-  var el=document.getElementById('pill-'+p);
-  el.classList.toggle('on',pills[p]);
-  RO();
-}
-function FC(co){activeCo=co;document.querySelectorAll('.cotab').forEach(function(t){t.classList.toggle('on',t.dataset.co===co);});RO();}
-function SM(m){scanMode=m;document.querySelectorAll('.sopt').forEach(function(s){s.classList.toggle('sel',s.dataset.m===m);});}
-function updateJDCount(el){
-  var words=el.value.trim().split(/\s+/).filter(function(w){return w.length>0;}).length;
-  var ct=document.getElementById('jd-words');
-  if(ct) ct.textContent=words+' mots';
-  el.style.borderColor=el.value.length>80?'var(--gr)':'var(--border)';
-}
-function setType(t){genType=t;document.querySelectorAll('.type-btn').forEach(function(b){b.classList.remove('on');});document.getElementById('type-'+t).classList.add('on');}
-
+// ─────────────────────────────────────────────────────────
+// LOAD OFFERS
+// ─────────────────────────────────────────────────────────
 async function LO(){
-  document.getElementById('grid').innerHTML='<div class="state"><span style="font-size:2rem;display:block;margin-bottom:.5rem">⏳</span><div class="state-t">Chargement...</div></div>';
+  document.getElementById('jtbody').innerHTML='<tr class="empty-row"><td colspan="8">⏳ Chargement...</td></tr>';
   try{
     var r=await fetch('/api/offers');var d=await r.json();
-    var backendOffers=d.offers||[];
-    // Fusionner : backend + statiques AI Native (éviter doublons par company+title)
-    var seen=new Set(backendOffers.map(function(o){return o.company_name+'|'+o.title;}));
-    var toAdd=AI_NATIVE_STATIC.filter(function(o){return !seen.has(o.company_name+'|'+o.title);});
-    OFFERS=backendOffers.concat(toAdd);
+    var back=d.offers||[];
+    // Filter: exclude LinkedIn, dedupe
+    back=back.filter(function(o){
+      var src=(o.source||'').toLowerCase();
+      var url=(o.url||'').toLowerCase();
+      return src.indexOf('linkedin')<0 && url.indexOf('linkedin')<0;
+    });
+    var seen=new Set(back.map(function(o){return norm(o.company_name)+'|'+norm(o.title);}));
+    var toAdd=AI_NATIVE_STATIC.filter(function(o){return !seen.has(norm(o.company_name)+'|'+norm(o.title));});
+    OFFERS=back.concat(toAdd);
   }catch(e){
-    // Pas de backend — afficher uniquement les offres statiques
     OFFERS=AI_NATIVE_STATIC.slice();
   }
   document.getElementById('h-off').textContent=OFFERS.length;
   document.getElementById('tc-o').textContent=OFFERS.length;
-  if(OFFERS.length>0){var now=new Date();document.getElementById('lscan').textContent=now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
-  BCT();RO();
+  document.getElementById('h-co').textContent=[...new Set(OFFERS.map(function(o){return o.company_name;}))].length;
+  if(OFFERS.length>0){var now=new Date();document.getElementById('lscan').textContent=now.toLocaleDateString('fr-FR');}
+  RO();
 }
 
-function BCT(){
-  var cos=[...new Set(OFFERS.map(function(o){return o.company_name;}))].sort();
-  document.getElementById('h-co').textContent=cos.length;
-  var w=document.getElementById('cotabs-i');
-  w.innerHTML='<div class="cotab on" data-co="ALL" onclick="FC(\'ALL\')">Toutes ('+OFFERS.length+')</div>';
-  cos.forEach(function(co){var n=OFFERS.filter(function(o){return o.company_name===co;}).length;var d=document.createElement('div');d.className='cotab';d.dataset.co=co;d.onclick=function(){FC(co);};d.textContent=co+' ('+n+')';w.appendChild(d);});
+function norm(s){return(s||'').trim().toLowerCase();}
+
+function isAiNative(o){
+  if(o.segment==='AI_NATIVE')return true;
+  var name=norm(o.company_name);
+  for(var co of AI_NATIVE_COS){if(norm(co)===name)return true;}
+  return false;
+}
+
+// ─────────────────────────────────────────────────────────
+// FILTER + SORT + RENDER TABLE
+// ─────────────────────────────────────────────────────────
+function TP(p){
+  pills[p]=!pills[p];
+  document.getElementById('pill-'+p).classList.toggle('on',pills[p]);
+  RO();
+}
+
+function sortOffers(col){
+  if(offerSort.col===col){offerSort.dir*=-1;}
+  else{offerSort.col=col;offerSort.dir=1;}
+  document.querySelectorAll('.sort-btn').forEach(function(b){b.classList.remove('on','desc');});
+  var btn=document.getElementById('sb-'+col);
+  if(btn){btn.classList.add('on');if(offerSort.dir===-1)btn.classList.add('desc');}
+  RO();
+}
+
+function getColVal(o,col){
+  if(col==='company')return norm(o.company_name);
+  if(col==='title')return norm(o.title);
+  if(col==='level'){var order={DIR:0,MGR:1,AE:2};return order[o.level]!==undefined?order[o.level]:3;}
+  if(col==='geo'){var go={FR:0,REMOTE:1,EU:2};return go[o.geo]!==undefined?go[o.geo]:3;}
+  if(col==='date')return o.date_posted||'';
+  if(col==='segment')return norm(o.segment||'');
+  return '';
 }
 
 function RO(){
-  var q=document.getElementById('q').value.toLowerCase();
+  var q=norm(document.getElementById('q').value);
   var fl=document.getElementById('fl').value;
   var fg=document.getElementById('fg').value;
+  var fseg=document.getElementById('fseg').value;
   var inP=new Set(PIP.map(function(p){return p.offer_ref;}));
+
   var fil=OFFERS.filter(function(o){
-    if(activeCo!=='ALL'&&o.company_name!==activeCo)return false;
-    if(q&&o.title.toLowerCase().indexOf(q)<0&&o.company_name.toLowerCase().indexOf(q)<0&&(o.description||'').toLowerCase().indexOf(q)<0)return false;
+    if(q&&norm(o.title).indexOf(q)<0&&norm(o.company_name).indexOf(q)<0&&norm(o.description||'').indexOf(q)<0)return false;
     if(fl&&o.level!==fl)return false;
     if(fg==='FR'&&o.geo!=='FR')return false;
     if(fg==='REMOTE'&&o.geo!=='REMOTE')return false;
+    if(fseg){
+      var seg=o.segment||'';
+      if(fseg==='AI_NATIVE'&&seg!=='AI_NATIVE'&&!isAiNative(o))return false;
+      if(fseg==='DATA'&&seg!=='DATA')return false;
+      if(fseg==='SAAS'&&seg!=='SAAS'&&seg!=='AI_SAAS')return false;
+      if(fseg==='MAJORS'&&seg!=='MAJORS')return false;
+    }
     if(pills.new&&!o.is_new)return false;
     if(pills.dir&&o.level!=='DIR')return false;
     if(pills.ai&&!isAiNative(o))return false;
     return true;
   });
+
+  // Sort
+  fil.sort(function(a,b){
+    var av=getColVal(a,offerSort.col),bv=getColVal(b,offerSort.col);
+    if(av<bv)return -offerSort.dir;
+    if(av>bv)return offerSort.dir;
+    return 0;
+  });
+
+  // Stats
   document.getElementById('ss-s').textContent=fil.length;
   document.getElementById('ss-fr').textContent=fil.filter(function(o){return o.geo==='FR';}).length;
   document.getElementById('ss-r').textContent=fil.filter(function(o){return o.geo==='REMOTE';}).length;
   document.getElementById('ss-d').textContent=fil.filter(function(o){return o.level==='DIR';}).length;
   document.getElementById('ss-ai').textContent=fil.filter(function(o){return isAiNative(o);}).length;
-  if(!fil.length){document.getElementById('grid').innerHTML='<div class="state"><span style="font-size:2rem;display:block;margin-bottom:.5rem">🔍</span><div class="state-t">Aucune offre</div><div class="state-s">Élargis tes filtres ou lance un nouveau scan.</div><button class="state-btn" onclick="openScan()">📡 Scanner</button></div>';return;}
-  document.getElementById('grid').innerHTML=fil.map(function(o,i){
+
+  if(!fil.length){
+    document.getElementById('jtbody').innerHTML='<tr class="empty-row"><td colspan="8">🔍 Aucune offre — élargis les filtres ou lance un scan</td></tr>';
+    return;
+  }
+
+  var html=fil.map(function(o,i){
     var isIn=inP.has(o.id);
-    return '<div class="jcard" style="animation-delay:'+Math.min(i*.04,.6)+'s">'+
-      '<div class="jtop"><div class="jbdgs">'+
-      '<span class="jbdg" style="background:rgba(200,241,53,.12);color:var(--acc)">'+o.company_name+'</span>'+
-      '<span class="jbdg" style="background:rgba(255,255,255,.06);color:var(--mu)">'+(LL[o.level]||o.level||'—')+'</span>'+
-      (isAiNative(o)?'<span class="jbdg jai">⚡ AI Native</span>':'')+
-      (o.is_new?'<span class="jbdg jnew">NEW</span>':'')+
-      (o.source?'<span class="jbdg" style="background:rgba(96,165,250,.08);color:var(--bl)">'+o.source+'</span>':'')+
-      '</div><div class="jdate">📅 '+(o.date_posted||'—')+'</div></div>'+
-      '<div class="jtitle">'+o.title+'</div>'+
-      '<div class="jmeta"><div class="jmt">📍 '+(o.location||'—')+'</div><div class="jmt">'+(GL[o.geo]||o.geo||'EU')+'</div></div>'+
-      (o.description?'<div class="jdesc">'+o.description+'</div>':'')+
-      '<div class="jfoot">'+
-      '<a class="bann" href="'+o.url+'" target="_blank" rel="noopener">↗ Voir l\'annonce</a>'+
-      '<button class="bapply" onclick="OM2(\''+o.id+'\')">✦ Candidater</button>'+
-      '<button class="btrack '+(isIn?'in':'')+'" id="tr-'+o.id+'" onclick="TT(\''+o.id+'\')">'+(isIn?'✓ Suivi':'+ Suivre')+'</button>'+
-      '</div></div>';
+    var seg=o.segment||'';
+    var segLabel=SEG_LABEL[seg]||seg;
+    var segBg=SEG_COLOR[seg]||'rgba(255,255,255,.05)';
+    return '<tr style="animation-delay:'+Math.min(i*.02,.4)+'s">'+
+      '<td class="col-co" title="'+o.company_name+'">'+o.company_name+'</td>'+
+      '<td class="col-title"><a href="'+o.url+'" target="_blank" rel="noopener" title="'+o.title+'">'+o.title+'</a>'+
+      (o.is_new?'&nbsp;<span class="badge badge-new">NEW</span>':'')+
+      '</td>'+
+      '<td><span class="badge badge-lvl">'+(LL[o.level]||o.level||'—')+'</span></td>'+
+      '<td class="col-mono">'+(GL[o.geo]||o.geo||'—')+'</td>'+
+      '<td class="col-mono" style="max-width:120px;overflow:hidden;text-overflow:ellipsis" title="'+(o.location||'')+'">'+( (o.location||'').split(',')[0]||'—')+'</td>'+
+      '<td><span class="badge" style="background:'+segBg+';color:var(--text)">'+segLabel+'</span></td>'+
+      '<td class="col-mono">'+(o.date_posted||'—')+'</td>'+
+      '<td><div class="col-actions">'+
+      '<a class="abtn" href="'+o.url+'" target="_blank" rel="noopener">↗ Voir</a>'+
+      '<button class="abtn apply" onclick="OM2(\''+o.id+'\')">✦ Email</button>'+
+      '<button class="abtn track'+(isIn?' in':'')+'" id="tr-'+o.id+'" onclick="TT(\''+o.id+'\')">'+(isIn?'✓ Suivi':'+ Suivre')+'</button>'+
+      '</div></td>'+
+      '</tr>';
   }).join('');
+  document.getElementById('jtbody').innerHTML=html;
 }
 
+// ─────────────────────────────────────────────────────────
+// IMPORT COMPANIES
+// ─────────────────────────────────────────────────────────
+function openImport(){ST('import');}
+
+async function importList(){
+  var text=document.getElementById('ta-list').value.trim();
+  if(!text){toast('Colle une liste de sociétés d\'abord','i');return;}
+  await runImport(text);
+}
+async function importMapping(){
+  var text=document.getElementById('ta-mapping').value.trim();
+  if(!text){toast('Colle un mapping d\'abord','i');return;}
+  await runImport(text);
+}
+
+async function runImport(rawText){
+  var btns=document.querySelectorAll('.import-btn');
+  btns.forEach(function(b){b.disabled=true;b.textContent='⏳ Analyse en cours...';});
+  document.getElementById('import-result').style.display='none';
+
+  try{
+    var existing=OFFERS.map(function(o){return o.company_name;});
+    var customExisting=CUSTOM_COMPANIES.map(function(c){return c.name;});
+    var allExisting=[...new Set(existing.concat(customExisting))];
+
+    var prompt='Tu es un assistant qui extrait et normalise des noms de sociétés tech/SaaS/AI.\n\n'+
+      'Voici du texte brut contenant des noms de sociétés :\n"""\n'+rawText+'\n"""\n\n'+
+      'Sociétés déjà présentes dans la base (à déduplicer) :\n'+allExisting.join(', ')+'\n\n'+
+      'Instructions :\n'+
+      '1. Extrait TOUS les noms de sociétés du texte\n'+
+      '2. Normalise les noms (ex: "mistral ai" → "Mistral AI", "HF" → "Hugging Face" si évident)\n'+
+      '3. Détecte le segment de chaque société : AI_NATIVE, DATA, SAAS, MAJORS, ou UNKNOWN\n'+
+      '4. Identifie si la société est déjà présente (doublon) en comparant avec la liste existante\n'+
+      '5. Retourne UNIQUEMENT un JSON valide, sans texte avant ou après :\n'+
+      '{"companies":[{"name":"Société A","segment":"AI_NATIVE","is_duplicate":false,"note":""},{"name":"Société B","segment":"DATA","is_duplicate":true,"note":"Déjà présente comme Databricks"}]}';
+
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    var data=await resp.json();
+    var raw=data.content[0].text.replace(/```json|```/g,'').trim();
+    var parsed=JSON.parse(raw);
+    var companies=parsed.companies||[];
+
+    var newOnes=companies.filter(function(c){return!c.is_duplicate;});
+    var dups=companies.filter(function(c){return c.is_duplicate;});
+
+    // Add new ones to CUSTOM_COMPANIES
+    newOnes.forEach(function(c){
+      var already=CUSTOM_COMPANIES.find(function(x){return norm(x.name)===norm(c.name);});
+      if(!already){
+        CUSTOM_COMPANIES.push({name:c.name,segment:c.segment,note:c.note,added:new Date().toISOString().split('T')[0]});
+        // Also add static offers for this company
+        var fakeId='custom-'+Date.now()+'-'+Math.random().toString(36).substr(2,5);
+        OFFERS.push({
+          id:fakeId,company_name:c.name,title:'[Offre à scanner] — '+c.name,
+          level:'AE',geo:'EU',location:'Europe',date_posted:'2025',is_new:true,
+          segment:c.segment,source:'import',
+          url:'https://www.google.com/search?q='+encodeURIComponent(c.name+' careers jobs'),
+          description:'Société importée manuellement. Lance un scan pour trouver les vraies offres.'
+        });
+      }
+    });
+
+    try{localStorage.setItem('jr_custom_cos',JSON.stringify(CUSTOM_COMPANIES));}catch(e){}
+
+    // Display result
+    var resultHtml='';
+    newOnes.forEach(function(c){resultHtml+='<div class="ir-new">✓ Ajoutée — '+c.name+' <span style="color:var(--mu)">('+c.segment+')</span></div>';});
+    dups.forEach(function(c){resultHtml+='<div class="ir-dup">= Doublon — '+c.name+(c.note?' · '+c.note:'')+'</div>';});
+    if(!resultHtml)resultHtml='<div class="ir-skip">Aucune société reconnue</div>';
+
+    document.getElementById('ir-title').textContent='✅ '+newOnes.length+' nouvelles · '+dups.length+' doublons ignorés';
+    document.getElementById('ir-list').innerHTML=resultHtml;
+    document.getElementById('import-result').style.display='block';
+
+    // Refresh table
+    document.getElementById('h-off').textContent=OFFERS.length;
+    document.getElementById('tc-o').textContent=OFFERS.length;
+    document.getElementById('h-co').textContent=[...new Set(OFFERS.map(function(o){return o.company_name;}))].length;
+    RO();
+    toast(newOnes.length+' société(s) ajoutée(s)','s');
+
+  }catch(e){
+    document.getElementById('ir-title').textContent='❌ Erreur : '+e.message;
+    document.getElementById('import-result').style.display='block';
+    toast('Erreur import : '+e.message,'');
+  }
+
+  btns.forEach(function(b){b.disabled=false;b.textContent='✦ Analyser et importer';});
+}
+
+// ─────────────────────────────────────────────────────────
+// SCANNER
+// ─────────────────────────────────────────────────────────
 function openScan(){document.getElementById('sov').classList.add('on');}
 function closeScan(){document.getElementById('sov').classList.remove('on');RSU();}
 function RSU(){document.getElementById('sprog').classList.remove('on');document.getElementById('spf').style.width='0%';document.getElementById('scan-go').disabled=false;document.getElementById('scan-go').textContent='📡 Lancer le scan';document.getElementById('scan-cancel').textContent='Annuler';document.getElementById('sopts').style.opacity='1';}
+function SM(m){scanMode=m;document.querySelectorAll('.sopt').forEach(function(s){s.classList.toggle('sel',s.dataset.m===m);});}
 
 async function startScan(){
   var btn=document.getElementById('scan-go');btn.disabled=true;btn.textContent='Scan en cours...';
@@ -567,8 +759,8 @@ async function startScan(){
   else if(scanMode==='data')body.segment='DATA';
   else if(scanMode==='aisaas')body.segment='AI_SAAS';
   else if(scanMode==='ainative')body.segment='AI_NATIVE';
-  body.limit=scanMode==='all'?300:scanMode==='ainative'?120:80;
-  var msgs=['Connexion aux APIs Greenhouse...','Scan Lever.co...','Scan Ashby HQ...','Filtrage offres Sales Director/VP/RVP...','Insertion en base Supabase...'];
+  body.limit=scanMode==='all'?300:80;
+  var msgs=['Connexion aux APIs Greenhouse...','Scan Lever.co...','Scan Ashby HQ...','Filtrage offres Sales...','Insertion en base...'];
   var prog=0;
   var iv=setInterval(function(){prog=Math.min(prog+1.5,90);document.getElementById('spf').style.width=prog+'%';document.getElementById('spmsg').textContent=msgs[Math.floor(prog/20)]||msgs[4];},700);
   try{
@@ -580,11 +772,16 @@ async function startScan(){
   btn.disabled=false;btn.textContent='↺ Relancer';
 }
 
+// ─────────────────────────────────────────────────────────
+// PIPELINE TRACKING
+// ─────────────────────────────────────────────────────────
 async function TT(oid){
   var o=OFFERS.find(function(x){return x.id===oid;});if(!o)return;
   var idx=PIP.findIndex(function(p){return p.offer_ref===oid;});
-  if(idx>=0){try{await fetch('/api/pipeline?id='+PIP[idx].id,{method:'DELETE'});}catch(e){}PIP.splice(idx,1);toast('Retiré du suivi','i');}
-  else{
+  if(idx>=0){
+    try{await fetch('/api/pipeline?id='+PIP[idx].id,{method:'DELETE'});}catch(e){}
+    PIP.splice(idx,1);toast('Retiré du suivi','i');
+  }else{
     var e={stream:'S1',company_name:o.company_name,offer_ref:o.id,role:o.title,date_added:new Date().toISOString().split('T')[0],status:'À contacter',interest:3,notes:'',url:o.url};
     try{var r=await fetch('/api/pipeline',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(e)});var d=await r.json();PIP.push(Object.assign({},e,{id:d.entry&&d.entry.id?d.entry.id:'L'+Date.now()}));}
     catch(er){PIP.push(Object.assign({},e,{id:'L'+Date.now()}));}
@@ -593,190 +790,144 @@ async function TT(oid){
   UH();RO();RD();
 }
 
-// ── MODAL CANDIDATURE ──
+// ─────────────────────────────────────────────────────────
+// MODAL CANDIDATURE
+// ─────────────────────────────────────────────────────────
+var CV_LABELS={
+  SENIOR_DIRECTOR:{label:'CV Senior Director AI',color:'#60a5fa'},
+  RVP_SALES:{label:'CV RVP Sales',color:'#a78bfa'},
+  COUNTRY_MANAGER:{label:'CV Country Manager',color:'#e8c547'}
+};
+
+function getProfileKey(title,level){
+  var t=norm(title);
+  var rvpKw=['rvp','regional vice','vp sales','vp of sales','head of sales','vice president','sales leader','enterprise sales','revenue leader','chief revenue','commercial director','regional director','area vice','country manager','general manager'];
+  if(rvpKw.some(function(k){return t.indexOf(k)>=0;}))return'RVP_SALES';
+  var sdKw=['senior director','sales director','director of sales','director, sales'];
+  if(sdKw.some(function(k){return t.indexOf(k)>=0;}))return'SENIOR_DIRECTOR';
+  if(level==='DIR')return'SENIOR_DIRECTOR';
+  return'SENIOR_DIRECTOR';
+}
+
+function updateJDCount(el){
+  var words=el.value.trim().split(/\s+/).filter(function(w){return w.length>0;}).length;
+  document.getElementById('jd-words').textContent=words+' mots';
+  el.style.borderColor=el.value.length>80?'var(--gr)':'var(--border)';
+}
+function setType(t){genType=t;document.querySelectorAll('.type-btn').forEach(function(b){b.classList.remove('on');});document.getElementById('type-'+t).classList.add('on');}
+function MBG(e){if(e.target===document.getElementById('modal'))CM();}
+function CM(){document.getElementById('modal').classList.remove('on');curO=null;curEmail='';curCL='';}
+
 function OM2(oid){
   var o=OFFERS.find(function(x){return x.id===oid;});if(!o)return;
   curO=o;curEmail='';curCL='';
-  // Override level detection for titles that scanner misclassifies
-  var effectiveLevel=o.level;
-  var tl=(o.title||'').toLowerCase();
-  var leaderKw=['sales leader','enterprise sales','revenue leader','country manager','general manager','commercial director','regional director'];
-  if(leaderKw.some(function(k){return tl.indexOf(k)>=0;})) effectiveLevel='DIR';
-  var profileKey=getProfileKey(o.title,effectiveLevel,'S1');
-  var profile=CV_LABELS[profileKey];
-
+  var pk=getProfileKey(o.title,o.level);
+  var cv=CV_LABELS[pk];
   document.getElementById('mtit').textContent='Candidature — '+o.company_name;
-  document.getElementById('cv-badge').textContent='📋 '+profile.label;
-  document.getElementById('cv-badge').style.background='rgba('+hexToRgb(profile.color)+',0.12)';
-  document.getElementById('cv-badge').style.color=profile.color;
-  document.getElementById('msub').textContent=o.title+' · '+(o.location||'—')+' · '+(LL[o.level]||o.level);
-  document.getElementById('minfo').innerHTML=
-    '<div class="irow"><span class="ik">Société</span><span class="iv">'+o.company_name+'</span><span class="ik">Niveau</span><span class="iv">'+(LL[o.level]||o.level)+'</span></div>'+
-    '<div class="irow"><span class="ik">Lieu</span><span class="iv">'+(o.location||'—')+'</span><span class="ik">Source</span><span class="iv">'+(o.source||'—')+'</span></div>'+
-    '<div class="irow"><span class="ik">Annonce</span><a href="'+o.url+'" target="_blank" style="color:var(--bl);font-family:var(--fm);font-size:.7rem">↗ Voir l\'offre officielle</a></div>'+
-    (o.description?'<div class="irow"><span class="ik">Description</span><span class="iv" style="max-width:500px;white-space:normal;color:var(--mu);line-height:1.5">'+o.description.slice(0,300)+(o.description.length>300?'...':'')+'</span></div>':'');
-
-  // Reset output sections
-  document.getElementById('email-section').style.display='none';
-  document.getElementById('cl-section').style.display='none';
-  document.getElementById('email-actions').style.display='none';
-  document.getElementById('cl-actions').style.display='none';
-  document.getElementById('mai').className='aibox load';
-  document.getElementById('mai').innerHTML='<div class="dots"><span></span><span></span><span></span></div> En attente...';
-  document.getElementById('mcl').className='aibox load';
-  document.getElementById('mcl').innerHTML='<div class="dots"><span></span><span></span><span></span></div> En attente...';
-  document.getElementById('mgen').disabled=false;
-  document.getElementById('mgen').textContent='✦ Générer le prompt';
-  setType('email');
+  document.getElementById('cv-badge').textContent='📄 '+cv.label;
+  document.getElementById('cv-badge').style.background='rgba('+hexToRgb(cv.color)+',.12)';
+  document.getElementById('cv-badge').style.color=cv.color;
+  document.getElementById('msub').textContent=o.title+' · '+(o.location||'')+(o.date_posted?' · '+o.date_posted:'');
+  document.getElementById('minfo').innerHTML='<div class="irow"><span class="ik">Société</span><span class="iv">'+o.company_name+'</span></div><div class="irow"><span class="ik">Poste</span><span class="iv">'+o.title+'</span></div><div class="irow"><span class="ik">Lieu</span><span class="iv">'+(o.location||'—')+'</span></div>';
+  document.getElementById('jd-paste').value='';document.getElementById('jd-words').textContent='0 mots';
+  document.getElementById('jd-paste').style.borderColor='var(--border)';
+  document.getElementById('email-section').style.display='none';document.getElementById('cl-section').style.display='none';
+  document.getElementById('email-actions').style.display='none';document.getElementById('cl-actions').style.display='none';
+  document.getElementById('mgen').disabled=false;document.getElementById('mgen').textContent='✦ Générer le prompt';
+  genType='email';setType('email');
   document.getElementById('modal').classList.add('on');
 }
 
-function hexToRgb(hex){
-  var r=parseInt(hex.slice(1,3),16);var g=parseInt(hex.slice(3,5),16);var b=parseInt(hex.slice(5,7),16);
-  return r+','+g+','+b;
+function hexToRgb(hex){hex=hex.replace('#','');var r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);return r+','+g+','+b;}
+
+async function GE(){
+  if(!curO)return;
+  var jd=document.getElementById('jd-paste').value.trim();
+  var pk=getProfileKey(curO.title,curO.level);
+  var cv=CV_LABELS[pk];
+  var btn=document.getElementById('mgen');btn.disabled=true;btn.textContent='⏳ Génération...';
+  if(genType==='email'||genType==='both'){document.getElementById('email-section').style.display='block';document.getElementById('mai').className='aibox load';document.getElementById('mai').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Génération en cours...';document.getElementById('email-actions').style.display='none';}
+  if(genType==='cover_letter'||genType==='both'){document.getElementById('cl-section').style.display='block';document.getElementById('mcl').className='aibox load';document.getElementById('mcl').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Génération en cours...';document.getElementById('cl-actions').style.display='none';}
+  var prompt='Tu es un expert en recrutement sales tech B2B.\n\nProfil candidat : '+cv.label+' — Senior Sales Leader, 15+ ans d\'expérience, spécialiste AI/SaaS/Data.\n\nPoste visé : '+curO.title+'\nSociété : '+curO.company_name+'\nLieu : '+(curO.location||'Non précisé')+'\nSegment : '+(curO.segment||'Tech')+'\n'+(jd?'\nTexte de l\'annonce :\n"""\n'+jd+'\n"""\n':'\n[Pas de texte d\'annonce fourni — génère un email solide basé sur le poste et la société]\n')+'\nGénère '+(genType==='email'?'un email de candidature percutant en anglais (150-200 mots max)':(genType==='cover_letter'?'une lettre de motivation en français (300-400 mots)':(genType==='both'?':\n1. EMAIL (anglais, 150-200 mots, objet en première ligne : "OBJET: [sujet]")\n---\n2. LETTRE (français, 300-400 mots)':'un email')))+'. Commence directement par le contenu, pas d\'explication.';
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    var d=await r.json();var txt=d.content[0].text;
+    if(genType==='both'){
+      var parts=txt.split(/\n---\n/);
+      curEmail=parts[0]||txt;curCL=parts[1]||'';
+    }else if(genType==='email'){curEmail=txt;curCL='';}
+    else{curEmail='';curCL=txt;}
+    if((genType==='email'||genType==='both')&&curEmail){document.getElementById('mai').className='aibox rdy';document.getElementById('mai').textContent=curEmail;document.getElementById('email-actions').style.display='flex';}
+    if((genType==='cover_letter'||genType==='both')&&curCL){document.getElementById('mcl').className='aibox rdy';document.getElementById('mcl').textContent=curCL;document.getElementById('cl-actions').style.display='flex';}
+  }catch(e){document.getElementById('mai').className='aibox rdy';document.getElementById('mai').textContent='Erreur : '+e.message;if(genType==='email'||genType==='both')document.getElementById('email-actions').style.display='flex';}
+  btn.disabled=false;btn.textContent='↺ Regénérer';
 }
 
-function CM(){document.getElementById('modal').classList.remove('on');}
-function MBG(e){if(e.target===document.getElementById('modal'))CM();}
-
-function GE(){
-  if(!curO) return;
-  // Level override
-  var tge=(curO.title||'').toLowerCase();
-  var leaderKw=['sales leader','enterprise sales','revenue leader','country manager','general manager','commercial director','regional director'];
-  var effectiveLvl=leaderKw.some(function(k){return tge.indexOf(k)>=0;})?'DIR':curO.level;
-  var profileKey=getProfileKey(curO.title,effectiveLvl,'S1');
-
-  // Get pasted JD if available
-  var jdEl=document.getElementById('jd-paste');
-  var jdText=jdEl&&jdEl.value.trim().length>80?jdEl.value.trim():(curO.description||'');
-
-  var cvLabel='';
-  var templateLetter='';
-
-  if(profileKey==='RVP_SALES'){
-    cvLabel='CV RVP Sales';
-    templateLetter=
-      "Paris, [DATE]\n\n"+
-      "Hiring Manager\n"+curO.company_name+"\n\n"+
-      "Subject: Application for "+curO.title+"\n\n"+
-      "Dear Hiring Manager,\n\n"+
-      "[COMPANY HOOK — specific fact about "+curO.company_name+" product/news/vision]\n\n"+
-      "With over 20 years of experience in enterprise software sales including leadership roles at C3 AI, Seismic and other cloud pioneers, I have successfully driven sales expansion, built high-performing teams, and developed go-to-market strategies for Fortune 1000 enterprises across SEMEA. As Head of Sales EMEA at Stambia, I built the European sales org from scratch and led go-to-market strategies and key partnerships to accelerate growth across the region.\n\n"+
-      "[CONNECT TO ROLE — link my experience to the specific "+curO.title+" requirements]\n\n"+
-      "I would welcome the opportunity to discuss how my background aligns with "+curO.company_name+" vision. I look forward to connecting with you soon.\n\n"+
-      "Kind regards,\nPhilippe Sussan\n+33645422269\nphilippesussan2@gmail.com";
-  } else {
-    cvLabel='CV Senior Director AI';
-    templateLetter=
-      "Paris, [DATE]\n\n"+
-      "Hiring Manager\n"+curO.company_name+"\n\n"+
-      "Subject: Application for "+curO.title+"\n\n"+
-      "Dear Hiring Manager,\n\n"+
-      "[COMPANY HOOK — specific fact about "+curO.company_name+" product/news/vision]\n\n"+
-      "With over 20 years of experience in enterprise software and AI sales, I have successfully led sales strategies, built C-level relationships, and driven revenue growth across Fortune 1000 companies in France, Benelux and SEMEA. As Senior Director SEMEA at C3 AI, I drive Enterprise AI platform adoption across Manufacturing, T&L, Financial Services and Pharma. Previously as Sales Director SEMEA at Seismic I owned full revenue responsibility across 5 European markets.\n\n"+
-      "[CONNECT TO ROLE — link my experience to the specific "+curO.title+" requirements]\n\n"+
-      "I would welcome the opportunity to discuss how my experience can contribute to "+curO.company_name+" success. I look forward to connecting with you soon.\n\n"+
-      "Kind regards,\nPhilippe Sussan\n+33645422269\nphilippesussan2@gmail.com";
-  }
-
-  var isCL=(genType==='cover_letter');
-  var docType=isCL?'cover letter':'application email';
-  var fmtNote=isCL?
-    'Keep the full letter format above (with Paris date, header, subject, salutation, signature).':
-    'Convert to a SHORT email format: SUBJECT: [max 8 words]\n\n[Body 150 words max]\n\nKind regards, Philippe Sussan, +33645422269, philippesussan2@gmail.com';
-
-  var prompt=
-    'Adapt the following template letter for Philippe Sussan into a '+docType+' IN ENGLISH.\n\n'+
-    '=== TEMPLATE TO ADAPT (keep structure and tone) ===\n'+
-    templateLetter+'\n\n'+
-    '=== JOB POSTING TO ADAPT TO ===\n'+
-    'Title: '+curO.title+'\n'+
-    'Company: '+curO.company_name+'\n'+
-    'Location: '+(curO.location||'N/A')+'\n'+
-    'Description: '+jdText+'\n\n'+
-    '=== INSTRUCTIONS ===\n'+
-    '1. Replace [COMPANY HOOK] with a specific fact about '+curO.company_name+' from the job description above\n'+
-    '2. Replace [CONNECT TO ROLE] with 1-2 sentences linking Philippe experience to the KEY requirements of this specific role\n'+
-    '3. Keep everything else as close to the template as possible — same tone, same structure, same length\n'+
-    '4. Do NOT add generic phrases like "I am delighted", "I hereby submit", "please find attached"\n'+
-    '5. Keep it succinct — no padding, no repetition\n'+
-    '6. '+fmtNote;
-
-  document.getElementById('email-section').style.display='block';
-  document.getElementById('mai').className='aibox rdy';
-  document.getElementById('mai').textContent=prompt;
-  document.getElementById('email-actions').style.display='flex';
-  curEmail=prompt;
-  document.getElementById('cv-badge').textContent='📋 '+cvLabel+(jdText.length>80?' + annonce complète':' + description courte')+' ✓';
-  var msg=jdText.length>80?'Prompt pret - annonce complete !':'Prompt pret - colle annonce pour plus de personnalisation';
-  toast(msg,'s');
-}
-function copyContent(type){
-  var text=type==='email'?curEmail:curCL;
-  navigator.clipboard.writeText(text).then(function(){toast('Copié dans le presse-papier ✓','s');});
+function copyContent(t){
+  var txt=t==='email'?curEmail:curCL;if(!txt)return;
+  navigator.clipboard.writeText(txt).then(function(){toast('Copié dans le presse-papiers ✓','s');}).catch(function(){var el=document.createElement('textarea');el.value=txt;document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);toast('Copié ✓','s');});
 }
 
 function openGmail(){
   if(!curEmail||!curO)return;
   var lines=curEmail.split('\n');
-  var sl=lines.find(function(l){return l.indexOf('OBJET:')===0||l.indexOf('SUBJECT:')===0;});
-  var s=sl?sl.replace(/^(OBJET:|SUBJECT:)\s*/i,'').trim():'Candidature — '+curO.title;
-  var b=curEmail.replace(/^OBJET:.*\n---\n/,'').replace(/^SUBJECT:.*\n---\n/,'').replace(/\n---[\s\S]*/,'').trim();
+  var sl=lines.find(function(l){return l.indexOf('OBJET:')===0||l.indexOf('SUBJECT:')===0||l.indexOf('OBJET :')===0;});
+  var s=sl?sl.replace(/^(OBJET:|SUBJECT:|OBJET :)\s*/i,'').trim():'Application — '+curO.title+' @ '+curO.company_name;
+  var b=curEmail.replace(/^(OBJET|SUBJECT)[^\n]*\n/,'').replace(/\n---[\s\S]*/,'').trim();
   window.location.href='mailto:?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(b);
 }
 
 async function MS(){
   if(!curO)return;
   var p=PIP.find(function(p){return p.offer_ref===curO.id;});
-  if(p){
-    p.status='Envoyée';p.email_sent_date=new Date().toISOString().split('T')[0];
-    try{await fetch('/api/pipeline',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:p.id,status:'Envoyée',email_sent_date:p.email_sent_date})});}catch(e){}
-  }else{await TT(curO.id);}
+  if(p){p.status='Envoyée';p.email_sent_date=new Date().toISOString().split('T')[0];try{await fetch('/api/pipeline',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:p.id,status:'Envoyée',email_sent_date:p.email_sent_date})});}catch(e){}}
+  else{await TT(curO.id);}
   CM();toast('Candidature marquée envoyée ✓','s');RD();
 }
 
-// Dashboard
+// ─────────────────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────────────────
 function DS(c){if(dsc===c)dsd*=-1;else{dsc=c;dsd=1;}document.querySelectorAll('table.dt thead th').forEach(function(h){h.classList.remove('sa','sd');if(h.getAttribute('onclick')==="DS('"+c+"')")h.classList.add(dsd===1?'sa':'sd');});RD();}
 async function US(id,v){var p=PIP.find(function(p){return p.id===id;});if(p){p.status=v;try{await fetch('/api/pipeline',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:v})});}catch(e){}}RD();}
 async function UI(id,v){var p=PIP.find(function(p){return p.id===id;});if(p){p.interest=v;try{await fetch('/api/pipeline',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,interest:v})});}catch(e){}RD();}}
 async function UN(id,v){var p=PIP.find(function(p){return p.id===id;});if(p){p.notes=v;try{await fetch('/api/pipeline',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,notes:v})});}catch(e){}}}
 async function AE(id){try{await fetch('/api/pipeline?id='+id,{method:'DELETE'});}catch(e){}var idx=PIP.findIndex(function(p){return p.id===id;});if(idx>=0){var e=PIP.splice(idx,1)[0];ARCH.push(Object.assign({},e,{archived_date:new Date().toISOString().split('T')[0]}));}UH();RO();RD();toast('Archivée','i');}
 function TA(){showA=!showA;document.getElementById('asec').style.display=showA?'block':'none';document.getElementById('atog').innerHTML=(showA?'▾':'▸')+' Archivées (<span id="an">'+ARCH.length+'</span>)';if(showA)RAT();}
-function RAT(){document.getElementById('atb').innerHTML=ARCH.map(function(a){return '<tr><td><strong>'+a.company_name+'</strong></td><td style="font-size:.7rem">'+a.role+'</td><td class="mo">'+(a.archived_date||'—')+'</td><td><button class="da" onclick="RE(\''+a.id+'\')">↩</button></td></tr>';}).join('')||'<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:var(--mu);font-family:var(--fm);font-size:.64rem">Vide</td></tr>';}
+function RAT(){document.getElementById('atb').innerHTML=ARCH.map(function(a){return'<tr><td><strong>'+a.company_name+'</strong></td><td style="font-size:.7rem">'+a.role+'</td><td class="mo">'+(a.archived_date||'—')+'</td><td><button class="da" onclick="RE(\''+a.id+'\')">↩</button></td></tr>';}).join('')||'<tr><td colspan="4" style="text-align:center;padding:1.5rem;color:var(--mu)">Vide</td></tr>';}
 async function RE(id){var idx=ARCH.findIndex(function(p){return p.id===id;});if(idx<0)return;var e=ARCH.splice(idx,1)[0];delete e.archived_date;PIP.push(e);RD();toast('Restaurée','s');}
 
 function RD(){
-  var q=(document.getElementById('dq')?document.getElementById('dq').value:'').toLowerCase();
+  var q=norm(document.getElementById('dq')?document.getElementById('dq').value:'');
   var fs=document.getElementById('ds')?document.getElementById('ds').value:'';
-  var fil=PIP.filter(function(p){if(q&&p.company_name.toLowerCase().indexOf(q)<0&&p.role.toLowerCase().indexOf(q)<0)return false;if(fs&&p.status!==fs)return false;return true;}).sort(function(a,b){var av=a[dsc]||'',bv=b[dsc]||'';if(typeof av==='string')av=av.toLowerCase();if(typeof bv==='string')bv=bv.toLowerCase();return av<bv?-dsd:av>bv?dsd:0;});
+  var fil=PIP.filter(function(p){if(q&&norm(p.company_name).indexOf(q)<0&&norm(p.role).indexOf(q)<0)return false;if(fs&&p.status!==fs)return false;return true;}).sort(function(a,b){var av=a[dsc]||'',bv=b[dsc]||'';if(typeof av==='string')av=av.toLowerCase();if(typeof bv==='string')bv=bv.toLowerCase();return av<bv?-dsd:av>bv?dsd:0;});
   var st=function(s){return PIP.filter(function(p){return p.status===s;}).length;};
   document.getElementById('ks0').textContent=st('À contacter');document.getElementById('ks1').textContent=st('Envoyée');document.getElementById('ks2').textContent=st('En attente');document.getElementById('ks3').textContent=st('Réponse +');document.getElementById('ks4').textContent=st('Entretien');
-  var sent=PIP.filter(function(p){return ['Envoyée','En attente','Réponse +','Réponse -','Entretien'].indexOf(p.status)>=0;}).length;
+  var sent=PIP.filter(function(p){return['Envoyée','En attente','Réponse +','Réponse -','Entretien'].indexOf(p.status)>=0;}).length;
   var pos=PIP.filter(function(p){return p.status==='Réponse +';}).length;
   document.getElementById('ksr').textContent=sent>0?Math.round(pos/sent*100)+'%':'—';
   document.getElementById('tc-d').textContent=PIP.length;
   document.getElementById('demp').style.display=PIP.length===0?'block':'none';
   document.getElementById('atog').style.display=ARCH.length>0?'flex':'none';
-  var stars=function(p){return [1,2,3,4,5].map(function(i){return '<span onclick="UI(\''+p.id+'\','+i+')" style="color:'+(i<=p.interest?'var(--acc)':'var(--mu2)')+';cursor:pointer">★</span>';}).join('');};
+  var stars=function(p){return[1,2,3,4,5].map(function(i){return'<span onclick="UI(\''+p.id+'\','+i+')" style="color:'+(i<=p.interest?'var(--acc)':'var(--mu2)')+';cursor:pointer;font-size:.82rem">★</span>';}).join('');};
   var opts=['À contacter','Envoyée','En attente','Réponse +','Réponse -','Entretien'];
   var o=function(id){return OFFERS.find(function(x){return x.id===id;});};
   document.getElementById('dtb').innerHTML=fil.map(function(p){
     var offer=o(p.offer_ref);
-    return '<tr>'+
+    return'<tr>'+
       '<td><strong style="color:var(--acc)">'+p.company_name+'</strong></td>'+
-      '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;font-size:.72rem">'+p.role+'</td>'+
+      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;font-size:.7rem">'+p.role+'</td>'+
       '<td class="mo">'+(p.date_added||'—')+'</td>'+
       '<td class="mo">'+(p.email_sent_date||'—')+'</td>'+
-      '<td><select class="ssel" onchange="US(\''+p.id+'\',this.value)">'+opts.map(function(s){return '<option '+(p.status===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></td>'+
+      '<td><select class="ssel" onchange="US(\''+p.id+'\',this.value)">'+opts.map(function(s){return'<option '+(p.status===s?'selected':'')+'>'+s+'</option>';}).join('')+'</select></td>'+
       '<td>'+stars(p)+'</td>'+
-      '<td><input type="text" value="'+(p.notes||'')+'" placeholder="Notes..." onchange="UN(\''+p.id+'\',this.value)" style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:.68rem;padding:.16rem .42rem;border-radius:3px;width:120px;outline:none;font-family:var(--fb)"></td>'+
-      '<td><div style="display:flex;gap:.28rem">'+
+      '<td><input type="text" value="'+(p.notes||'')+'" placeholder="Notes..." onchange="UN(\''+p.id+'\',this.value)" style="background:transparent;border:1px solid var(--border);color:var(--text);font-size:.66rem;padding:.14rem .38rem;border-radius:3px;width:110px;outline:none;font-family:var(--fb)"></td>'+
+      '<td><div style="display:flex;gap:.25rem">'+
       (offer?'<a href="'+offer.url+'" target="_blank" class="da">↗</a>':'')+
-      '<button class="da" onclick="OM2(\''+(p.offer_ref||'')+'\')">✉</button>'+
-      '<button class="da del" onclick="AE(\''+p.id+'\')">Archiver</button>'+
+      '<button class="da" onclick="OM2(\''+(p.offer_ref||p.id)+'\')">✉</button>'+
+      '<button class="da del" onclick="AE(\''+p.id+'\')">Archive</button>'+
       '</div></td></tr>';
-  }).join('')||(PIP.length>0?'<tr><td colspan="8" style="text-align:center;padding:1.5rem;color:var(--mu);font-family:var(--fm);font-size:.64rem">Aucun résultat</td></tr>':'');
+  }).join('')||(PIP.length>0?'<tr><td colspan="8" style="text-align:center;padding:1.5rem;color:var(--mu);font-family:var(--fm);font-size:.62rem">Aucun résultat</td></tr>':'');
 }
 
 function UH(){document.getElementById('h-tr').textContent=PIP.length;}
@@ -784,15 +935,17 @@ function UH(){document.getElementById('h-tr').textContent=PIP.length;}
 function EX(){
   var c=['Société','Rôle','Date ajout','Email envoyé','Statut','Intérêt','Notes'];
   var rows=[c].concat(PIP.map(function(p){return[p.company_name,p.role,p.date_added,p.email_sent_date||'—',p.status,p.interest,p.notes||''];}));
-  var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var csv=rows.map(function(r){return r.map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='JobRadar_Pipeline.csv';a.click();
 }
 
-function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast '+(t||'i')+' show';setTimeout(function(){el.classList.remove('show');},3500);}
+function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast '+(t||'i')+' show';setTimeout(function(){el.classList.remove('show');},3200);}
 
 async function init(){
   try{var r=await fetch('/api/pipeline?stream=S1');var d=await r.json();if(d.pipeline)PIP=d.pipeline;}catch(e){}
   UH();await LO();
+  // Init sort button
+  document.getElementById('sb-company').classList.add('on');
 }
 init();
 </script>
