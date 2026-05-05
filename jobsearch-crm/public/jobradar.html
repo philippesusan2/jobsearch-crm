@@ -205,6 +205,38 @@ textarea.import-ta::placeholder{color:var(--mu2)}
 .toast.s{border-color:rgba(74,222,128,.3);color:var(--gr)}
 .toast.i{border-color:rgba(96,165,250,.3);color:var(--bl)}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--mu2);border-radius:2px}
+
+/* ── PROFILE PANEL ── */
+.prof-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:500}
+.prof-ov.on{display:block}
+.prof-panel{position:fixed;top:0;right:0;bottom:0;width:560px;max-width:100vw;background:var(--s2);border-left:1px solid var(--border2);z-index:501;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.prof-panel.on{transform:translateX(0)}
+.prof-hdr{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.prof-hdr h3{font-family:var(--fd);font-size:.9rem;font-weight:800}
+.prof-hdr-acts{display:flex;gap:.4rem;align-items:center}
+.prof-close{background:none;border:none;color:var(--mu);font-size:1rem;cursor:pointer;padding:.18rem .4rem}
+.prof-close:hover{color:var(--text)}
+.prof-body{flex:1;overflow-y:auto;padding:1rem 1.25rem}
+.prof-sec{margin-bottom:1.1rem}
+.prof-sec-title{font-family:var(--fm);font-size:.54rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem}
+.prof-sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.prof-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.prof-field{display:flex;flex-direction:column;gap:.22rem}
+.prof-field label{font-family:var(--fm);font-size:.52rem;color:var(--mu)}
+.prof-field input,.prof-field select{background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.75rem;padding:.38rem .6rem;border-radius:4px;outline:none;transition:border-color .18s}
+.prof-field input:focus,.prof-field select:focus{border-color:var(--acc)}
+.prof-field select{font-family:var(--fm);font-size:.6rem;cursor:pointer}
+.prof-ta{width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.62rem;padding:.6rem .75rem;border-radius:4px;outline:none;resize:vertical;line-height:1.65;transition:border-color .18s}
+.prof-ta:focus{border-color:var(--acc)}
+.prof-ta.cv{min-height:220px}
+.prof-ta.cl{min-height:200px}
+.prof-footer{padding:.75rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:.4rem;flex-shrink:0}
+.prof-save{flex:1;padding:.5rem;background:var(--acc);color:var(--bg);border:none;border-radius:4px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer;transition:background .15s}
+.prof-save:hover{background:#d4f545}
+.prof-reset{padding:.5rem .8rem;background:transparent;border:1px solid var(--border);color:var(--mu);border-radius:4px;font-family:var(--fm);font-size:.6rem;cursor:pointer;transition:all .15s}
+.prof-reset:hover{border-color:var(--re);color:var(--re)}
+.prof-badge{font-family:var(--fm);font-size:.52rem;padding:.15rem .45rem;border-radius:3px;background:rgba(74,222,128,.1);color:var(--gr);display:none}
+.prof-badge.show{display:inline-block}
 </style>
 </head>
 <body>
@@ -225,7 +257,8 @@ textarea.import-ta::placeholder{color:var(--mu2)}
   <div class="hact">
     <button class="hbtn" onclick="LO()">↻ Actualiser</button>
     <button class="hbtn pu" onclick="openImport()">+ Importer sociétés</button>
-    <button class="hbtn ac" onclick="openScan()">📡 Scanner</button>
+    <button class="hbtn" onclick="openScan()">📡 Scanner</button>
+    <button class="hbtn" onclick="openProfile()" title="Mon profil" style="border-color:rgba(232,197,71,.3);color:var(--am)">⚙ Profil</button>
     <a href="/" class="hbtn">← Hub</a>
   </div>
 </div></div>
@@ -435,10 +468,10 @@ textarea.import-ta::placeholder{color:var(--mu2)}
     </div>
     <div id="email-section" style="display:none">
       <div class="msec">
-        <span class="mlbl">Email de candidature</span>
+        <span class="mlbl">Email de candidature <span style="color:var(--am);font-size:.5rem">→ Copie ce prompt dans Claude.ai</span></span>
         <div class="aibox load" id="mai"><div class="dots"><span></span><span></span><span></span></div> Génération en cours...</div>
         <div class="macts" id="email-actions" style="display:none">
-          <button class="mact" onclick="copyContent('email')">📋 Copier</button>
+          <button class="mact" onclick="copyContent('email')">📋 Copier le prompt</button>
           <button class="mact" onclick="openGmail()">↗ Gmail</button>
           <button class="mact ok" onclick="MS()" style="margin-left:auto">✓ Marquer envoyée</button>
         </div>
@@ -453,6 +486,54 @@ textarea.import-ta::placeholder{color:var(--mu2)}
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ══ PROFILE PANEL ══ -->
+<div class="prof-ov" id="prof-ov" onclick="closeProfile()"></div>
+<div class="prof-panel" id="prof-panel">
+  <div class="prof-hdr">
+    <h3>⚙ Mon Profil</h3>
+    <div class="prof-hdr-acts">
+      <span class="prof-badge" id="prof-saved">✓ Sauvegardé</span>
+      <button class="prof-close" onclick="closeProfile()">✕</button>
+    </div>
+  </div>
+  <div class="prof-body">
+    <div class="prof-sec">
+      <div class="prof-sec-title">Identité</div>
+      <div class="prof-row">
+        <div class="prof-field"><label>Nom complet</label><input id="pf-name" type="text"></div>
+        <div class="prof-field"><label>Email</label><input id="pf-email" type="text"></div>
+      </div>
+      <div class="prof-row">
+        <div class="prof-field"><label>Téléphone</label><input id="pf-phone" type="text"></div>
+        <div class="prof-field"><label>Ville</label><input id="pf-location" type="text"></div>
+      </div>
+    </div>
+    <div class="prof-sec">
+      <div class="prof-sec-title">Préférences de génération</div>
+      <div class="prof-row">
+        <div class="prof-field"><label>Langue email</label>
+          <select id="pf-lang"><option value="en">🇬🇧 Anglais</option><option value="fr">🇫🇷 Français</option></select></div>
+        <div class="prof-field"><label>Longueur email</label>
+          <select id="pf-length"><option value="100-120">Court (100-120 mots)</option><option value="150-180" selected>Standard (150-180 mots)</option><option value="200-250">Long (200-250 mots)</option></select></div>
+        <div class="prof-field"><label>Ton</label>
+          <select id="pf-tone"><option value="peer">Peer-to-peer</option><option value="formal">Formel</option><option value="startup">Startup</option></select></div>
+      </div>
+    </div>
+    <div class="prof-sec">
+      <div class="prof-sec-title">CV complet</div>
+      <textarea class="prof-ta cv" id="pf-cv" placeholder="Colle ton CV complet en texte..."></textarea>
+    </div>
+    <div class="prof-sec">
+      <div class="prof-sec-title">Lettre modèle</div>
+      <textarea class="prof-ta cl" id="pf-cl" placeholder="Colle ta lettre de motivation modèle..."></textarea>
+    </div>
+  </div>
+  <div class="prof-footer">
+    <button class="prof-save" onclick="saveProfileUI()">💾 Sauvegarder le profil</button>
+    <button class="prof-reset" onclick="resetProfile()">↺ Réinitialiser</button>
   </div>
 </div>
 
@@ -828,27 +909,142 @@ function OM2(oid){
 
 function hexToRgb(hex){hex=hex.replace('#','');var r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);return r+','+g+','+b;}
 
-async function GE(){
+// ─────────────────────────────────────────────────────────
+// PROFILE SYSTEM
+// ─────────────────────────────────────────────────────────
+var PROFILE_KEY='jr_profile_v1';
+var PROFILE_DEFAULTS={
+  name:'Philippe Sussan',phone:'+33 6 45 42 22 69',email:'philippesussan2@gmail.com',location:'Paris, France',
+  emailLang:'en',emailLength:'150-180',emailTone:'peer',
+  cv:`Philippe Sussan — Senior Sales Leader | Country Manager | VP Sales Europe
+Paris, France | +33 6 45 42 22 69 | philippesussan2@gmail.com
+
+EXECUTIVE SUMMARY
+25+ years building and scaling European business operations for US software and AI leaders. Deep expertise across France, Benelux, Switzerland, Southern Europe. Consistent track record of building GTM from scratch, managing P&L, and closing complex enterprise deals at C-level across Financial Services, Insurance, Manufacturing, T&L, Pharma, Aerospace & Defense.
+
+EXPERIENCE
+
+Senior Director SEMEA — C3 AI (May 2025–Present)
+Enterprise AI platform sales across SEMEA for Global 1000 accounts. Complex multi-stakeholder AI transformation programmes with CIO/CTO/CISO-level sponsors. Closed major multi-year AI transformation contract with top-tier T&L operator in Southern Europe. Industries: Manufacturing, T&L, Financial Services, Pharma.
+
+Sales Director SEMEA — Seismic (2021–2025)
+Full revenue ownership across 5 European markets (France, Switzerland, Benelux, Spain, Portugal) within Fortune 500 accounts. Built territory plans, pipeline governance. SI/VAR partnerships: Accenture, Capgemini, Deloitte.
+
+Head of Sales EMEA — Stambia (2016–2021)
+Built EMEA sales organisation from scratch. Full GTM design. Recruited RVPs and AEs across Europe. Full P&L ownership. ETL/Data Integration platform.
+
+Regional Head of Sales Switzerland — TIBCO Analytics (2014–2016)
+Enterprise analytics and data platform sales across Switzerland.
+
+Senior Account Manager Insurance Lead — Salesforce (2008–2014)
+127%→192% attainment. Insurance sector lead France. Large-scale transformation programmes.
+
+COMPETENCIES: Enterprise AI Sales · Country/Regional Management · GTM from Scratch · Team Building · P&L Ownership · MEDDPICC · C-level Selling · SI/VAR Management · ETL/Data Platforms · Multi-country EU Operations`,
+  coverLetter:`Dear [Hiring Manager],
+
+[Company]'s position as [specific angle] — [one compelling fact] — makes this [role] particularly compelling. [Why the convergence of AI and their space matters now, and why you can contribute].
+
+As Senior Director SEMEA at C3 AI, I lead complex, multi-stakeholder AI transformation programmes with CIO, CTO and CISO-level sponsors across Manufacturing, T&L, Financial Services and Pharma. I recently signed a major multi-year AI transformation contract with a top-tier T&L operator in Southern Europe — built on deep executive trust, rigorous MEDDPICC discipline, and the ability to orchestrate long, technically demanding sales cycles through to close. [Connect to the specific company's challenge].
+
+Previously as Sales Director SEMEA at Seismic, I drove full revenue ownership across 5 European markets within Fortune 500 accounts — building territory plans, pipeline governance, and trusted SI/VAR partnerships with Accenture, Capgemini and Deloitte. At Stambia, I built the EMEA sales organisation from scratch — direct experience with opening a market, building pipeline from zero, and scaling a team with limited resources. At Salesforce, consistent overachiever as Insurance sector lead in France.
+
+I would welcome the opportunity to discuss how my C-level relationships, SI/VAR ecosystem, P&L experience and operational rigour can contribute to [Company]'s growth across [region].
+
+Kind regards,
+Philippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com`
+};
+
+function loadProfile(){try{var s=localStorage.getItem(PROFILE_KEY);if(s)return Object.assign({},PROFILE_DEFAULTS,JSON.parse(s));}catch(e){}return Object.assign({},PROFILE_DEFAULTS);}
+function saveProfile(d){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(d));return true;}catch(e){return false;}}
+
+function openProfile(){
+  var p=loadProfile();
+  document.getElementById('pf-name').value=p.name||'';
+  document.getElementById('pf-email').value=p.email||'';
+  document.getElementById('pf-phone').value=p.phone||'';
+  document.getElementById('pf-location').value=p.location||'';
+  document.getElementById('pf-lang').value=p.emailLang||'en';
+  document.getElementById('pf-length').value=p.emailLength||'150-180';
+  document.getElementById('pf-tone').value=p.emailTone||'peer';
+  document.getElementById('pf-cv').value=p.cv||'';
+  document.getElementById('pf-cl').value=p.coverLetter||'';
+  document.getElementById('prof-saved').classList.remove('show');
+  document.getElementById('prof-ov').classList.add('on');
+  document.getElementById('prof-panel').classList.add('on');
+}
+function closeProfile(){document.getElementById('prof-ov').classList.remove('on');document.getElementById('prof-panel').classList.remove('on');}
+function saveProfileUI(){
+  var d={
+    name:document.getElementById('pf-name').value.trim(),
+    email:document.getElementById('pf-email').value.trim(),
+    phone:document.getElementById('pf-phone').value.trim(),
+    location:document.getElementById('pf-location').value.trim(),
+    emailLang:document.getElementById('pf-lang').value,
+    emailLength:document.getElementById('pf-length').value,
+    emailTone:document.getElementById('pf-tone').value,
+    cv:document.getElementById('pf-cv').value.trim(),
+    coverLetter:document.getElementById('pf-cl').value.trim()
+  };
+  if(saveProfile(d)){document.getElementById('prof-saved').classList.add('show');toast('Profil sauvegardé ✓','s');setTimeout(function(){document.getElementById('prof-saved').classList.remove('show');},3000);}
+  else toast('Erreur sauvegarde','');
+}
+function resetProfile(){if(!confirm('Réinitialiser le profil avec les valeurs par défaut ?'))return;localStorage.removeItem(PROFILE_KEY);openProfile();toast('Profil réinitialisé','i');}
+
+// ─────────────────────────────────────────────────────────
+// EMAIL GENERATION — PROMPT ONLY (copy/paste into Claude.ai)
+// ─────────────────────────────────────────────────────────
+function GE(){
   if(!curO)return;
+  var p=loadProfile();
   var jd=document.getElementById('jd-paste').value.trim();
-  var pk=getProfileKey(curO.title,curO.level);
-  var cv=CV_LABELS[pk];
-  var btn=document.getElementById('mgen');btn.disabled=true;btn.textContent='⏳ Génération...';
-  if(genType==='email'||genType==='both'){document.getElementById('email-section').style.display='block';document.getElementById('mai').className='aibox load';document.getElementById('mai').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Génération en cours...';document.getElementById('email-actions').style.display='none';}
-  if(genType==='cover_letter'||genType==='both'){document.getElementById('cl-section').style.display='block';document.getElementById('mcl').className='aibox load';document.getElementById('mcl').innerHTML='<div class="dots"><span></span><span></span><span></span></div> Génération en cours...';document.getElementById('cl-actions').style.display='none';}
-  var prompt='Tu es un expert en recrutement sales tech B2B.\n\nProfil candidat : '+cv.label+' — Senior Sales Leader, 15+ ans d\'expérience, spécialiste AI/SaaS/Data.\n\nPoste visé : '+curO.title+'\nSociété : '+curO.company_name+'\nLieu : '+(curO.location||'Non précisé')+'\nSegment : '+(curO.segment||'Tech')+'\n'+(jd?'\nTexte de l\'annonce :\n"""\n'+jd+'\n"""\n':'\n[Pas de texte d\'annonce fourni — génère un email solide basé sur le poste et la société]\n')+'\nGénère '+(genType==='email'?'un email de candidature percutant en anglais (150-200 mots max)':(genType==='cover_letter'?'une lettre de motivation en français (300-400 mots)':(genType==='both'?':\n1. EMAIL (anglais, 150-200 mots, objet en première ligne : "OBJET: [sujet]")\n---\n2. LETTRE (français, 300-400 mots)':'un email')))+'. Commence directement par le contenu, pas d\'explication.';
-  try{
-    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    var d=await r.json();var txt=d.content[0].text;
-    if(genType==='both'){
-      var parts=txt.split(/\n---\n/);
-      curEmail=parts[0]||txt;curCL=parts[1]||'';
-    }else if(genType==='email'){curEmail=txt;curCL='';}
-    else{curEmail='';curCL=txt;}
-    if((genType==='email'||genType==='both')&&curEmail){document.getElementById('mai').className='aibox rdy';document.getElementById('mai').textContent=curEmail;document.getElementById('email-actions').style.display='flex';}
-    if((genType==='cover_letter'||genType==='both')&&curCL){document.getElementById('mcl').className='aibox rdy';document.getElementById('mcl').textContent=curCL;document.getElementById('cl-actions').style.display='flex';}
-  }catch(e){document.getElementById('mai').className='aibox rdy';document.getElementById('mai').textContent='Erreur : '+e.message;if(genType==='email'||genType==='both')document.getElementById('email-actions').style.display='flex';}
-  btn.disabled=false;btn.textContent='↺ Regénérer';
+  var langLabel=p.emailLang==='en'?'English':'French';
+  var toneLabel=p.emailTone==='peer'?'peer-to-peer, confident, direct — write as an equal, NOT as a job seeker':p.emailTone==='formal'?'formal and professional':' energetic, startup-friendly';
+
+  var prompt='You are a senior B2B tech sales recruiter and copywriter.\n\n'+
+'== CANDIDATE PROFILE ==\n'+
+'Name: '+p.name+'\nContact: '+p.phone+' | '+p.email+' | '+p.location+'\n\n'+
+'FULL CV:\n'+p.cv+'\n\n'+
+'COVER LETTER STYLE MODEL (replicate this structure and tone):\n'+p.coverLetter+'\n\n'+
+'== TARGET ROLE ==\n'+
+'Company: '+curO.company_name+'\n'+
+'Job Title: '+curO.title+'\n'+
+'Location: '+(curO.location||'Europe')+'\n'+
+'Segment: '+(curO.segment||'Tech')+'\n'+
+(jd?'Job Description:\n"""\n'+jd+'\n"""\n':'')+'\n'+
+'== INSTRUCTIONS ==\n'+
+(genType==='email'?
+'Write a '+p.emailLength+'-word outreach email IN '+langLabel.toUpperCase()+'.\n'+
+'Tone: '+toneLabel+'.\n'+
+'Structure (follow the cover letter model style):\n'+
+'1. Sharp opening hook specific to THIS company + role (1-2 sentences)\n'+
+'2. Most relevant experience connecting to their specific need (2-3 sentences, use concrete deal/achievement)\n'+
+'3. Second proof point from CV (1-2 sentences)\n'+
+'4. Clear CTA: 20-min call\n\n'+
+'Output format:\nSUBJECT: [punchy subject line, max 8 words]\n\n[email body]\n\nTIMING: [1 sentence on best send time]'
+:genType==='cover_letter'?
+'Write a cover letter IN FRENCH (300-400 words).\n'+
+'Strictly follow the structure and tone of the COVER LETTER STYLE MODEL above.\n'+
+'Adapt specifically to '+curO.company_name+' and the role "'+curO.title+'".\n'+
+'Use concrete examples from the CV.'
+:
+'Write TWO documents:\n\n1. EMAIL ('+p.emailLength+' words, '+langLabel+'):\nSUBJECT: [subject]\n[email body]\n\n---\n\n2. COVER LETTER (French, 300-400 words, follow the style model above)');
+
+  // Show prompt in the UI for manual copy
+  if(genType==='email'||genType==='both'){
+    document.getElementById('email-section').style.display='block';
+    document.getElementById('mai').className='aibox rdy';
+    document.getElementById('mai').textContent=prompt;
+    document.getElementById('email-actions').style.display='flex';
+  }
+  if(genType==='cover_letter'||genType==='both'){
+    document.getElementById('cl-section').style.display='block';
+    document.getElementById('mcl').className='aibox rdy';
+    document.getElementById('mcl').textContent=prompt;
+    document.getElementById('cl-actions').style.display='flex';
+  }
+  curEmail=prompt;curCL=prompt;
+  document.getElementById('mgen').textContent='↺ Regénérer le prompt';
+}
 }
 
 function copyContent(t){
