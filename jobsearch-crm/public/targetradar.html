@@ -723,58 +723,41 @@ function openM(tid){
 function closeM(){document.getElementById('modal').classList.remove('on');}
 function mbg(e){if(e.target===document.getElementById('modal'))closeM();}
 
-async function genEmail(){
+function genEmail(){
   if(!curT)return;
-  const btn=document.getElementById('mgen');btn.disabled=true;btn.textContent='Génération...';
+  var p=loadProf();
+  var t=curT;
+  var lang=p.lang==='en'?'English':'French';
+  var tone=p.tone==='peer'?'peer-to-peer, confident - write as an equal addressing a CEO/CRO, NOT as a job seeker':'formal and professional';
+
+  var prompt='== CANDIDATE PROFILE ==\n'
+    +'Name: '+p.name+'\nContact: '+p.phone+' | '+p.email+' | '+p.loc+'\n\n'
+    +'CV:\n'+p.cv+'\n\n'
+    +'COVER LETTER STYLE MODEL:\n'+p.cl+'\n\n'
+    +'== TARGET COMPANY ==\n'
+    +'Company: '+t.n+'\n'
+    +'Segment: '+(t.s||'Tech')+'\n'
+    +'Funding: '+(t.f||'')+'\n'
+    +'What they do: '+t.w+'\n'
+    +'EU expansion signal: '+(t.sig||'Expanding in Europe')+'\n'
+    +'Contact: '+(t.who||'CEO/CRO')+'\n\n'
+    +'== TASK ==\n'
+    +'Write a proactive outreach email IN '+lang.toUpperCase()+', '+p.len+' words.\n'
+    +'Tone: '+tone+'.\n'
+    +'This is NOT a job application - it is a peer-level business conversation.\n'
+    +'Structure: sharp specific hook on THIS company EU situation > relevant experience with concrete achievement > second proof > CTA 20-min call.\n'
+    +'Format:\n'
+    +'TO: [First Last - Title - email@'+t.n.toLowerCase().replace(/\s+/g,'')+'.com (estimated)]\n'
+    +'SUBJECT: [punchy, max 8 words]\n\n'
+    +'[email body]\n\n'
+    +'TIMING: [best send time, 1 sentence]';
+
   document.getElementById('email-section').style.display='block';
-  const ai=document.getElementById('mai');ai.className='aibox load';
-  ai.innerHTML='<div class="dots"><span></span><span></span><span></span></div> Génération en cours...';
-  document.getElementById('email-actions').style.display='none';
-  const t=curT;
-  const prompt=`You are writing a proactive outreach email IN ENGLISH on behalf of Philippe Sussan, targeting a Country Manager / General Manager / VP Sales Europe role at ${t.n}.
-
-CANDIDATE PROFILE:
-${PROF}
-
-TARGET COMPANY: ${t.n}
-WHAT THEY DO: ${t.w}
-EU EXPANSION SIGNAL: ${t.sig||'Expansion EU ongoing'}
-CONTACT TO ADDRESS: ${t.who||'CEO/CRO'}
-FUNDING TIER: ${FL[t.f]||t.f}
-SEGMENT: ${SL[t.s]||t.s}
-
-RULES:
-- Write directly as Philippe (first person)
-- Open with a sharp, specific hook about THIS company's EU situation
-- Connect Philippe's most relevant experience to their specific need
-- Highlight: built EMEA from scratch at Stambia, 25yr enterprise AI/SaaS, C-level relationships, P&L ownership
-- Close with a clear CTA: 20-min call
-- Tone: confident, direct, peer-to-peer (NOT applicant tone)
-- Length: 150-180 words MAX
-- NO generic phrases
-
-FORMAT (respect exactly):
-TO: [First Last · Title · email@${t.n.toLowerCase().replace(/\s/g,'')}.com]
-SUBJECT: [Max 8 words, punchy]
-
----
-[Email body]
----
-
-TIMING ADVICE: [1 sentence]`;
-
-  try{
-    const resp=await fetch('/api/generate-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
-    if(!resp.ok){const e=await resp.json().catch(()=>({error:'Erreur '+resp.status}));throw new Error(e.error||'Erreur serveur');}
-    const d=await resp.json();
-    curEmail=d.text||d.content||'';
-    ai.className='aibox rdy';ai.textContent=curEmail;
-    document.getElementById('email-actions').style.display='flex';
-  }catch(e){
-    ai.className='aibox rdy';ai.textContent='❌ Erreur : '+e.message;
-    document.getElementById('email-actions').style.display='flex';
-  }
-  btn.disabled=false;btn.textContent='↺ Regénérer';
+  document.getElementById('mai').className='aibox rdy';
+  document.getElementById('mai').textContent=prompt;
+  document.getElementById('email-actions').style.display='flex';
+  curEmail=prompt;
+  document.getElementById('mgen').textContent='Regénérer le prompt';
 }
 
 function copyE(){
@@ -876,7 +859,7 @@ var PROF_DEF={
   len:'150-180',
   tone:'peer',
   cv:'Philippe Sussan — Senior Sales Leader | Country Manager | VP Sales Europe\nParis, France | +33 6 45 42 22 69 | philippesussan2@gmail.com\n\nEXECUTIVE PROFILE\n25+ years driving revenue growth and building high-performance sales teams across Europe for US software and AI leaders. Consistent track record of overachievement — from individual quota to full regional P&L — across Enterprise AI, Cloud, SaaS, Data & Analytics, with strong sector depth in Financial Services & Insurance, Manufacturing, Aerospace & Defense, Transportation & Logistics, Retail and B2B Services.\n\nEXPERIENCE\n\nC3 AI · Senior Director, SEMEA (May 2025–Present)\nLead Enterprise AI strategy and revenue across SEMEA for Global 1000 accounts. Closed a major Enterprise AI platform deal with a top-tier European T&L operator — multi-year contract. Drive cross-functional deal teams from qualification to close on high-value, multi-stakeholder engagements. Build Global SI partner relationships (Accenture, Capgemini, McKinsey, PwC, Deloitte) and technology alliances (AWS, Microsoft).\n\nSEISMIC · Sales Director, SEMEA (June 2021–April 2025)\nOwned full revenue responsibility across SEMEA (France, Switzerland, Benelux, Spain & Portugal). Fortune 500 accounts, SaaS platform.\n\nSTAMBIA · Head of Sales EMEA (2016–2021)\nBuilt sales organisation from scratch. Structured GTM across multiple European regions. Full P&L ownership. ETL/Data Integration platform.\n\nTIBCO Analytics · Regional Head of Sales Switzerland (2014–2016)\n\nSALESFORCE · Senior Account Manager, Insurance Lead France (2008–2014)\n127%→192% quota attainment. Led large-scale enterprise transformation programmes.\n\nCOMPETENCIES: Enterprise AI · Cloud SaaS · Country/Regional Management · GTM from scratch · Team building · P&L ownership · MEDDPICC · C-level selling · SI/VAR alliances · ETL/Data platforms · Multilingual EN/FR/ES/IT',
-  cl:"Dear [First Name],\n\n[Company]'s position as [specific angle] — [one compelling fact about traction/market] — makes this [role] particularly compelling. [One sentence on why their EU expansion situation matters now, and why you can contribute].\n\nAs Senior Director SEMEA at C3 AI, I lead complex, multi-stakeholder AI transformation programmes with CIO, CTO and C-level sponsors across Manufacturing, T&L, Financial Services and Pharma. I recently closed a major multi-year Enterprise AI contract with a leading European T&L operator — built on deep executive trust, rigorous qualification discipline (MEDDPICC), and the ability to orchestrate long, technically demanding sales cycles through to close. [Connect this directly to their specific challenge or expansion signal].\n\nPreviously as Sales Director SEMEA at Seismic, I drove full revenue ownership across 5 European markets within Fortune 500 accounts — building structured territory plans, pipeline governance, and trusted SI/VAR partnerships with Accenture, Capgemini and Deloitte. At Stambia, I built the EMEA sales organisation from scratch. At Salesforce, consistent overachiever as Insurance sector lead in France.\n\nI would welcome the opportunity to discuss how my C-level relationships, SI/VAR ecosystem, P&L experience and operational rigour can contribute to [Company]'s growth across [region].\n\nKind regards,\nPhilippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com"
+  cl:"Dear [First Name / Hiring Manager],\n\n[Company] is one of the most compelling companies in today\'s AI landscape -- [specific angle on what they do and why it matters now]. This opportunity strongly resonates with my passion for AI-driven business transformation and my track record of building high-performance teams across Europe.\n\nWhat drives me is not only selling technology, but helping organizations turn AI into something tangible -- real use cases, real adoption, real business impact. With 25+ years of experience across Enterprise AI, Cloud, SaaS and Data platforms, I have built and scaled businesses across Europe (France, Benelux, Switzerland, Southern Europe), leading complex enterprise sales cycles and engaging at C-level across Financial Services, Manufacturing, T&L, Pharma and Aerospace & Defense.\n\nAt C3 AI, I drove Enterprise AI expansion across Southern Europe and personally closed a major multi-year contract with a leading T&L operator -- built on deep executive trust, rigorous qualification discipline (MEDDPICC), and the ability to orchestrate long, technically demanding sales cycles through to close. At Seismic, I owned full revenue responsibility across 5 European markets within Fortune 500 accounts. At Stambia, I built the EMEA sales organisation from scratch. At Salesforce, consistent overachiever as Insurance sector lead in France.\n\nI believe I can bring immediate value to [Company] by [specific contribution: building the France/EU team / accelerating pipeline / personally engaging C-level on strategic opportunities].\n\nI would welcome the opportunity to discuss how my experience could contribute to [Company]\'s next stage of growth.\n\nBest regards,\nPhilippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com"
 };
 
 function loadProf(){
