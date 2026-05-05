@@ -759,41 +759,27 @@ var PROFILE_KEY='jr_profile_v1';
 var PROFILE_DEFAULTS={
   name:'Philippe Sussan',phone:'+33 6 45 42 22 69',email:'philippesussan2@gmail.com',location:'Paris, France',
   emailLang:'en',emailLength:'150-180',emailTone:'peer',
-  cv:`Philippe Sussan — Senior Sales Leader | Country Manager | VP Sales Europe
-Paris, France | +33 6 45 42 22 69 | philippesussan2@gmail.com
-
-EXECUTIVE SUMMARY
-25+ years building and scaling European business operations for US software and AI leaders. Deep expertise across France, Benelux, Switzerland, Southern Europe. Consistent track record of building GTM from scratch, managing P&L, and closing complex enterprise deals at C-level across Financial Services, Insurance, Manufacturing, T&L, Pharma, Aerospace & Defense.
-
-EXPERIENCE
-
-Senior Director SEMEA — C3 AI (May 2025–Present)
-Enterprise AI platform sales across SEMEA for Global 1000 accounts. Complex multi-stakeholder AI transformation programmes with CIO/CTO/CISO-level sponsors. Closed major multi-year AI transformation contract with top-tier T&L operator in Southern Europe.
-
-Sales Director SEMEA — Seismic (2021–2025)
-Full revenue ownership across 5 European markets (France, Switzerland, Benelux, Spain, Portugal) within Fortune 500 accounts. SI/VAR partnerships: Accenture, Capgemini, Deloitte.
-
-Head of Sales EMEA — Stambia (2016–2021)
-Built EMEA sales organisation from scratch. Full GTM design. Recruited RVPs and AEs across Europe. Full P&L ownership. ETL/Data Integration platform.
-
-Regional Head of Sales Switzerland — TIBCO Analytics (2014–2016)
-
-Senior Account Manager Insurance Lead — Salesforce (2008–2014)
-127%→192% attainment. Insurance sector lead France.
-
-COMPETENCIES: Enterprise AI Sales · Country/Regional Management · GTM from Scratch · Team Building · P&L Ownership · MEDDPICC · C-level Selling · SI/VAR Management · ETL/Data Platforms`,
-  coverLetter:`Dear [First Name],
-
-[Company]'s position as [specific angle] — [one compelling fact] — makes this [role] particularly compelling. [Why their EU expansion/AI situation matters now and why you can contribute].
-
-As Senior Director SEMEA at C3 AI, I lead complex, multi-stakeholder AI transformation programmes with CIO, CTO and CISO-level sponsors across Manufacturing, T&L, Financial Services and Pharma. I recently signed a major multi-year AI transformation contract with a top-tier T&L operator in Southern Europe — built on deep executive trust, rigorous MEDDPICC discipline, and the ability to orchestrate long, technically demanding sales cycles through to close. [Connect to their specific expansion challenge].
-
-Previously as Sales Director SEMEA at Seismic, I drove full revenue ownership across 5 European markets within Fortune 500 accounts. At Stambia, I built the EMEA sales organisation from scratch — direct experience with opening a market, building pipeline from zero, and scaling a team. At Salesforce, consistent overachiever as Insurance sector lead in France.
-
-I would welcome the opportunity to discuss how my C-level relationships, SI/VAR ecosystem, P&L experience and operational rigour can contribute to [Company]'s growth across [region].
-
-Kind regards,
-Philippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com`
+  cv:'Philippe Sussan — Senior Sales Leader | Country Manager | VP Sales Europe\n'+
+     'Paris, France | +33 6 45 42 22 69 | philippesussan2@gmail.com\n\n'+
+     'EXECUTIVE SUMMARY\n'+
+     '25+ years building and scaling European business operations for US software and AI leaders. Deep expertise across France, Benelux, Switzerland, Southern Europe. Consistent track record of building GTM from scratch, managing P&L, and closing complex enterprise deals at C-level across Financial Services, Insurance, Manufacturing, T&L, Pharma, Aerospace & Defense.\n\n'+
+     'EXPERIENCE\n\n'+
+     'Senior Director SEMEA — C3 AI (May 2025–Present)\n'+
+     'Enterprise AI platform sales across SEMEA for Global 1000 accounts. Complex multi-stakeholder AI transformation programmes with CIO/CTO/CISO-level sponsors. Closed major multi-year AI transformation contract with top-tier T&L operator in Southern Europe.\n\n'+
+     'Sales Director SEMEA — Seismic (2021–2025)\n'+
+     'Full revenue ownership across 5 European markets (France, Switzerland, Benelux, Spain, Portugal) within Fortune 500 accounts. SI/VAR partnerships: Accenture, Capgemini, Deloitte.\n\n'+
+     'Head of Sales EMEA — Stambia (2016–2021)\n'+
+     'Built EMEA sales organisation from scratch. Full GTM design. Recruited RVPs and AEs across Europe. Full P&L ownership. ETL/Data Integration platform.\n\n'+
+     'Regional Head of Sales Switzerland — TIBCO Analytics (2014–2016)\n\n'+
+     'Senior Account Manager Insurance Lead — Salesforce (2008–2014)\n'+
+     '127%→192% attainment. Insurance sector lead France.\n\n'+
+     'COMPETENCIES: Enterprise AI Sales · Country/Regional Management · GTM from Scratch · Team Building · P&L Ownership · MEDDPICC · C-level Selling · SI/VAR Management · ETL/Data Platforms',
+  coverLetter:'Dear [First Name],\n\n'+
+     '[Company]\'s position as [specific angle] — [one compelling fact] — makes this [role] particularly compelling. [Why their EU expansion/AI situation matters now and why you can contribute].\n\n'+
+     'As Senior Director SEMEA at C3 AI, I lead complex, multi-stakeholder AI transformation programmes with CIO, CTO and CISO-level sponsors across Manufacturing, T&L, Financial Services and Pharma. I recently signed a major multi-year AI transformation contract with a top-tier T&L operator in Southern Europe — built on deep executive trust, rigorous MEDDPICC discipline, and the ability to orchestrate long, technically demanding sales cycles through to close. [Connect to their specific expansion challenge].\n\n'+
+     'Previously as Sales Director SEMEA at Seismic, I drove full revenue ownership across 5 European markets within Fortune 500 accounts. At Stambia, I built the EMEA sales organisation from scratch — direct experience with opening a market, building pipeline from zero, and scaling a team. At Salesforce, consistent overachiever as Insurance sector lead in France.\n\n'+
+     'I would welcome the opportunity to discuss how my C-level relationships, SI/VAR ecosystem, P&L experience and operational rigour can contribute to [Company]\'s growth across [region].\n\n'+
+     'Kind regards,\nPhilippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com'
 };
 
 function loadProfile(){try{var s=localStorage.getItem(PROFILE_KEY);if(s)return Object.assign({},PROFILE_DEFAULTS,JSON.parse(s));}catch(e){}return Object.assign({},PROFILE_DEFAULTS);}
