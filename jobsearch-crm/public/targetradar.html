@@ -215,6 +215,7 @@ textarea.import-ta::placeholder{color:var(--mu2)}
 .pp-reset{padding:.48rem .75rem;background:transparent;border:1px solid var(--border);color:var(--mu);border-radius:4px;font-family:var(--fm);font-size:.6rem;cursor:pointer}
 .pp-reset:hover{border-color:var(--re);color:var(--re)}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -336,7 +337,7 @@ textarea.import-ta::placeholder{color:var(--mu2)}
     <div class="dc">
       <input type="text" id="dq" placeholder="Rechercher..." oninput="renderD()" style="width:170px">
       <select id="ds" onchange="renderD()"><option value="">Tous statuts</option><option>À contacter</option><option>Email envoyé</option><option>En attente</option><option>Réponse +</option><option>Réponse -</option><option>Entretien</option></select>
-      <button class="xbtn" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="xbtn" onclick="exportCSV()">⬇ Export XLS</button>
     </div>
     <div class="dtw"><table class="dt">
       <thead><tr>
@@ -839,11 +840,27 @@ function renderD(){
 function updH(){document.getElementById('h-pip').textContent=PIP.length;}
 
 function exportCSV(){
-  const c=['Société','Segment','Rôle','Contact','Date ajout','Email envoyé','Statut','Intérêt','Notes','URL'];
-  const tgt=tid=>T.find(t=>t.id===tid);
-  const rows=[c,...PIP.map(p=>[p.company,p.segment,p.role,p.contact,p.dateAdded,p.emailSent||'—',p.status,p.interest,p.notes||'',tgt(p.tid)?.url||''])];
-  const csv=rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='TargetRadar_Pipeline.csv';a.click();
+  var hdrs=['Société','Segment','Rôle','Contact','Date ajout','Email envoyé','Statut','Intérêt','Notes','URL Carrières'];
+  var rows=PIP.map(function(p){
+    var t=T.find(function(x){return x.id===p.tid;});
+    return[
+      p.company||'',
+      p.segment||'',
+      p.role||'',
+      p.contact||'',
+      p.dateAdded||'',
+      p.emailSent||'',
+      p.status||'',
+      p.interest||'',
+      p.notes||'',
+      t?t.url||'':''
+    ];
+  });
+  var ws=XLSX.utils.aoa_to_sheet([hdrs].concat(rows));
+  ws['!cols']=hdrs.map(function(h){return{wch:Math.max(h.length,18)};});
+  var wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Pipeline TargetRadar');
+  XLSX.writeFile(wb,'TargetRadar_Pipeline_'+new Date().toISOString().slice(0,10)+'.xlsx');
 }
 
 function toast(m,t='i'){const el=document.getElementById('toast');el.textContent=m;el.className='toast '+t+' show';setTimeout(()=>el.classList.remove('show'),3000);}
