@@ -185,6 +185,35 @@ textarea.import-ta::placeholder{color:var(--mu2)}
 .toast.s{border-color:rgba(74,222,128,.3);color:var(--gr)}
 .toast.i{border-color:rgba(96,165,250,.3);color:var(--bl)}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--mu2);border-radius:2px}
+
+/* PROFILE PANEL */
+.pov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:500}
+.pov.on{display:block}
+.ppanel{position:fixed;top:0;right:0;bottom:0;width:540px;max-width:100vw;background:var(--s2);border-left:1px solid var(--border2);z-index:501;display:flex;flex-direction:column;transform:translateX(110%);transition:transform .25s ease}
+.ppanel.on{transform:translateX(0)}
+.pp-hdr{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.pp-hdr h3{font-family:var(--fd);font-size:.9rem;font-weight:800}
+.pp-ok{font-family:var(--fm);font-size:.52rem;padding:.15rem .45rem;border-radius:3px;background:rgba(74,222,128,.1);color:var(--gr);opacity:0;transition:opacity .3s}
+.pp-ok.show{opacity:1}
+.pp-close{background:none;border:none;color:var(--mu);font-size:1rem;cursor:pointer;padding:.2rem .4rem}
+.pp-close:hover{color:var(--text)}
+.pp-body{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.9rem}
+.pp-sec{}
+.pp-lbl{font-family:var(--fm);font-size:.52rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem}
+.pp-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.pp-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.pp-field{display:flex;flex-direction:column;gap:.2rem}
+.pp-field label{font-family:var(--fm);font-size:.5rem;color:var(--mu)}
+.pp-field input,.pp-field select{background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fb);font-size:.74rem;padding:.35rem .55rem;border-radius:4px;outline:none}
+.pp-field input:focus,.pp-field select:focus{border-color:var(--acc)}
+.pp-field select{font-family:var(--fm);font-size:.58rem;cursor:pointer}
+.pp-ta{width:100%;background:var(--s1);border:1px solid var(--border);color:var(--text);font-family:var(--fm);font-size:.6rem;padding:.55rem .7rem;border-radius:4px;outline:none;resize:vertical;line-height:1.65}
+.pp-ta:focus{border-color:var(--acc)}
+.pp-foot{padding:.75rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:.4rem;flex-shrink:0}
+.pp-save{flex:1;padding:.48rem;background:var(--acc);color:#06060e;border:none;border-radius:4px;font-family:var(--fm);font-size:.6rem;font-weight:700;cursor:pointer}
+.pp-save:hover{background:#f5d060}
+.pp-reset{padding:.48rem .75rem;background:transparent;border:1px solid var(--border);color:var(--mu);border-radius:4px;font-family:var(--fm);font-size:.6rem;cursor:pointer}
+.pp-reset:hover{border-color:var(--re);color:var(--re)}
 </style>
 </head>
 <body>
@@ -201,6 +230,7 @@ textarea.import-ta::placeholder{color:var(--mu2)}
   <div class="hact">
     <button class="hbtn pu" onclick="ST('import')" style="border-color:rgba(232,197,71,.3);color:var(--acc)">+ Importer sociétés</button>
     <a href="/" class="hbtn">← Hub</a>
+    <button class="hbtn" onclick="openProf()" style="border-color:rgba(232,197,71,.3);color:var(--am)">⚙ Profil</button>
   </div>
 </div></div>
 
@@ -834,6 +864,112 @@ async function init(){
   try{const pip=await apiGet();if(pip){PIP=pip;updH();}}catch(e){}
 }
 init();
+
+// ── PROFILE SYSTEM ──
+var PROF_KEY='jscm_profile_v1';
+var PROF_DEF={
+  name:'Philippe Sussan',
+  email:'philippesussan2@gmail.com',
+  phone:'+33 6 45 42 22 69',
+  loc:'Paris, France',
+  lang:'en',
+  len:'150-180',
+  tone:'peer',
+  cv:'Philippe Sussan — Senior Sales Leader | Country Manager | VP Sales Europe\nParis, France | +33 6 45 42 22 69 | philippesussan2@gmail.com\n\nEXECUTIVE PROFILE\n25+ years driving revenue growth and building high-performance sales teams across Europe for US software and AI leaders. Consistent track record of overachievement — from individual quota to full regional P&L — across Enterprise AI, Cloud, SaaS, Data & Analytics, with strong sector depth in Financial Services & Insurance, Manufacturing, Aerospace & Defense, Transportation & Logistics, Retail and B2B Services.\n\nEXPERIENCE\n\nC3 AI · Senior Director, SEMEA (May 2025–Present)\nLead Enterprise AI strategy and revenue across SEMEA for Global 1000 accounts. Closed a major Enterprise AI platform deal with a top-tier European T&L operator — multi-year contract. Drive cross-functional deal teams from qualification to close on high-value, multi-stakeholder engagements. Build Global SI partner relationships (Accenture, Capgemini, McKinsey, PwC, Deloitte) and technology alliances (AWS, Microsoft).\n\nSEISMIC · Sales Director, SEMEA (June 2021–April 2025)\nOwned full revenue responsibility across SEMEA (France, Switzerland, Benelux, Spain & Portugal). Fortune 500 accounts, SaaS platform.\n\nSTAMBIA · Head of Sales EMEA (2016–2021)\nBuilt sales organisation from scratch. Structured GTM across multiple European regions. Full P&L ownership. ETL/Data Integration platform.\n\nTIBCO Analytics · Regional Head of Sales Switzerland (2014–2016)\n\nSALESFORCE · Senior Account Manager, Insurance Lead France (2008–2014)\n127%→192% quota attainment. Led large-scale enterprise transformation programmes.\n\nCOMPETENCIES: Enterprise AI · Cloud SaaS · Country/Regional Management · GTM from scratch · Team building · P&L ownership · MEDDPICC · C-level selling · SI/VAR alliances · ETL/Data platforms · Multilingual EN/FR/ES/IT',
+  cl:"Dear [First Name],\n\n[Company]'s position as [specific angle] — [one compelling fact about traction/market] — makes this [role] particularly compelling. [One sentence on why their EU expansion situation matters now, and why you can contribute].\n\nAs Senior Director SEMEA at C3 AI, I lead complex, multi-stakeholder AI transformation programmes with CIO, CTO and C-level sponsors across Manufacturing, T&L, Financial Services and Pharma. I recently closed a major multi-year Enterprise AI contract with a leading European T&L operator — built on deep executive trust, rigorous qualification discipline (MEDDPICC), and the ability to orchestrate long, technically demanding sales cycles through to close. [Connect this directly to their specific challenge or expansion signal].\n\nPreviously as Sales Director SEMEA at Seismic, I drove full revenue ownership across 5 European markets within Fortune 500 accounts — building structured territory plans, pipeline governance, and trusted SI/VAR partnerships with Accenture, Capgemini and Deloitte. At Stambia, I built the EMEA sales organisation from scratch. At Salesforce, consistent overachiever as Insurance sector lead in France.\n\nI would welcome the opportunity to discuss how my C-level relationships, SI/VAR ecosystem, P&L experience and operational rigour can contribute to [Company]'s growth across [region].\n\nKind regards,\nPhilippe Sussan | +33 6 45 42 22 69 | philippesussan2@gmail.com"
+};
+
+function loadProf(){
+  try{var s=localStorage.getItem(PROF_KEY);if(s)return Object.assign({},PROF_DEF,JSON.parse(s));}catch(e){}
+  return Object.assign({},PROF_DEF);
+}
+function saveProf(){
+  var d={
+    name:document.getElementById('pf-name').value.trim(),
+    email:document.getElementById('pf-email').value.trim(),
+    phone:document.getElementById('pf-phone').value.trim(),
+    loc:document.getElementById('pf-loc').value.trim(),
+    lang:document.getElementById('pf-lang').value,
+    len:document.getElementById('pf-len').value,
+    tone:document.getElementById('pf-tone').value,
+    cv:document.getElementById('pf-cv').value.trim(),
+    cl:document.getElementById('pf-cl').value.trim()
+  };
+  try{localStorage.setItem(PROF_KEY,JSON.stringify(d));}catch(e){}
+  var ok=document.getElementById('pp-ok');ok.classList.add('show');
+  setTimeout(function(){ok.classList.remove('show');},2500);
+  toast('Profil sauvegardé','s');
+}
+function resetProf(){
+  if(!confirm('Réinitialiser le profil par défaut ?'))return;
+  localStorage.removeItem(PROF_KEY);
+  openProf();
+  toast('Réinitialisé','i');
+}
+function openProf(){
+  var p=loadProf();
+  document.getElementById('pf-name').value=p.name;
+  document.getElementById('pf-email').value=p.email;
+  document.getElementById('pf-phone').value=p.phone;
+  document.getElementById('pf-loc').value=p.loc;
+  document.getElementById('pf-lang').value=p.lang;
+  document.getElementById('pf-len').value=p.len;
+  document.getElementById('pf-tone').value=p.tone;
+  document.getElementById('pf-cv').value=p.cv;
+  document.getElementById('pf-cl').value=p.cl;
+  document.getElementById('pov').classList.add('on');
+  document.getElementById('ppanel').classList.add('on');
+}
+function closeProf(){
+  document.getElementById('pov').classList.remove('on');
+  document.getElementById('ppanel').classList.remove('on');
+}
 </script>
+
+<!-- PROFILE PANEL -->
+<div class="pov" id="pov" onclick="if(event.target===this)closeProf()"></div>
+<div class="ppanel" id="ppanel">
+  <div class="pp-hdr">
+    <h3>⚙ Mon Profil</h3>
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <span class="pp-ok" id="pp-ok">✓ Sauvegardé</span>
+      <button class="pp-close" onclick="closeProf()">✕</button>
+    </div>
+  </div>
+  <div class="pp-body">
+    <div class="pp-sec">
+      <div class="pp-lbl">Identité</div>
+      <div class="pp-row">
+        <div class="pp-field"><label>Nom</label><input id="pf-name" type="text"></div>
+        <div class="pp-field"><label>Email</label><input id="pf-email" type="text"></div>
+        <div class="pp-field"><label>Téléphone</label><input id="pf-phone" type="text"></div>
+        <div class="pp-field"><label>Ville</label><input id="pf-loc" type="text"></div>
+      </div>
+    </div>
+    <div class="pp-sec">
+      <div class="pp-lbl">Préférences email</div>
+      <div class="pp-row">
+        <div class="pp-field"><label>Langue</label>
+          <select id="pf-lang"><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option></select></div>
+        <div class="pp-field"><label>Longueur</label>
+          <select id="pf-len"><option value="120-150">Court 120-150</option><option value="150-180" selected>Standard 150-180</option><option value="200-250">Long 200-250</option></select></div>
+        <div class="pp-field"><label>Ton</label>
+          <select id="pf-tone"><option value="peer">Peer-to-peer</option><option value="formal">Formel</option></select></div>
+      </div>
+    </div>
+    <div class="pp-sec">
+      <div class="pp-lbl">CV complet</div>
+      <textarea class="pp-ta" id="pf-cv" rows="12" placeholder="Colle ton CV complet..."></textarea>
+    </div>
+    <div class="pp-sec">
+      <div class="pp-lbl">Lettre modèle</div>
+      <textarea class="pp-ta" id="pf-cl" rows="10" placeholder="Colle ta lettre modèle..."></textarea>
+    </div>
+  </div>
+  <div class="pp-foot">
+    <button class="pp-save" onclick="saveProf()">💾 Sauvegarder</button>
+    <button class="pp-reset" onclick="resetProf()">↺ Réinitialiser</button>
+  </div>
+</div>
 </body>
 </html>
