@@ -518,7 +518,9 @@ function ST(t){
 // LOAD OFFERS
 // ─────────────────────────────────────────────────────────
 async function LO(){
-  document.getElementById('jtbody').innerHTML='<tr class="empty-row"><td colspan="8">⏳ Chargement...</td></tr>';
+  // Show static data immediately
+  if(OFFERS.length===0){OFFERS=AI_NATIVE_STATIC.slice();}
+  RO();
   try{
     var r=await fetch('/api/offers');var d=await r.json();
     var back=d.offers||[];
@@ -929,10 +931,10 @@ function EX(){
 
 function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast '+(t||'i')+' show';setTimeout(function(){el.classList.remove('show');},3200);}
 
-async async function init(){
-  LO(); // Charge et affiche les offres immediatement
+async function init(){
   try{var r=await fetch('/api/pipeline?stream=S1');var d=await r.json();if(d.pipeline)PIP=d.pipeline;}catch(e){}
-  UH();
+  UH();await LO();
+  // Init sort button
   document.getElementById('sb-company').classList.add('on');
 }
 init();
