@@ -235,6 +235,7 @@ textarea.import-ta::placeholder{color:var(--mu2)}
 .pp-reset{padding:.48rem .75rem;background:transparent;border:1px solid var(--border);color:var(--mu);border-radius:4px;font-family:var(--fm);font-size:.6rem;cursor:pointer}
 .pp-reset:hover{border-color:var(--re);color:var(--re)}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -355,7 +356,7 @@ textarea.import-ta::placeholder{color:var(--mu2)}
     <div class="dc">
       <input type="text" id="dq" placeholder="Rechercher..." oninput="RD()" style="width:180px">
       <select id="ds" onchange="RD()"><option value="">Tous statuts</option><option>À contacter</option><option>Envoyée</option><option>En attente</option><option>Réponse +</option><option>Réponse -</option><option>Entretien</option></select>
-      <button class="xbtn" onclick="EX()">⬇ Export CSV</button>
+      <button class="xbtn" onclick="EX()">⬇ Export XLS</button>
     </div>
     <div class="dtw"><table class="dt">
       <thead><tr>
@@ -498,6 +499,7 @@ var SEG_LABEL={AI_NATIVE:'⚡ AI',DATA:'📊 Data',SAAS:'☁ SaaS',MAJORS:'🏢 
 var SEG_COLOR={AI_NATIVE:'rgba(167,139,250,.15)',DATA:'rgba(96,165,250,.12)',SAAS:'rgba(74,222,128,.1)',MAJORS:'rgba(255,255,255,.06)',AI_SAAS:'rgba(96,165,250,.12)'};
 
 var AI_NATIVE_STATIC=[
+  {id:'neb-1',company_name:'Nebius',title:'Regional Sales Director — France',level:'DIR',geo:'FR',location:'Paris, France',date_posted:'2025-05',is_new:true,segment:'AI_NATIVE',source:'careers.nebius.com',url:'https://careers.nebius.com/?gh_jid=4776508101',description:'GPU cloud EU. HQ Amsterdam. Alternative AWS/Azure 100% européenne. Expansion France active.'},
   {id:'ant-1',company_name:'Anthropic',title:'Account Executive — Claude Enterprise, EMEA',level:'AE',geo:'REMOTE',location:'Remote Europe',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',url:'https://www.anthropic.com/careers',description:'Évangéliser et vendre Claude aux enterprises européennes.'},
   {id:'ant-2',company_name:'Anthropic',title:'Sales Director / RVP — EMEA',level:'DIR',geo:'REMOTE',location:'Remote Europe / London',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'careers.anthropic.com',url:'https://www.anthropic.com/careers',description:'Leader la stratégie commerciale Anthropic sur l\'EMEA.'},
   {id:'oai-1',company_name:'OpenAI',title:'Account Executive — Enterprise, France',level:'AE',geo:'FR',location:'Paris, France',date_posted:'2025',is_new:true,segment:'AI_NATIVE',source:'openai.com/careers',url:'https://openai.com/careers',description:'Vente des solutions OpenAI Enterprise aux grandes entreprises françaises.'},
@@ -976,10 +978,28 @@ function RD(){
 function UH(){document.getElementById('h-tr').textContent=PIP.length;}
 
 function EX(){
-  var c=['Société','Rôle','Date ajout','Email envoyé','Statut','Intérêt','Notes'];
-  var rows=[c].concat(PIP.map(function(p){return[p.company_name,p.role,p.date_added,p.email_sent_date||'—',p.status,p.interest,p.notes||''];}));
-  var csv=rows.map(function(r){return r.map(function(v){return'"'+String(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\n');
-  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);a.download='JobRadar_Pipeline.csv';a.click();
+  var hdrs=['Société','Poste','Niveau','Géo','Localisation','Segment','Date','Statut','Intérêt','Notes','URL'];
+  var rows=PIP.map(function(p){
+    var o=OFFERS.find(function(x){return x.id===p.offer_ref;});
+    return[
+      p.company_name||'',
+      p.role||'',
+      o?o.level||'':'',
+      o?o.geo||'':'',
+      o?o.location||'':'',
+      o?o.segment||'':'',
+      p.date_added||'',
+      p.status||'',
+      p.interest||'',
+      p.notes||'',
+      o?o.url||'':''
+    ];
+  });
+  var ws=XLSX.utils.aoa_to_sheet([hdrs].concat(rows));
+  ws['!cols']=hdrs.map(function(h){return{wch:Math.max(h.length,18)};});
+  var wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Pipeline JobRadar');
+  XLSX.writeFile(wb,'JobRadar_Pipeline_'+new Date().toISOString().slice(0,10)+'.xlsx');
 }
 
 function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast '+(t||'i')+' show';setTimeout(function(){el.classList.remove('show');},3200);}
