@@ -1034,9 +1034,11 @@ function exportCSV(){
 
 function toast(m,t='i'){const el=document.getElementById('toast');el.textContent=m;el.className='toast '+t+' show';setTimeout(()=>el.classList.remove('show'),3000);}
 
-async function init(){
-  const pip=await apiGet();if(pip)PIP=pip;
-  updH();renderT();
+function init(){
+  // Render immediately with static data — no API wait
+  renderT();
+  // Load pipeline in background
+  apiGet().then(pip=>{if(pip&&pip.length){PIP=pip;updH();}}).catch(()=>{});
 }
 init();
 </script>
